@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node-dev --poll src/index.ts",
+    "test": "jest --watchAll --cache",
+    "test:ci": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@kala.ai/common": "^1.0.0",
     "@types/express": "^4.17.12",
     "@types/mongoose": "^5.11.97",
     "express": "^4.17.1",
