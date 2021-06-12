@@ -16,14 +16,19 @@ router.post('/api/inventory', [
         .withMessage("cost must be greater than 0"),
     body("quantity")
         .isFloat({gt: 0})
-        .withMessage("Quantity must be greater than 0")
+        .withMessage("Quantity must be greater than 0"),
+    body('factoryId')
+        .not()
+        .isEmpty()
+        .withMessage("factoryId is required"),
 ], validateRequest, async (req: Request, res: Response) => {
-    const {name, cost, quantity} = req.body;
+    const {name, cost, quantity, factoryId} = req.body;
 
     const material = Material.build({
         name,
         cost,
-        quantity
+        quantity,
+        factoryId
     });
 
     await material.save();
