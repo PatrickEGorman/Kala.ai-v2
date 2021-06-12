@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 interface MaterialAttrs {
     name: string,
     cost: number,
-    quantity: number
+    quantity: number,
+    factoryId: string
 }
 
 interface MaterialModel extends mongoose.Model<MaterialDoc> {
@@ -14,14 +15,14 @@ interface MaterialModel extends mongoose.Model<MaterialDoc> {
 interface MaterialDoc extends mongoose.Document {
     name: string,
     cost: number,
-    quantity: number
+    quantity: number,
+    factoryId: string
 }
 
 const MaterialSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true
     },
     cost: {
         type: Number,
@@ -29,6 +30,10 @@ const MaterialSchema = new mongoose.Schema({
     },
     quantity: {
         type: Number,
+        required: true
+    },
+    factoryId: {
+        type: String,
         required: true
     }
 }, {

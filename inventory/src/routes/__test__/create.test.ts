@@ -16,7 +16,8 @@ it('returns an error if an invalid name is provided', async () => {
         .send({
             name: '',
             cost: 10,
-            quantity: 10
+            quantity: 10,
+            factoryId: "sdfsdsdf"
         })
         .expect(400)
 
@@ -24,7 +25,8 @@ it('returns an error if an invalid name is provided', async () => {
         .post('/api/inventory')
         .send({
             cost: 10,
-            quantity: 10
+            quantity: 10,
+            factoryId: "sdfsdsdf"
         })
         .expect(400)
 });
@@ -35,7 +37,8 @@ it('returns an error if an invalid cost is provided', async () => {
         .send({
             name: 'sdfafsd',
             cost: -10,
-            quantity: 10
+            quantity: 10,
+            factoryId: "sdfsdsdf"
         })
         .expect(400)
 
@@ -43,7 +46,8 @@ it('returns an error if an invalid cost is provided', async () => {
         .post('/api/inventory')
         .send({
             name: "dsjfljkl",
-            quantity: 10
+            quantity: 10,
+            factoryId: "sdfsdsdf"
         })
         .expect(400)
 });
@@ -54,7 +58,8 @@ it('returns an error if an invalid quantity is provided', async () => {
         .send({
             name: 'sdfafsd',
             quantity: -10,
-            cost: 10
+            cost: 10,
+            factoryId: "sdfsdsdf"
         })
         .expect(400)
 
@@ -62,6 +67,28 @@ it('returns an error if an invalid quantity is provided', async () => {
         .post('/api/inventory')
         .send({
             name: "dsjfljkl",
+            cost: 10,
+            factoryId: "sdfsdsdf"
+        })
+        .expect(400)
+});
+
+it('returns an error if an invalid quantity is provided', async () => {
+    await request(app)
+        .post('/api/inventory')
+        .send({
+            name: 'sdfafsd',
+            quantity: 10,
+            cost: 10,
+            factoryId: ""
+        })
+        .expect(400)
+
+    await request(app)
+        .post('/api/inventory')
+        .send({
+            name: "dsjfljkl",
+            quantity: 10,
             cost: 10
         })
         .expect(400)
@@ -76,7 +103,8 @@ it('creates a ticket with valid inputs', async () => {
         .send({
             name: "dsjfljkl",
             cost: 20.12,
-            quantity: 20.21
+            quantity: 20.21,
+            factoryId: "sdfsdsdf"
         }).expect(201)
 
     inventory = await Material.find({});
