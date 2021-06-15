@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 import {MongoMemoryServer} from 'mongodb-memory-server';
 
+declare global {
+    namespace NodeJS {
+        interface Global {
+            factoryId(): string
+        }
+    }
+}
+
 let mongo: any;
 
 beforeAll(async () => {
@@ -24,3 +32,8 @@ afterAll(async () => {
     await mongo.stop();
     await mongoose.connection.close();
 })
+
+// todo: create dummy factory object for testing purposes
+global.factoryId = ()=>{
+    return new mongoose.Types.ObjectId().toHexString()
+}

@@ -1,6 +1,7 @@
 import request from 'supertest'
 import {app} from "../../app";
 import {Material} from "../../models/Material";
+import mongoose from "mongoose";
 
 it('has a route handler listening to /api/inventory for post requests', async () => {
     const response = await request(app)
@@ -17,7 +18,7 @@ it('returns an error if an invalid name is provided', async () => {
             name: '',
             cost: 10,
             quantity: 10,
-            factoryId: "sdfsdsdf"
+            factoryId: global.factoryId()
         })
         .expect(400)
 
@@ -26,7 +27,7 @@ it('returns an error if an invalid name is provided', async () => {
         .send({
             cost: 10,
             quantity: 10,
-            factoryId: "sdfsdsdf"
+            factoryId: global.factoryId()
         })
         .expect(400)
 });
@@ -38,7 +39,7 @@ it('returns an error if an invalid cost is provided', async () => {
             name: 'sdfafsd',
             cost: -10,
             quantity: 10,
-            factoryId: "sdfsdsdf"
+            factoryId: global.factoryId()
         })
         .expect(400)
 
@@ -47,7 +48,7 @@ it('returns an error if an invalid cost is provided', async () => {
         .send({
             name: "dsjfljkl",
             quantity: 10,
-            factoryId: "sdfsdsdf"
+            factoryId: global.factoryId()
         })
         .expect(400)
 });
@@ -59,7 +60,7 @@ it('returns an error if an invalid quantity is provided', async () => {
             name: 'sdfafsd',
             quantity: -10,
             cost: 10,
-            factoryId: "sdfsdsdf"
+            factoryId: global.factoryId()
         })
         .expect(400)
 
@@ -68,7 +69,7 @@ it('returns an error if an invalid quantity is provided', async () => {
         .send({
             name: "dsjfljkl",
             cost: 10,
-            factoryId: "sdfsdsdf"
+            factoryId:  global.factoryId()
         })
         .expect(400)
 });
@@ -104,7 +105,7 @@ it('creates a ticket with valid inputs', async () => {
             name: "dsjfljkl",
             cost: 20.12,
             quantity: 20.21,
-            factoryId: "sdfsdsdf"
+            factoryId: new mongoose.Types.ObjectId().toHexString()
         }).expect(201)
 
     inventory = await Material.find({});
