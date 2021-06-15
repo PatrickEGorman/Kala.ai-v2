@@ -2,6 +2,7 @@ import express, {Request, Response} from "express";
 import {NotFoundError, validateRequest} from "@kala.ai/common";
 import {Material} from "../models/Material";
 import {body} from "express-validator";
+import {NegativeQuantityError} from "../errors/negative-quantity-error";
 
 
 const router = express.Router();
@@ -32,8 +33,7 @@ router.post('/api/inventory/:id',
                 await material.save();
             }
             else{
-                throw new Error(`Insufficient supplies.  Current quantity of ${material.name} in factory: 
-                    ${material.quantity}`)
+                throw new NegativeQuantityError();
             }
         }
         material.save();
