@@ -52,7 +52,6 @@ it("updates the material quantity/cost if the material is found and final quanti
         .expect(200)
 
 
-    console.log(materialResponse)
     expect(materialResponse.body.name).toEqual(name)
     expect(materialResponse.body.cost).toEqual(cost)
     expect(materialResponse.body.quantity).toEqual(10)
