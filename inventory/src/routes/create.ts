@@ -23,7 +23,8 @@ router.post('/api/inventory', [
         .withMessage("factoryId is required"),
 ], validateRequest, async (req: Request, res: Response) => {
     const {name, cost, quantity, factoryId} = req.body;
-
+    // todo: verify factoryId belongs to factory
+    // todo: increment quantity if it already exists
     const material = Material.build({
         name,
         cost,

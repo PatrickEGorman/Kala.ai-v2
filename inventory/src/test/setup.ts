@@ -33,6 +33,7 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
+// todo: create dummy factory object for testing purposes
 global.factoryId = ()=>{
     return new mongoose.Types.ObjectId().toHexString()
 }
