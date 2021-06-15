@@ -9,6 +9,7 @@ router.post('/api/inventory/:id',
     validateRequest,
     async (req: Request, res: Response) => {
         // todo: check operator authorization
+        // todo: subtract cost from budget
         const material = await Material.findById(req.params.id);
         if (!material) {
             throw new NotFoundError;
