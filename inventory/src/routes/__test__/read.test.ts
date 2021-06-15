@@ -15,7 +15,7 @@ it("returns the material if the material is found", async () => {
     const name = 'concert';
     const quantity = 20;
     const cost = 20;
-    const factoryId = new mongoose.Types.ObjectId().toHexString();
+    const factoryId = global.factoryId();
 
     const response = await request(app)
         .post('/api/inventory')
