@@ -25,7 +25,7 @@ router.post('/api/inventory', [
     const {name, cost, quantity, factoryId} = req.body;
     // todo: verify factoryId belongs to factory
     // todo: increment quantity if it already exists
-    // todo: add authorization for operator to create material
+    // todo: add authorization for operator to create material_fields
     // todo: subtract cost from budget
     const material = Material.build({
         name,

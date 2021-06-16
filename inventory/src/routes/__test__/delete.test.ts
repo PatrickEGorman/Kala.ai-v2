@@ -3,17 +3,17 @@ import {app} from "../../app";
 import mongoose from "mongoose";
 import {Material} from "../../models/Material";
 
-it('returns 404 if the material to delete is not found', async () => {
+it('returns 404 if the material_fields to delete is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
 
     await request(app)
         .delete(`/api/inventory/${id}`)
-        .send({cost:10, quantity:10})
+        .send({cost: 10, quantity: 10})
         .expect(404)
 });
 
 
-it("updates the material quantity/cost if the material is found and final quantity is positive", async () => {
+it("updates the material_fields quantity/cost if the material_fields is found and final quantity is positive", async () => {
     const name = 'concert';
     let quantity = 20;
     let cost = 20;

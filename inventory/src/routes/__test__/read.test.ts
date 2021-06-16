@@ -2,7 +2,7 @@ import request from "supertest";
 import {app} from "../../app";
 import mongoose from "mongoose";
 
-it('returns 404 if the material is not found', async () => {
+it('returns 404 if the material_fields is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
 
     await request(app)
@@ -11,7 +11,7 @@ it('returns 404 if the material is not found', async () => {
         .expect(404)
 });
 
-it("returns the material if the material is found", async () => {
+it("returns the material_fields if the material_fields is found", async () => {
     const name = 'concert';
     const quantity = 20;
     const cost = 20;

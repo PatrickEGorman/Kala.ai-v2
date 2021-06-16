@@ -1,22 +1,11 @@
 import mongoose from 'mongoose';
-
-
-interface MaterialAttrs {
-    name: string,
-    cost: number,
-    quantity: number,
-    factoryId: string
-}
+import {MaterialFieldAttrs} from "@kala.ai/common";
 
 interface MaterialModel extends mongoose.Model<MaterialDoc> {
-    build(attrs: MaterialAttrs): MaterialDoc;
+    build(attrs: MaterialFieldAttrs): MaterialDoc;
 }
 
-interface MaterialDoc extends mongoose.Document {
-    name: string,
-    cost: number,
-    quantity: number,
-    factoryId: string
+interface MaterialDoc extends mongoose.Document, MaterialFieldAttrs {
 }
 
 const MaterialSchema = new mongoose.Schema({
@@ -44,7 +33,7 @@ const MaterialSchema = new mongoose.Schema({
     }
 });
 
-MaterialSchema.statics.build = (attrs: MaterialAttrs) => {
+MaterialSchema.statics.build = (attrs: MaterialFieldAttrs) => {
     return new Material(attrs);
 };
 
