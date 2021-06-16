@@ -6,7 +6,7 @@ import {Material} from "../models/Material";
 
 const router = express.Router();
 
-router.post('/api/inventory', [
+router.post('/api/materials', [
     body('name')
         .not()
         .isEmpty()

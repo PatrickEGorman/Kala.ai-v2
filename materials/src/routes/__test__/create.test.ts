@@ -3,9 +3,9 @@ import {app} from "../../app";
 import {Material} from "../../models/Material";
 import mongoose from "mongoose";
 
-it('has a route handler listening to /api/inventory for post requests', async () => {
+it('has a route handler listening to /api/materials for post requests', async () => {
     const response = await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({});
 
     expect(response.status).not.toEqual(404);
@@ -13,7 +13,7 @@ it('has a route handler listening to /api/inventory for post requests', async ()
 
 it('returns an error if an invalid name is provided', async () => {
     await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name: '',
             cost: 10,
@@ -23,7 +23,7 @@ it('returns an error if an invalid name is provided', async () => {
         .expect(400)
 
     await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             cost: 10,
             quantity: 10,
@@ -34,7 +34,7 @@ it('returns an error if an invalid name is provided', async () => {
 
 it('returns an error if an invalid cost is provided', async () => {
     await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name: 'sdfafsd',
             cost: -10,
@@ -44,7 +44,7 @@ it('returns an error if an invalid cost is provided', async () => {
         .expect(400)
 
     await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name: "dsjfljkl",
             quantity: 10,
@@ -55,7 +55,7 @@ it('returns an error if an invalid cost is provided', async () => {
 
 it('returns an error if an invalid quantity is provided', async () => {
     await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name: 'sdfafsd',
             quantity: -10,
@@ -65,18 +65,18 @@ it('returns an error if an invalid quantity is provided', async () => {
         .expect(400)
 
     await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name: "dsjfljkl",
             cost: 10,
-            factoryId:  global.factoryId()
+            factoryId: global.factoryId()
         })
         .expect(400)
 });
 
 it('returns an error if an invalid quantity is provided', async () => {
     await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name: 'sdfafsd',
             quantity: 10,
@@ -86,7 +86,7 @@ it('returns an error if an invalid quantity is provided', async () => {
         .expect(400)
 
     await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name: "dsjfljkl",
             quantity: 10,
@@ -96,11 +96,11 @@ it('returns an error if an invalid quantity is provided', async () => {
 });
 
 it('creates a ticket with valid inputs', async () => {
-    let inventory = await Material.find({});
-    expect(inventory.length).toEqual(0)
+    let materials = await Material.find({});
+    expect(materials.length).toEqual(0)
 
     const response = await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name: "dsjfljkl",
             cost: 20.12,
@@ -108,8 +108,8 @@ it('creates a ticket with valid inputs', async () => {
             factoryId: new mongoose.Types.ObjectId().toHexString()
         }).expect(201)
 
-    inventory = await Material.find({});
-    expect(inventory.length).toEqual(1)
+    materials = await Material.find({});
+    expect(materials.length).toEqual(1)
 
-    expect(inventory[0]._id.toString()).toEqual(response.body._id);
+    expect(materials[0]._id.toString()).toEqual(response.body._id);
 });

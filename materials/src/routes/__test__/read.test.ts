@@ -6,7 +6,7 @@ it('returns 404 if the material_fields is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
 
     await request(app)
-        .get(`/api/inventory/${id}`)
+        .get(`/api/materials/${id}`)
         .send()
         .expect(404)
 });
@@ -18,14 +18,14 @@ it("returns the material_fields if the material_fields is found", async () => {
     const factoryId = global.factoryId();
 
     const response = await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name, cost, quantity, factoryId
         })
         .expect(201);
 
     const materialResponse = await request(app)
-        .get(`/api/inventory/${response.body.id}`)
+        .get(`/api/materials/${response.body.id}`)
         .send()
         .expect(200)
 

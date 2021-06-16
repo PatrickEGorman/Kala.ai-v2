@@ -7,7 +7,7 @@ it('returns 404 if the material_fields to delete is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
 
     await request(app)
-        .delete(`/api/inventory/${id}`)
+        .delete(`/api/materials/${id}`)
         .send({cost: 10, quantity: 10})
         .expect(404)
 });
@@ -20,13 +20,13 @@ it("updates the material_fields quantity/cost if the material_fields is found an
     const factoryId = global.factoryId();
 
     const response = await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name, cost, quantity, factoryId
         })
 
     await request(app)
-        .delete(`/api/inventory/${response.body.id}`)
+        .delete(`/api/materials/${response.body.id}`)
         .send()
         .expect(200)
 

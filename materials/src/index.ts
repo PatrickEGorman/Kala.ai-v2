@@ -16,7 +16,7 @@ const start = async () => {
         console.error(err);
     }
     app.listen(3000, () => {
-        console.log("Inventory Server Up!");
+        console.log("Materials Server Up!");
     })
 };
 

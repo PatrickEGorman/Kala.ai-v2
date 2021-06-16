@@ -5,13 +5,13 @@ import {NotFoundError} from "@kala.ai/common";
 
 const router = express.Router();
 
-router.get('/api/inventory/:id', async (req: Request, res: Response) => {
+router.delete('/api/materials/:id', async (req: Request, res: Response) => {
     const material = await Material.findById(req.params.id);
     if (!material) {
         throw new NotFoundError;
     }
-
-    res.send(material);
+    await material.delete()
+    res.sendStatus(200);
 });
 
-export {router as readMaterialRouter};
+export {router as deleteMaterialRouter};

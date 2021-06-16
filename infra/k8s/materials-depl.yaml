@@ -1,41 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: inventory-depl
+  name: materials-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: inventory
+      app: materials
   template:
     metadata:
       labels:
-        app: inventory
+        app: materials
     spec:
       containers:
-        - name: inventory
-          image: patrickgorman/inventory
+        - name: materials
+          image: patrickgorman/materials
           env:
             - name: NATS_CLIENT_ID
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
             - name: MONGO_URI
-              value: 'mongodb://inventory-mongo-srv:27017/tickets'
+              value: 'mongodb://materials-mongo-srv:27017/tickets'
             - name: NATS_URL
               value: "http://nats-srv:4222"
             - name: NATS_CLUSTER_ID
-              value: 'inventory'
+              value: 'materials'
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: inventory-srv
+  name: materials-srv
 spec:
   selector:
-    app: inventory
+    app: materials
   ports:
-    - name: inventory
+    - name: materials
       protocol: TCP
       port: 3000
       targetPort: 3000

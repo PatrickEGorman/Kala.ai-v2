@@ -6,7 +6,7 @@ it('returns 404 if the material_fields to update is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
 
     await request(app)
-        .post(`/api/inventory/${id}`)
+        .post(`/api/materials/${id}`)
         .send({cost: 10, quantity: 10})
         .expect(404)
 });
@@ -19,14 +19,14 @@ it("returns a 400 if final quantity after change would be a negative number",
         const factoryId = global.factoryId();
 
         const response = await request(app)
-            .post('/api/inventory')
+            .post('/api/materials')
             .send({
                 name, cost, quantity, factoryId
             })
             .expect(201);
         cost = 10;
         const materialResponse = await request(app)
-            .post(`/api/inventory/${response.body.id}`)
+            .post(`/api/materials/${response.body.id}`)
             .send({cost, quantity: -30})
             .expect(400)
     });
@@ -38,7 +38,7 @@ it("updates the material_fields quantity/cost if the material_fields is found an
     const factoryId = global.factoryId();
 
     const response = await request(app)
-        .post('/api/inventory')
+        .post('/api/materials')
         .send({
             name, cost, quantity, factoryId
         })
@@ -47,7 +47,7 @@ it("updates the material_fields quantity/cost if the material_fields is found an
     cost = 10;
 
     const materialResponse = await request(app)
-        .post(`/api/inventory/${response.body.id}`)
+        .post(`/api/materials/${response.body.id}`)
         .send({cost, quantity: -10})
         .expect(200)
 

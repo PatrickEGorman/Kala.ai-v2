@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: inventory-mongo-depl
+  name: materials-mongo-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: inventory-mongo
+      app: materials-mongo
   template:
     metadata:
       labels:
-        app: inventory-mongo
+        app: materials-mongo
     spec:
       containers:
-        - name: inventory-mongo
+        - name: materials-mongo
           image: mongo
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: inventory-mongo-srv
+  name: materials-mongo-srv
 spec:
   selector:
-    app: inventory-mongo
+    app: materials-mongo
   ports:
     - name: db
       protocol: TCP
