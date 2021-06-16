@@ -2,6 +2,7 @@ import request from 'supertest'
 import {app} from "../../app";
 import {Material} from "../../models/Material";
 import mongoose from "mongoose";
+import {natsWrapper} from "../../nats-wrapper";
 
 it('has a route handler listening to /api/materials for post requests', async () => {
     const response = await request(app)
@@ -112,4 +113,18 @@ it('creates a ticket with valid inputs', async () => {
     expect(materials.length).toEqual(1)
 
     expect(materials[0]._id.toString()).toEqual(response.body._id);
+});
+
+
+it('makes sure create event is published', async () => {
+    const response = await request(app)
+        .post('/api/materials')
+        .send({
+            name: "dsjfljkl",
+            cost: 20.12,
+            quantity: 20.21,
+            factoryId: new mongoose.Types.ObjectId().toHexString()
+        })
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

@@ -10,8 +10,11 @@ declare global {
 }
 
 let mongo: any;
+jest.mock('../nats-wrapper');
 
 beforeAll(async () => {
+    jest.clearAllMocks();
+
     mongo = new MongoMemoryServer();
     const mongoUri = await mongo.getUri();
 
@@ -34,6 +37,6 @@ afterAll(async () => {
 })
 
 // todo: create dummy factory object for testing purposes
-global.factoryId = ()=>{
+global.factoryId = () => {
     return new mongoose.Types.ObjectId().toHexString()
 }
