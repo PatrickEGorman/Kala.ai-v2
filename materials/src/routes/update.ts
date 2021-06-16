@@ -3,6 +3,9 @@ import {NotFoundError, validateRequest} from "@kala.ai/common";
 import {Material} from "../models/Material";
 import {body} from "express-validator";
 import {NegativeQuantityError} from "../errors/negative-quantity-error";
+import {MaterialCreatedPublisher} from "../events/material-created-publisher";
+import {natsWrapper} from "../nats-wrapper";
+import {MaterialUpdatedPublisher} from "../events/material-updated-publisher";
 
 
 const router = express.Router();
@@ -36,7 +39,13 @@ router.post('/api/materials/:id',
             }
         }
         material.save();
-
+        await new MaterialUpdatedPublisher(natsWrapper.client).publish({
+            id: material.id,
+            name: material.name,
+            cost: material.cost,
+            quantity: material.quantity,
+            factoryId: material.factoryId
+        })
         res.status(200).send(material);
     });
 

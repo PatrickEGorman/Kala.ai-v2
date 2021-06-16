@@ -2,6 +2,8 @@ import express, {Request, Response} from "express";
 import {validateRequest} from '@kala.ai/common';
 import {body} from "express-validator";
 import {Material} from "../models/Material";
+import {MaterialCreatedPublisher} from "../events/material-created-publisher";
+import {natsWrapper} from "../nats-wrapper";
 
 
 const router = express.Router();
@@ -35,6 +37,15 @@ router.post('/api/materials', [
     });
 
     await material.save();
+
+    await new MaterialCreatedPublisher(natsWrapper.client).publish({
+        id: material.id,
+        name: material.name,
+        cost: material.cost,
+        quantity: material.quantity,
+        factoryId: material.factoryId
+    })
+
     res.status(201).send(material);
 });
 
