@@ -16,14 +16,14 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-#    - image: patrickgorman/machines
-#      context: machines
-#      docker:
-#        dockerfile: Dockerfile
-#      sync:
-#        manual:
-#          - src: 'src/**/*.js'
-#            dest: .
+    - image: patrickgorman/machines
+      context: machines
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js'
+            dest: .
 #    - image: patrickgorman/processes
 #      context: processes
 #      docker:
