@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: materials-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: materials
+  template:
+    metadata:
+      labels:
+        app: materials
+    spec:
+      containers:
+        - name: materials
+          image: patrickgorman/materials
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MONGO_URI
+              value: 'mongodb://materials-mongo-srv:27017/materials'
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: 'materials'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: materials-srv
+spec:
+  selector:
+    app: materials
+  ports:
+    - name: materials
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

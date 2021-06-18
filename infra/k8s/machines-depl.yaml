@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: machines-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: machines
+  template:
+    metadata:
+      labels:
+        app: machines
+    spec:
+      containers:
+        - name: machines
+          image: patrickgorman/machines
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MONGO_URI
+              value: 'mongodb://machines-mongo-srv:27017/machines'
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: 'machines'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: machines-srv
+spec:
+  selector:
+    app: machines
+  ports:
+    - name: machines
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: machines-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: machines-mongo
+  template:
+    metadata:
+      labels:
+        app: machines-mongo
+    spec:
+      containers:
+        - name: machines-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: machines-mongo-srv
+spec:
+  selector:
+    app: machines-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

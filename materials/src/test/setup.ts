@@ -1,13 +1,10 @@
 import mongoose from "mongoose";
 import {MongoMemoryServer} from 'mongodb-memory-server';
-import {MachineFieldAttrs} from "@kala.ai/common";
 
 declare global {
     namespace NodeJS {
         interface Global {
-            machineParams: MachineFieldAttrs
-
-            factoryId(): string,
+            factoryId(): string
         }
     }
 }
@@ -42,17 +39,4 @@ afterAll(async () => {
 // todo: create dummy factory object for testing purposes
 global.factoryId = () => {
     return new mongoose.Types.ObjectId().toHexString()
-}
-
-global.machineParams = {
-    name: "test",
-    maintenanceTime: 55,
-    uptime: 0,
-    factoryId: global.factoryId(),
-    material: "wood",
-    errorRate: .05,
-    initialCost: 500,
-    maintenanceCost: 100,
-    operationCost: 10,
-    laborCost: 20
 }

@@ -8,22 +8,22 @@ build:
   local:
     push: false
   artifacts:
-    - image: patrickgorman/inventory
-      context: inventory
+    - image: patrickgorman/materials
+      context: materials
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-#    - image: patrickgorman/machines
-#      context: machines
-#      docker:
-#        dockerfile: Dockerfile
-#      sync:
-#        manual:
-#          - src: 'src/**/*.js'
-#            dest: .
+    - image: patrickgorman/machines
+      context: machines
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js'
+            dest: .
 #    - image: patrickgorman/processes
 #      context: processes
 #      docker:

@@ -10,20 +10,20 @@ spec:
     - host: ticketing.dev
       http:
         paths:
-          - path: /api/inventory/?(.*)
+          - path: /api/materials/?(.*)
             pathType: Prefix
             backend:
               service:
-                name: inventory-srv
+                name: materials-srv
                 port:
                   number: 3000
-#          - path: /api/tickets/?(.*)
-#            pathType: Prefix
-#            backend:
-#              service:
-#                name: tickets-srv
-#                port:
-#                  number: 3000
+          - path: /api/machines/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: machines-srv
+                port:
+                  number: 3000
 #          - path: /?(.*)
 #            pathType: Prefix
 #            backend:
