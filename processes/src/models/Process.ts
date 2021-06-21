@@ -10,7 +10,9 @@ interface ProcessModel extends mongoose.Model<ProcessDoc> {
     build(attrs: ProcessAttrs): ProcessDoc;
 }
 
-interface ProcessDoc extends mongoose.Document, ProcessAttrs {
+interface ProcessDoc extends mongoose.Document {
+    name: string;
+    time: number;
 }
 
 const ProcessSchema = new mongoose.Schema({
