@@ -1,11 +1,16 @@
 import mongoose from 'mongoose';
-import {ProcessFieldAttrs, StepType} from "@kala.ai/common";
+import {StepDoc} from "./Step";
 
-interface ProcessModel extends mongoose.Model<ProcessDoc> {
-    build(attrs: ProcessFieldAttrs): ProcessDoc;
+interface ProcessAttrs {
+    name: string;
+    steps: [StepDoc]
 }
 
-interface ProcessDoc extends mongoose.Document, ProcessFieldAttrs {
+interface ProcessModel extends mongoose.Model<ProcessDoc> {
+    build(attrs: ProcessAttrs): ProcessDoc;
+}
+
+interface ProcessDoc extends mongoose.Document, ProcessAttrs {
 }
 
 const ProcessSchema = new mongoose.Schema({
@@ -15,11 +20,9 @@ const ProcessSchema = new mongoose.Schema({
     },
     // Steps can be process or intermediate steps
     steps: {
-        type: [{
-            id: mongoose.Schema.Types.ObjectId, stepTime: {type: Number, min: 0},
-            downTime: {type: Number, min: 0}, stepType: StepType
-        }],
-        default: undefined,
+        type: [
+            mongoose.Schema.Types.ObjectId
+        ],
         required: true,
         ref: 'steps'
     }
@@ -31,7 +34,7 @@ const ProcessSchema = new mongoose.Schema({
     }
 });
 
-ProcessSchema.statics.build = (attrs: ProcessFieldAttrs) => {
+ProcessSchema.statics.build = (attrs: ProcessAttrs) => {
     return new Process(attrs);
 };
 
