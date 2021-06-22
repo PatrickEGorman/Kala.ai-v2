@@ -12,7 +12,7 @@ interface ProcessModel extends mongoose.Model<ProcessDoc> {
 
 interface ProcessDoc extends mongoose.Document {
     name: string;
-    time: number;
+    steps: [StepDoc];
 }
 
 const ProcessSchema = new mongoose.Schema({
