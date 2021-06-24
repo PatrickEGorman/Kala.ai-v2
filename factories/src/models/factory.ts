@@ -49,10 +49,10 @@ const FactorySchema = new mongoose.Schema({
         min: 0
     },
     maintenanceCost: {
-        type: number,
+        type: Number,
         required: true,
         min: 0
-    }
+    },
     uptime: {
         type: Number,
         default: 0,
