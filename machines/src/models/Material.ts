@@ -5,7 +5,7 @@ interface MaterialModel extends mongoose.Model<MaterialDoc> {
     build(attrs: MaterialFieldAttrs): MaterialDoc;
 }
 
-interface MaterialDoc extends mongoose.Document, MaterialFieldAttrs {
+export interface MaterialDoc extends mongoose.Document, MaterialFieldAttrs {
 }
 
 const MaterialSchema = new mongoose.Schema({

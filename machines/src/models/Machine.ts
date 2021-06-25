@@ -1,11 +1,32 @@
 import mongoose from 'mongoose';
-import {MachineFieldAttrs} from "@kala.ai/common";
+import {MaterialDoc} from "./Material";
 
-interface MachineModel extends mongoose.Model<MachineDoc> {
-    build(attrs: MachineFieldAttrs): MachineDoc;
+export interface MachineAttrs {
+    name: string;
+    uptime: number;
+    maintenanceTime: number;
+    material: MaterialDoc;
+    errorRate: number;
+    initialCost: number;
+    maintenanceCost: number;
+    operationCost: number;
+    laborCost?: number;
 }
 
-interface MachineDoc extends mongoose.Document, MachineFieldAttrs {
+interface MachineModel extends mongoose.Model<MachineDoc> {
+    build(attrs: MachineAttrs): MachineDoc;
+}
+
+interface MachineDoc extends mongoose.Document {
+    name: string;
+    uptime: number;
+    maintenanceTime: number;
+    material: MaterialDoc;
+    errorRate: number;
+    initialCost: number;
+    maintenanceCost: number;
+    operationCost: number;
+    laborCost?: number;
 }
 
 const MachineSchema = new mongoose.Schema({
@@ -26,7 +47,8 @@ const MachineSchema = new mongoose.Schema({
         required: true
     },
     material: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Material'
     },
     errorRate: {
         type: Number
@@ -51,7 +73,7 @@ const MachineSchema = new mongoose.Schema({
     }
 });
 
-MachineSchema.statics.build = (attrs: MachineFieldAttrs) => {
+MachineSchema.statics.build = (attrs: MachineAttrs) => {
     return new Machine(attrs);
 };
 
