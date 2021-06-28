@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@kala.ai/common": "^1.1.5",
+    "@kala.ai/common": "^1.1.10",
     "@types/express": "^4.17.12",
     "@types/mongoose": "^5.11.97",
     "express": "^4.17.1",
