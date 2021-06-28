@@ -10,7 +10,7 @@ export interface MachineAttrs {
     initialCost: number;
     maintenanceCost: number;
     operationCost: number;
-    laborCost?: number;
+    laborCost: number;
 }
 
 interface MachineModel extends mongoose.Model<MachineDoc> {
@@ -26,17 +26,13 @@ interface MachineDoc extends mongoose.Document {
     initialCost: number;
     maintenanceCost: number;
     operationCost: number;
-    laborCost?: number;
+    laborCost: number;
 }
 
 const MachineSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-    },
-    factoryId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'ticket'
     },
     maintenanceTime: {
         type: Number,

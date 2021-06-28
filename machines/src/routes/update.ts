@@ -17,27 +17,26 @@ router.post('/api/machines/:id',
         }
 
         const {
-            uptime, maintenanceTime, factoryId, material, errorRate, maintenanceCost, operationCost,
+            uptime, maintenanceTime, material, errorRate, maintenanceCost, operationCost,
             laborCost
         } = req.body;
 
         uptime ? machine.set({uptime: uptime}) : console.log("Uptime not changed")
         maintenanceTime ? machine.set({maintenanceTime: maintenanceTime}) : console.log("MaintenanceTime not changed")
         maintenanceCost ? machine.set({maintenanceCost: maintenanceCost}) : console.log("MaintenanceCost not changed")
-        factoryId ? machine.set({factoryId: factoryId}) : console.log("FactoryId not changed")
         laborCost ? machine.set({laborCost: laborCost}) : console.log("LaborCost not changed")
         errorRate ? machine.set({errorRate: errorRate}) : console.log("ErrorRate not changed")
         operationCost ? machine.set({operationCost: operationCost}) : console.log("OperationCost not changed")
         material ? machine.set({material: material}) : console.log("Material not changed")
 
         machine.save();
+
         await new MachineUpdatedPublisher(natsWrapper.client).publish({
             id: machine.id,
             name: machine.name,
             uptime: machine.uptime,
             maintenanceTime: machine.maintenanceTime,
-            factoryId: machine.factoryId,
-            material: machine.material,
+            material: machine.material._id,
             errorRate: machine.errorRate,
             initialCost: machine.initialCost,
             maintenanceCost: machine.maintenanceCost,
