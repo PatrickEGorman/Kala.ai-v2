@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
-import {StepDoc} from "./Step";
+import {Step, StepDoc} from "./Step";
 
 interface ProcessAttrs {
     name: string;
-    steps: [StepDoc]
+    steps: [StepDoc];
+    machines: any;
 }
 
 interface ProcessModel extends mongoose.Model<ProcessDoc> {
@@ -12,7 +13,7 @@ interface ProcessModel extends mongoose.Model<ProcessDoc> {
 
 interface ProcessDoc extends mongoose.Document {
     name: string;
-    time: number;
+    steps: [StepDoc];
 }
 
 const ProcessSchema = new mongoose.Schema({
@@ -22,11 +23,11 @@ const ProcessSchema = new mongoose.Schema({
     },
     // Steps can be process or intermediate steps
     steps: {
-        type: [
-            mongoose.Schema.Types.ObjectId
-        ],
-        required: true,
-        ref: 'steps'
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Step'
+        }],
+        required: true
     }
 }, {
     toJSON: {
@@ -35,6 +36,22 @@ const ProcessSchema = new mongoose.Schema({
         }
     }
 });
+
+ProcessSchema.virtual('machines').get(async function () {
+    let machines: any[] = [];
+
+    // @ts-ignore
+    const process = await this.populate('steps');
+
+    process.steps[1].machine;
+    for (let step in process.steps) {
+        if (process.steps[step].machine) {
+            machines.push(process.steps[step].machine)
+        }
+    }
+    return machines;
+
+})
 
 ProcessSchema.statics.build = (attrs: ProcessAttrs) => {
     return new Process(attrs);

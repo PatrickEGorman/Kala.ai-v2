@@ -14,10 +14,12 @@ it('returns 404 if the machine to delete is not found', async () => {
 
 
 it("deletes an existing machine", async () => {
+    const params = await global.machineParams();
+
     const response = await request(app)
         .post('/api/machines')
         .send(
-            global.machineParams
+            params
         )
 
     await request(app)
@@ -31,11 +33,12 @@ it("deletes an existing machine", async () => {
 
 
 it("checks if a delete event is emitted", async () => {
+    const params = await global.machineParams();
 
     const response = await request(app)
         .post('/api/machines')
         .send(
-            global.machineParams
+            params
         )
 
     await request(app)

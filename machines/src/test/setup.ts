@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 import {MongoMemoryServer} from 'mongodb-memory-server';
-import {MachineFieldAttrs} from "@kala.ai/common";
+import {MaterialDoc, Material} from "../models/Material";
+import {MachineAttrs} from "../models/Machine";
 
 declare global {
     namespace NodeJS {
         interface Global {
-            machineParams: MachineFieldAttrs
+            machineParams(): Promise<MachineAttrs>;
 
-            factoryId(): string,
+            material(): Promise<MaterialDoc>;
         }
     }
 }
@@ -40,19 +41,27 @@ afterAll(async () => {
 })
 
 // todo: create dummy factory object for testing purposes
-global.factoryId = () => {
-    return new mongoose.Types.ObjectId().toHexString()
+global.material = async () => {
+    const material = Material.build({
+        name: "Wood",
+        cost: 10
+    });
+    await material.save();
+    return material
 }
 
-global.machineParams = {
-    name: "test",
-    maintenanceTime: 55,
-    uptime: 0,
-    factoryId: global.factoryId(),
-    material: "wood",
-    errorRate: .05,
-    initialCost: 500,
-    maintenanceCost: 100,
-    operationCost: 10,
-    laborCost: 20
+global.machineParams = async () => {
+    const material = await global.material();
+
+    return {
+        name: "test",
+        maintenanceTime: 55,
+        uptime: 0,
+        material: material._id.toString(),
+        errorRate: .05,
+        initialCost: 500,
+        maintenanceCost: 100,
+        operationCost: 10,
+        laborCost: 20
+    }
 }

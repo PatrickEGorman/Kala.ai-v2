@@ -3,7 +3,7 @@ import {StepType} from "@kala.ai/common";
 
 interface StepAttrs {
     name: string;
-    machineName?: string;
+    machine?: string;
     stepTime: number;
 }
 
@@ -12,9 +12,8 @@ interface StepModel extends mongoose.Model<StepDoc> {
 }
 
 export interface StepDoc extends mongoose.Document {
-    stepType?: StepType;
     name: string;
-    machineName?: string;
+    machine?: string;
     stepTime: number;
 }
 
@@ -23,10 +22,7 @@ const StepSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    machineName: {
-        type: String
-    },
-    stepType: {
+    machine: {
         type: String
     },
     stepTime: {
@@ -45,14 +41,7 @@ const StepSchema = new mongoose.Schema({
 })
 
 StepSchema.statics.build = (attrs: StepAttrs) => {
-    let step = new Step(attrs);
-
-    if (attrs.machineName) {
-        step.stepType = StepType.machine;
-    } else {
-        step.stepType = StepType.intermediate;
-    }
-    return step;
+    return new Step(attrs);
 };
 
 const Step = mongoose.model<StepDoc, StepModel>('Step', StepSchema);

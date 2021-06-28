@@ -16,24 +16,15 @@ router.post('/api/materials', [
     body("cost")
         .isFloat({gt: 0})
         .withMessage("cost must be greater than 0"),
-    body("quantity")
-        .isFloat({gt: 0})
-        .withMessage("Quantity must be greater than 0"),
-    body('factoryId')
-        .not()
-        .isEmpty()
-        .withMessage("factoryId is required"),
 ], validateRequest, async (req: Request, res: Response) => {
-    const {name, cost, quantity, factoryId} = req.body;
+    const {name, cost} = req.body;
     // todo: verify factoryId belongs to factory
     // todo: increment quantity if it already exists
     // todo: add authorization for operator to create material_fields
     // todo: subtract cost from budget
     const material = Material.build({
         name,
-        cost,
-        quantity,
-        factoryId
+        cost
     });
 
     await material.save();
@@ -41,9 +32,7 @@ router.post('/api/materials', [
     await new MaterialCreatedPublisher(natsWrapper.client).publish({
         id: material.id,
         name: material.name,
-        cost: material.cost,
-        quantity: material.quantity,
-        factoryId: material.factoryId
+        cost: material.cost
     })
 
     res.status(201).send(material);

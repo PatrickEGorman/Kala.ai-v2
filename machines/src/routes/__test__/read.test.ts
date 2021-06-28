@@ -12,17 +12,18 @@ it('returns 404 if the machine_fields is not found', async () => {
 });
 
 it("returns the machine_fields if the machine_fields is found", async () => {
+    const params = await global.machineParams();
+
     const response = await request(app)
         .post('/api/machines')
         .send(
-            global.machineParams
-        )
-
+            params
+        ).expect(201);
 
     const machineResponse = await request(app)
         .get(`/api/machines/${response.body.id}`)
         .send()
         .expect(200)
 
-    expect(machineResponse.body.name).toEqual(global.machineParams.name)
+    expect(machineResponse.body.name).toEqual(params.name)
 });

@@ -16,14 +16,12 @@ it('returns 404 if the material_fields to delete is not found', async () => {
 
 it("updates the material_fields quantity/cost if the material_fields is found and final quantity is positive", async () => {
     const name = 'concert';
-    let quantity = 20;
     let cost = 20;
-    const factoryId = global.factoryId();
 
     const response = await request(app)
         .post('/api/materials')
         .send({
-            name, cost, quantity, factoryId
+            name, cost
         })
 
     await request(app)
@@ -38,14 +36,12 @@ it("updates the material_fields quantity/cost if the material_fields is found an
 
 it("checks if a delete event is emitted", async () => {
     const name = 'concert';
-    let quantity = 20;
     let cost = 20;
-    const factoryId = global.factoryId();
 
     const response = await request(app)
         .post('/api/materials')
         .send({
-            name, cost, quantity, factoryId
+            name, cost
         })
 
     await request(app)

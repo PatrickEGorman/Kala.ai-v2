@@ -13,10 +13,12 @@ it('returns 404 if the machine_fields to update is not found', async () => {
 });
 
 it("updates the machine_fields quantity/cost", async () => {
+    const params = await global.machineParams();
+
     const response = await request(app)
         .post('/api/machines')
         .send(
-            global.machineParams
+            params
         )
 
 
@@ -30,10 +32,12 @@ it("updates the machine_fields quantity/cost", async () => {
 });
 
 it("checks if an update event is emitted", async () => {
+    const params = await global.machineParams();
+
     const response = await request(app)
         .post('/api/machines')
         .send(
-            global.machineParams
+            params
         )
 
     const machineResponse = await request(app)
