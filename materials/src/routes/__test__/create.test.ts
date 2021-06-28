@@ -17,18 +17,14 @@ it('returns an error if an invalid name is provided', async () => {
         .post('/api/materials')
         .send({
             name: '',
-            cost: 10,
-            quantity: 10,
-            factoryId: global.factoryId()
+            cost: 10
         })
         .expect(400)
 
     await request(app)
         .post('/api/materials')
         .send({
-            cost: 10,
-            quantity: 10,
-            factoryId: global.factoryId()
+            cost: 10
         })
         .expect(400)
 });
@@ -38,60 +34,14 @@ it('returns an error if an invalid cost is provided', async () => {
         .post('/api/materials')
         .send({
             name: 'sdfafsd',
-            cost: -10,
-            quantity: 10,
-            factoryId: global.factoryId()
+            cost: -10
         })
         .expect(400)
 
     await request(app)
         .post('/api/materials')
         .send({
-            name: "dsjfljkl",
-            quantity: 10,
-            factoryId: global.factoryId()
-        })
-        .expect(400)
-});
-
-it('returns an error if an invalid quantity is provided', async () => {
-    await request(app)
-        .post('/api/materials')
-        .send({
-            name: 'sdfafsd',
-            quantity: -10,
-            cost: 10,
-            factoryId: global.factoryId()
-        })
-        .expect(400)
-
-    await request(app)
-        .post('/api/materials')
-        .send({
-            name: "dsjfljkl",
-            cost: 10,
-            factoryId: global.factoryId()
-        })
-        .expect(400)
-});
-
-it('returns an error if an invalid quantity is provided', async () => {
-    await request(app)
-        .post('/api/materials')
-        .send({
-            name: 'sdfafsd',
-            quantity: 10,
-            cost: 10,
-            factoryId: ""
-        })
-        .expect(400)
-
-    await request(app)
-        .post('/api/materials')
-        .send({
-            name: "dsjfljkl",
-            quantity: 10,
-            cost: 10
+            name: "dsjfljkl"
         })
         .expect(400)
 });
@@ -104,9 +54,7 @@ it('creates a ticket with valid inputs', async () => {
         .post('/api/materials')
         .send({
             name: "dsjfljkl",
-            cost: 20.12,
-            quantity: 20.21,
-            factoryId: new mongoose.Types.ObjectId().toHexString()
+            cost: 20.12
         }).expect(201)
 
     materials = await Material.find({});
@@ -121,9 +69,7 @@ it('makes sure create event is published', async () => {
         .post('/api/materials')
         .send({
             name: "dsjfljkl",
-            cost: 20.12,
-            quantity: 20.21,
-            factoryId: new mongoose.Types.ObjectId().toHexString()
+            cost: 20.12
         })
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();

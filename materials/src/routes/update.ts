@@ -14,13 +14,8 @@ router.post('/api/materials/:id',
     body("cost")
         .default(0)
         .isFloat({min: 0}),
-    body('quantity')
-        .default(0)
-        .isFloat(),
     validateRequest,
     async (req: Request, res: Response) => {
-        // todo: check operator authorization
-        // todo: subtract cost from budget
         const material = await Material.findById(req.params.id);
         if (!material) {
             throw new NotFoundError;
@@ -29,22 +24,11 @@ router.post('/api/materials/:id',
             material.set({cost: req.body.cost});
         }
 
-        if (req.body.quantity) {
-            const quantity = material.quantity + req.body.quantity
-            if (quantity >= 0) {
-                material.set({quantity: quantity});
-                await material.save();
-            } else {
-                throw new NegativeQuantityError();
-            }
-        }
         material.save();
         await new MaterialUpdatedPublisher(natsWrapper.client).publish({
             id: material.id,
             name: material.name,
-            cost: material.cost,
-            quantity: material.quantity,
-            factoryId: material.factoryId
+            cost: material.cost
         })
         res.status(200).send(material);
     });
