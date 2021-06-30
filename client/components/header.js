@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default () => {
+const header = () => {
 
     const links = [
         {label: "Create Material", href: "/services/materials/create"},
@@ -26,3 +26,5 @@ export default () => {
     </nav>
         ;
 };
+
+export default header;
