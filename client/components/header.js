@@ -3,7 +3,8 @@ import Link from "next/link";
 export default () => {
 
     const links = [
-        {label: "Materials", href: "/services/materials/list"}
+        {label: "Create Material", href: "/services/materials/create"},
+        {label: "List Materials", href: "/services/materials/list"}
     ].filter(linkConfig => linkConfig)
         .map(({label, href}) => {
             return <li key={href} className={"nav-item"}>

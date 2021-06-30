@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import Router from "next/router";
-import useRequest from "../../hooks/use-request";
+import useRequest from "../../../hooks/use-request";
 
 export default () => {
     const [name, setName] = useState("");
@@ -9,16 +9,27 @@ export default () => {
         url: "/api/materials/",
         method: "post",
         body: {
-            name: name,
-            cost: cost
+            name,
+            cost
         },
-        onSuccess: () => Router.push("/")
+        onSuccess: (material) => Router.push("/services/materials/list")
     });
 
     const onSubmit = async event => {
         event.preventDefault();
 
         await doRequest();
+    };
+
+    const onBlur = () => {
+        const value = parseFloat(cost);
+
+        if (isNaN(value)) {
+            setCost("");
+            return;
+        }
+
+        setCost(value.toFixed(2));
     };
 
     return (
@@ -33,15 +44,16 @@ export default () => {
                 />
             </div>
             <div className="form-group">
-                <label>Password</label>
+                <label>Cost</label>
                 <input
                     value={cost}
+                    onBlur={onBlur}
                     onChange={e => setCost(e.target.value)}
                     className="form-control"
                 />
             </div>
             {errors}
-            <button className="btn btn-primary">Sign Up</button>
+            <button className="btn btn-primary">Create</button>
         </form>
     );
 };
