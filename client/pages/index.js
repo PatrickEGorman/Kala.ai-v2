@@ -1,6 +1,6 @@
 import buildClient from "../api/build-client";
 
-const LandingPage = ({currentUser}) => {
+const LandingPage = ({}) => {
     return <h1>Welcome</h1>;
 };
 

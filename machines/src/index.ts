@@ -41,7 +41,7 @@ const start = async () => {
         console.error(err);
     }
     app.listen(3000, () => {
-        console.log("Materials Server Up!");
+        console.log("Machines Server Up!");
     })
 }
 
