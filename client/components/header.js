@@ -1,9 +1,10 @@
 import Link from "next/link";
 
-export default () => {
+const header = () => {
 
     const links = [
-        {label: "Inventory", href: "/services/materials/list"}
+        {label: "Create Material", href: "/services/materials/create"},
+        {label: "List Materials", href: "/services/materials/list"}
     ].filter(linkConfig => linkConfig)
         .map(({label, href}) => {
             return <li key={href} className={"nav-item"}>
@@ -14,7 +15,7 @@ export default () => {
         });
     return <nav className={"navbar navbar-ligth bg-light"}>
         <Link href={"/"}>
-            <a className={"navbar-brand"}>GitTix</a>
+            <a className={"navbar-brand"}>Kala.ai V2</a>
         </Link>
 
         <div className={"d-flex justify-content-end"}>
@@ -25,3 +26,5 @@ export default () => {
     </nav>
         ;
 };
+
+export default header;

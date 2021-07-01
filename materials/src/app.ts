@@ -6,6 +6,7 @@ import {createMaterialRouter} from "./routes/create";
 import {readMaterialRouter} from "./routes/read";
 import {updateMaterialRouter} from "./routes/update";
 import {deleteMaterialRouter} from "./routes/delete";
+import {listMaterialRouter} from "./routes/list";
 
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(json());
 
 app.use(createMaterialRouter);
 app.use(readMaterialRouter);
+app.use(listMaterialRouter);
 app.use(updateMaterialRouter);
 app.use(deleteMaterialRouter);
 
