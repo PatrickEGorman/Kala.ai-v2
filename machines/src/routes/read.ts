@@ -6,7 +6,7 @@ import {NotFoundError} from "@kala.ai/common";
 const router = express.Router();
 
 router.get('/api/machines/:id', async (req: Request, res: Response) => {
-    const machine = await Machine.findById(req.params.id).Populate('Material');
+    const machine = await Machine.findById(req.params.id).populate('Material');
     if (!machine) {
         throw new NotFoundError;
     }
