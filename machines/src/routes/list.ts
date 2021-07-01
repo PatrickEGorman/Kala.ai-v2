@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/api/machines/', async (req: Request, res: Response) => {
     // todo: add tests
-    const machines = await Machine.find().populate('Material');
+    const machines = await Machine.find().populate('material');
 
     res.send(machines);
 });

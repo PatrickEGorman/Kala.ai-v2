@@ -13,7 +13,26 @@ router.post('/api/machines', [
     body('name')
         .not()
         .isEmpty()
-        .withMessage("name is required"),
+        .withMessage("Name is required"),
+    body("maintenanceTime")
+        .isFloat({gt: 0})
+        .withMessage("Maintenance Time must be greater than 0"),
+    body("errorRate")
+        .isFloat({gt: 0})
+        .withMessage("Error Rate must be greater than 0"),
+    body("initialCost")
+        .isFloat({gt: 0})
+        .withMessage("initialCost must be greater than 0"),
+    body("maintenanceCost")
+        .isFloat({gt: 0})
+        .withMessage("maintenanceCost must be greater than 0"),
+    body("laborCost")
+        .isFloat({gt: 0})
+        .withMessage("laborCost must be greater than 0"),
+    body("material")
+        .not()
+        .isEmpty()
+        .withMessage("Material is required")
 ], validateRequest, async (req: Request, res: Response) => {
 
     const {
