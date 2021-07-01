@@ -34,7 +34,7 @@ export default () => {
 
     return (
         <form onSubmit={onSubmit}>
-            <h1>Sign Up</h1>
+            <h1>Create Material</h1>
             <div className="form-group">
                 <label>Material Name</label>
                 <input
