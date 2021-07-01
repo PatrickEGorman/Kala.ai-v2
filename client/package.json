@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.1",
+    "bootstrap": "^5.0.0-beta3",
     "jquery": "^3.6.0",
     "next": "^10.2.3",
     "react": "^17.0.2",
