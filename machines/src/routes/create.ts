@@ -2,7 +2,7 @@ import express, {Request, Response} from "express";
 import {NotFoundError, validateRequest} from '@kala.ai/common';
 import {body} from "express-validator";
 import {Machine} from "../models/Machine";
-import {MachineCreatedPublisher} from "../events/machine-created-publisher";
+import {MachineCreatedPublisher} from "../events/publishers/machine-created-publisher";
 import {natsWrapper} from "../nats-wrapper";
 import {Material} from "../models/Material";
 

@@ -1,7 +1,7 @@
 import express, {Request, Response} from "express";
 import {Machine} from "../models/Machine";
 import {NotFoundError, validateRequest} from "@kala.ai/common";
-import {MachineDeletedPublisher} from "../events/machine-deleted-publisher";
+import {MachineDeletedPublisher} from "../events/publishers/machine-deleted-publisher";
 import {natsWrapper} from "../nats-wrapper";
 
 

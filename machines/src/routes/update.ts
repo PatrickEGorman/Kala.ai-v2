@@ -2,7 +2,7 @@ import express, {Request, Response} from "express";
 import {NotFoundError, validateRequest} from "@kala.ai/common";
 import {Machine} from "../models/Machine";
 import {natsWrapper} from "../nats-wrapper";
-import {MachineUpdatedPublisher} from "../events/machine-updated-publisher";
+import {MachineUpdatedPublisher} from "../events/publishers/machine-updated-publisher";
 
 
 const router = express.Router();
