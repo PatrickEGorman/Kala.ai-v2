@@ -12,7 +12,7 @@ const CreateMachine = ({materials}) => {
     const [operationCost, setOperationCost] = useState("");
     const [laborCost, setLaborCost] = useState("");
     const {doRequest, errors} = useRequest({
-        url: "/api/machines/",
+        url: "/api/machines/catalog",
         method: "post",
         body: {
             name,
@@ -24,7 +24,7 @@ const CreateMachine = ({materials}) => {
             operationCost,
             laborCost
         },
-        onSuccess: (machine) => Router.push("/services/machines/list")
+        onSuccess: (machine) => Router.push("/services/machines/[machineId]", `/services/machines/${machine.id}`)
     });
 
     const onSubmit = async event => {

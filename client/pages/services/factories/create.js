@@ -22,7 +22,7 @@ const CreateFactory = ({}) => {
             lat,
             long
         },
-        onSuccess: (factory) => Router.push("/services/factories/list")
+        onSuccess: (factory) => Router.push("/services/factories/[factoryId]", `/services/factories/${factory.id}`)
     });
 
     const onSubmit = async event => {

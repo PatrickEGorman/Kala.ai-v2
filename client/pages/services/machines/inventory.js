@@ -1,10 +1,10 @@
 import Link from "next/link";
 import useRequest from "../../../hooks/use-request";
 
-const MachinesList = ({machines}) => {
-    const machineList = machines.map(machine => {
+const MachinesList = ({invMachines}) => {
+    const invMachineList = invMachines.map(invMachine => {
         const deleteRequest = useRequest({
-            url: `/api/machines/catalog/${machine.id}`,
+            url: `/api/machines/catalog/${invMachine.id}`,
             method: "delete",
             onSuccess: (machine) => location.reload()
         });
@@ -14,12 +14,16 @@ const MachinesList = ({machines}) => {
             await deleteRequest.doRequest();
         };
         return (
-            <tr key={machine.id}>
-                <td>{machine.name}</td>
-                <td>{machine.material.name}</td>
-                <td>{machine.initialCost}</td>
+            <tr key={invMachine.machine.id}>
+                <td><Link href={`/services/machines/[machineId]`} as={`/services/machines/${invMachine.machine.id}`}>
+                    {invMachine.machine.name}</Link></td>
+                <td><Link href={`/services/materials/[materialId]`}
+                          as={`/services/materials/${invMachine.material.id}`}>
+                    {invMachine.material.name}</Link></td>
+                <td><Link href={`/services/factories/[factoryId]`} as={`/services/factories/${invMachine.factory.id}`}>
+                    {invMachine.factory.name}</Link></td>
                 <td>
-                    <Link href={`/services/machines/[machineId]`} as={`/services/machines/${machine.id}`}>
+                    <Link href={`/services/machines/[machineId]`} as={`/services/machines/${invMachine.id}`}>
                         <a className={"btn btn-primary btn-sm"}>View</a>
                     </Link>
                 </td>
@@ -36,15 +40,15 @@ const MachinesList = ({machines}) => {
             <table className={"table"}>
                 <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Machine</th>
                     <th>Material</th>
-                    <th>Initial Cost</th>
+                    <th>Factory</th>
                     <th>View</th>
                     <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
-                {machineList}
+                {invMachineList}
                 </tbody>
             </table>
         </div>
@@ -52,8 +56,8 @@ const MachinesList = ({machines}) => {
 };
 
 MachinesList.getInitialProps = async (context, client) => {
-    const {data} = await client.get("/api/machines/catalog/");
-    return {machines: data};
+    const {data} = await client.get("/api/machines/inventory/");
+    return {invMachines: data};
 };
 
 export default MachinesList;

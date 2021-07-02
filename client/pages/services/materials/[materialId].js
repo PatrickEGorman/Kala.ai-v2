@@ -10,7 +10,7 @@ const materialShow = ({material}) => {
         body: {
             cost
         },
-        onSuccess: (material) => location.reload()
+        onSuccess: () => location.reload()
     });
 
     const onSubmit = async event => {
@@ -33,7 +33,7 @@ const materialShow = ({material}) => {
     const deleteRequest = useRequest({
         url: `/api/materials/${material.id}`,
         method: "delete",
-        onSuccess: (material) => Router.push("/services/materials/list")
+        onSuccess: () => Router.push("/services/materials/list")
     });
 
     const onDeleteSubmit = async event => {

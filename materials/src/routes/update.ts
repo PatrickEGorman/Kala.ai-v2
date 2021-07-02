@@ -3,9 +3,9 @@ import {NotFoundError, validateRequest} from "@kala.ai/common";
 import {Material} from "../models/Material";
 import {body} from "express-validator";
 import {NegativeQuantityError} from "../errors/negative-quantity-error";
-import {MaterialCreatedPublisher} from "../events/material-created-publisher";
+import {MaterialCreatedPublisher} from "../events/publishers/material-created-publisher";
 import {natsWrapper} from "../nats-wrapper";
-import {MaterialUpdatedPublisher} from "../events/material-updated-publisher";
+import {MaterialUpdatedPublisher} from "../events/publishers/material-updated-publisher";
 
 
 const router = express.Router();

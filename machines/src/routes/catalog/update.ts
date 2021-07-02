@@ -1,14 +1,14 @@
 import express, {Request, Response} from "express";
 import {NotFoundError, validateRequest} from "@kala.ai/common";
-import {Machine} from "../models/Machine";
-import {natsWrapper} from "../nats-wrapper";
-import {MachineUpdatedPublisher} from "../events/publishers/machine-updated-publisher";
+import {Machine} from "../../models/Machine";
+import {natsWrapper} from "../../nats-wrapper";
+import {MachineUpdatedPublisher} from "../../events/publishers/machine-updated-publisher";
 import {body} from "express-validator";
 
 
 const router = express.Router();
 
-router.post('/api/machines/:id',
+router.post('/api/machines/catalog/:id',
     [
         body("maintenanceTime")
             .default(0)
@@ -54,13 +54,12 @@ router.post('/api/machines/:id',
         operationCost > 0 ? machine.set({operationCost: operationCost}) : console.log("OperationCost not changed")
         initialCost > 0 ? machine.set({initialCost}) : console.log("InitialCost not changed")
 
-        machine.save();
+        await machine.save();
 
-        // todo: remove name uptime and material from updated publisher object
+        // todo: remove name and material from updated publisher object
         await new MachineUpdatedPublisher(natsWrapper.client).publish({
             id: machine.id,
             name: machine.name,
-            uptime: 0,
             maintenanceTime: machine.maintenanceTime,
             material: machine.material._id,
             errorRate: machine.errorRate,
