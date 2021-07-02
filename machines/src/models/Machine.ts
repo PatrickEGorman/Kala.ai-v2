@@ -3,7 +3,6 @@ import {MaterialDoc} from "./Material";
 
 export interface MachineAttrs {
     name: string;
-    uptime: number;
     maintenanceTime: number;
     material: MaterialDoc;
     errorRate: number;
@@ -19,7 +18,6 @@ interface MachineModel extends mongoose.Model<MachineDoc> {
 
 interface MachineDoc extends mongoose.Document {
     name: string;
-    uptime: number;
     maintenanceTime: number;
     material: MaterialDoc;
     errorRate: number;
@@ -35,10 +33,6 @@ const MachineSchema = new mongoose.Schema({
         required: true,
     },
     maintenanceTime: {
-        type: Number,
-        required: true
-    },
-    uptime: {
         type: Number,
         required: true
     },

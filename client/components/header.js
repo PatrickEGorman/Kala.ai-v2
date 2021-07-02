@@ -1,26 +1,35 @@
 import Link from "next/link";
+import {Dropdown} from "react-bootstrap";
 
 const header = () => {
 
-    const links = [
-        {label: "Create Material", href: "/services/materials/create"},
-        {label: "List Materials", href: "/services/materials/list"}
-    ].filter(linkConfig => linkConfig)
-        .map(({label, href}) => {
-            return <li key={href} className={"nav-item"}>
-                <Link href={href}>
-                    <a className={"nav-link"}>{label}</a>
-                </Link>
-            </li>;
-        });
-    return <nav className={"navbar navbar-ligth bg-light"}>
+    return <nav className={"navbar navbar-dark bg-dark"}>
         <Link href={"/"}>
             <a className={"navbar-brand"}>Kala.ai V2</a>
         </Link>
 
         <div className={"d-flex justify-content-end"}>
             <ul className="nav d-flex align-items-center">
-                {links}
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Materials
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item href="/services/materials/create">Create</Dropdown.Item>
+                        <Dropdown.Item href="/services/materials/list">List</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Machines
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item href="/services/machines/create">Create</Dropdown.Item>
+                        <Dropdown.Item href="/services/machines/list">List</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
             </ul>
         </div>
     </nav>

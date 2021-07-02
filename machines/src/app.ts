@@ -6,6 +6,7 @@ import {createMachineRouter} from "./routes/create";
 import {readMachineRouter} from "./routes/read";
 import {updateMachineRouter} from "./routes/update";
 import {deleteMachineRouter} from "./routes/delete";
+import {listMachineRouter} from "./routes/list";
 
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(createMachineRouter);
 app.use(readMachineRouter);
 app.use(updateMachineRouter);
 app.use(deleteMachineRouter);
+app.use(listMachineRouter);
 
 app.all('*', async (req, res, next) => {
     throw new NotFoundError();

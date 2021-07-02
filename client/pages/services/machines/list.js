@@ -1,13 +1,12 @@
 import Link from "next/link";
 import useRequest from "../../../hooks/use-request";
-import Router from "next/router";
 
-const MaterialsList = ({materials}) => {
-    const materialList = materials.map(material => {
+const MachinesList = ({machines}) => {
+    const machineList = machines.map(machine => {
         const deleteRequest = useRequest({
-            url: `/api/materials/${material.id}`,
+            url: `/api/machines/${machine.id}`,
             method: "delete",
-            onSuccess: (material) => location.reload()
+            onSuccess: (machine) => location.reload()
         });
         const onDeleteSubmit = async event => {
             event.preventDefault();
@@ -15,11 +14,12 @@ const MaterialsList = ({materials}) => {
             await deleteRequest.doRequest();
         };
         return (
-            <tr key={material.id}>
-                <td>{material.name}</td>
-                <td>{material.cost}</td>
+            <tr key={machine.id}>
+                <td>{machine.name}</td>
+                <td>{machine.material.name}</td>
+                <td>{machine.initialCost}</td>
                 <td>
-                    <Link href={`/services/materials/[materialId]`} as={`/services/materials/${material.id}`}>
+                    <Link href={`/services/machines/[machineId]`} as={`/services/machines/${machine.id}`}>
                         <a className={"btn btn-primary btn-sm"}>View</a>
                     </Link>
                 </td>
@@ -32,27 +32,28 @@ const MaterialsList = ({materials}) => {
 
     return (
         <div>
-            <h1>Materials</h1>
+            <h1>Machines</h1>
             <table className={"table"}>
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Cost</th>
+                    <th>Material</th>
+                    <th>Initial Cost</th>
                     <th>View</th>
                     <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
-                {materialList}
+                {machineList}
                 </tbody>
             </table>
         </div>
     );
 };
 
-MaterialsList.getInitialProps = async (context, client) => {
-    const {data} = await client.get("/api/materials/");
-    return {materials: data};
+MachinesList.getInitialProps = async (context, client) => {
+    const {data} = await client.get("/api/machines/");
+    return {machines: data};
 };
 
-export default MaterialsList;
+export default MachinesList;

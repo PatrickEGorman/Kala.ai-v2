@@ -44,7 +44,7 @@ const materialShow = ({material}) => {
 
     return <div>
         <h1>View Material</h1>
-        <h2>Name: {material.name}</h2>
+        <h1>Name: {material.name}</h1>
         <h2>Cost: {material.cost}</h2>
         <br/>
         <form onSubmit={onSubmit}>

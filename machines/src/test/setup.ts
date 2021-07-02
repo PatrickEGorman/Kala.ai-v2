@@ -43,8 +43,8 @@ afterAll(async () => {
 // todo: create dummy factory object for testing purposes
 global.material = async () => {
     const material = Material.build({
+        id: mongoose.Types.ObjectId().toHexString(),
         name: "Wood",
-        cost: 10
     });
     await material.save();
     return material
@@ -56,7 +56,6 @@ global.machineParams = async () => {
     return {
         name: "test",
         maintenanceTime: 55,
-        uptime: 0,
         material: material._id.toString(),
         errorRate: .05,
         initialCost: 500,

@@ -1,7 +1,7 @@
 import express, {Request, Response} from "express";
 import {Machine} from "../models/Machine";
 import {NotFoundError, validateRequest} from "@kala.ai/common";
-import {MachineDeletedPublisher} from "../events/machine-deleted-publisher";
+import {MachineDeletedPublisher} from "../events/publishers/machine-deleted-publisher";
 import {natsWrapper} from "../nats-wrapper";
 
 
@@ -14,10 +14,12 @@ router.delete('/api/machines/:id', async (req: Request, res: Response) => {
     }
     await machine.delete()
 
+
+    // todo remove uptime from machine deleted publisher
     await new MachineDeletedPublisher(natsWrapper.client).publish({
         id: machine.id,
         name: machine.name,
-        uptime: machine.uptime,
+        uptime: 0,
         maintenanceTime: machine.maintenanceTime,
         material: machine.material._id,
         errorRate: machine.errorRate,

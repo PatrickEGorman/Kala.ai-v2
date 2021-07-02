@@ -24,11 +24,11 @@ it("updates the machine_fields quantity/cost", async () => {
 
     const machineResponse = await request(app)
         .post(`/api/machines/${response.body.id}`)
-        .send({uptime: 10})
+        .send({initialCost: 10})
         .expect(200)
 
 
-    expect(machineResponse.body.uptime).toEqual(10)
+    expect(machineResponse.body.initialCost).toEqual(10)
 });
 
 it("checks if an update event is emitted", async () => {
