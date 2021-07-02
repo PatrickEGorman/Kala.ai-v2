@@ -1,7 +1,14 @@
 import mongoose from "mongoose";
 import {MongoMemoryServer} from 'mongodb-memory-server';
-import {MaterialDoc, Material} from "../models/Material";
-import {MachineAttrs} from "../models/Machine";
+import {Material, MaterialDoc} from "../models/Material";
+import {Machine, MachineAttrs, MachineDoc} from "../models/Machine";
+import {Factory, FactoryDoc} from "../models/Factory";
+
+interface invTest {
+    machine: MachineDoc;
+    material: MaterialDoc;
+    factory: FactoryDoc;
+}
 
 declare global {
     namespace NodeJS {
@@ -9,6 +16,8 @@ declare global {
             machineParams(): Promise<MachineAttrs>;
 
             material(): Promise<MaterialDoc>;
+
+            invTestObj(): Promise<invTest>
         }
     }
 }
@@ -40,7 +49,6 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
-// todo: create dummy factory object for testing purposes
 global.material = async () => {
     const material = Material.build({
         id: mongoose.Types.ObjectId().toHexString(),
@@ -63,4 +71,26 @@ global.machineParams = async () => {
         operationCost: 10,
         laborCost: 20
     }
+}
+
+global.invTestObj = async () => {
+    const material = await global.material();
+    const machine = Machine.build({
+        name: "test",
+        maintenanceTime: 55,
+        material: material,
+        errorRate: .05,
+        initialCost: 500,
+        maintenanceCost: 100,
+        operationCost: 10,
+        laborCost: 20
+    });
+    await machine.save();
+    const factory = Factory.build({
+        id: mongoose.Types.ObjectId().toHexString(),
+        name: "testFactory",
+        location: {lat: 25, long: 47}
+    });
+    await factory.save();
+    return {material, machine, factory}
 }

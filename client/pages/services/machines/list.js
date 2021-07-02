@@ -4,7 +4,7 @@ import useRequest from "../../../hooks/use-request";
 const MachinesList = ({machines}) => {
     const machineList = machines.map(machine => {
         const deleteRequest = useRequest({
-            url: `/api/machines/${machine.id}`,
+            url: `/api/machines/catalog/${machine.id}`,
             method: "delete",
             onSuccess: (machine) => location.reload()
         });
@@ -52,7 +52,7 @@ const MachinesList = ({machines}) => {
 };
 
 MachinesList.getInitialProps = async (context, client) => {
-    const {data} = await client.get("/api/machines/");
+    const {data} = await client.get("/api/machines/catalog/");
     return {machines: data};
 };
 

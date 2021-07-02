@@ -1,15 +1,15 @@
 import express, {Request, Response} from "express";
 import {NotFoundError, validateRequest} from '@kala.ai/common';
 import {body} from "express-validator";
-import {Machine} from "../models/Machine";
-import {MachineCreatedPublisher} from "../events/publishers/machine-created-publisher";
-import {natsWrapper} from "../nats-wrapper";
-import {Material} from "../models/Material";
+import {Machine} from "../../models/Machine";
+import {MachineCreatedPublisher} from "../../events/publishers/machine-created-publisher";
+import {natsWrapper} from "../../nats-wrapper";
+import {Material} from "../../models/Material";
 
 
 const router = express.Router();
 
-router.post('/api/machines', [
+router.post('/api/machines/catalog', [
     body('name')
         .not()
         .isEmpty()
@@ -58,7 +58,6 @@ router.post('/api/machines', [
     await new MachineCreatedPublisher(natsWrapper.client).publish({
         id: machine.id,
         name: machine.name,
-        uptime: 0,
         maintenanceTime: machine.maintenanceTime,
         material: machine.material._id,
         errorRate: machine.errorRate,

@@ -13,7 +13,7 @@ const machineShow = ({machine}) => {
     const [operationCost, setOperationCost] = useState("");
     const [laborCost, setLaborCost] = useState("");
     const {doRequest, errors} = useRequest({
-        url: `/api/machines/${machine.id}`,
+        url: `/api/machines/catalog.${machine.id}`,
         method: "post",
         body: {
             maintenanceTime,
@@ -59,7 +59,7 @@ const machineShow = ({machine}) => {
     };
 
     const deleteRequest = useRequest({
-        url: `/api/machines/${machine.id}`,
+        url: `/api/machines/catalog/${machine.id}`,
         method: "delete",
         onSuccess: () => Router.push("/services/machines/list")
     });
@@ -158,7 +158,7 @@ const machineShow = ({machine}) => {
 
 machineShow.getInitialProps = async (context, client) => {
     const {machineId} = context.query;
-    const machineData = await client.get(`/api/machines/${machineId}`);
+    const machineData = await client.get(`/api/machines/catalog/${machineId}`);
     const materialsData = await client.get(`/api/materials/`);
     return {machine: machineData.data, materials: materialsData.data};
 };

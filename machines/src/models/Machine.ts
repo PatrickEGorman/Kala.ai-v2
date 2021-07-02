@@ -16,7 +16,7 @@ interface MachineModel extends mongoose.Model<MachineDoc> {
     build(attrs: MachineAttrs): MachineDoc;
 }
 
-interface MachineDoc extends mongoose.Document {
+export interface MachineDoc extends mongoose.Document {
     name: string;
     maintenanceTime: number;
     material: MaterialDoc;

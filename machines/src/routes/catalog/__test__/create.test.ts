@@ -1,13 +1,11 @@
 import request from 'supertest'
-import {app} from "../../app";
-import {Machine} from "../../models/Machine";
-import {natsWrapper} from "../../nats-wrapper";
-import {Material} from "../../models/Material";
-import {stringify} from "ts-jest/dist/utils/json";
+import {app} from "../../../app";
+import {Machine} from "../../../models/Machine";
+import {natsWrapper} from "../../../nats-wrapper";
 
-it('has a route handler listening to /api/machines for post requests', async () => {
+it('has a route handler listening to /api/machines/catalog for post requests', async () => {
     const response = await request(app)
-        .post('/api/machines')
+        .post('/api/machines/catalog')
         .send({});
 
     expect(response.status).not.toEqual(404);
@@ -15,7 +13,7 @@ it('has a route handler listening to /api/machines for post requests', async () 
 
 it('returns an error if an invalid data is provided', async () => {
     await request(app)
-        .post('/api/machines')
+        .post('/api/machines/catalog')
         .send({})
         .expect(400)
 });
@@ -36,7 +34,7 @@ it('creates a machine with valid inputs', async () => {
     const material = materialDoc.id;
 
     const response = await request(app)
-        .post('/api/machines')
+        .post('/api/machines/catalog')
         .send({
             name, maintenanceTime, material, errorRate, initialCost, maintenanceCost,
             operationCost, laborCost
@@ -44,8 +42,6 @@ it('creates a machine with valid inputs', async () => {
 
     machines = await Machine.find({});
     expect(machines.length).toEqual(1)
-
-    console.log(machines[0].material._id)
 
     expect(machines[0].id.toString()).toEqual(response.body.id);
     expect(machines[0].maintenanceTime).toEqual(maintenanceTime);
@@ -61,7 +57,7 @@ it('makes sure create event is published', async () => {
     const params = await global.machineParams();
 
     await request(app)
-        .post('/api/machines')
+        .post('/api/machines/catalog')
         .send(
             params
         )

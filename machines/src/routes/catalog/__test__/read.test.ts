@@ -1,12 +1,12 @@
 import request from "supertest";
-import {app} from "../../app";
+import {app} from "../../../app";
 import mongoose from "mongoose";
 
 it('returns 404 if the machine_fields is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
 
     await request(app)
-        .get(`/api/machines/${id}`)
+        .get(`/api/machines/catalog/${id}`)
         .send()
         .expect(404)
 });
@@ -15,13 +15,13 @@ it("returns the machine_fields if the machine_fields is found", async () => {
     const params = await global.machineParams();
 
     const response = await request(app)
-        .post('/api/machines')
+        .post('/api/machines/catalog')
         .send(
             params
         ).expect(201);
 
     const machineResponse = await request(app)
-        .get(`/api/machines/${response.body.id}`)
+        .get(`/api/machines/catalog/${response.body.id}`)
         .send()
         .expect(200)
 

@@ -12,7 +12,7 @@ const CreateMachine = ({materials}) => {
     const [operationCost, setOperationCost] = useState("");
     const [laborCost, setLaborCost] = useState("");
     const {doRequest, errors} = useRequest({
-        url: "/api/machines/",
+        url: "/api/machines/catalog",
         method: "post",
         body: {
             name,
