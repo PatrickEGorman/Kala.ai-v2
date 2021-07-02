@@ -2,7 +2,7 @@ import express, {Request, Response} from "express";
 import {validateRequest} from '@kala.ai/common';
 import {body} from "express-validator";
 import {Material} from "../models/Material";
-import {MaterialCreatedPublisher} from "../events/material-created-publisher";
+import {MaterialCreatedPublisher} from "../events/publishers/material-created-publisher";
 import {natsWrapper} from "../nats-wrapper";
 
 
