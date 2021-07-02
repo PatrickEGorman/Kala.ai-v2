@@ -18,7 +18,7 @@ const factoryShow = ({factory}) => {
             maintenanceCost,
             storage
         },
-        onSuccess: (factory) => location.reload()
+        onSuccess: () => location.reload()
     });
 
     const onSubmit = async event => {
@@ -48,7 +48,7 @@ const factoryShow = ({factory}) => {
     const deleteRequest = useRequest({
         url: `/api/factories/${factory.id}`,
         method: "delete",
-        onSuccess: (factory) => Router.push("/services/factories/list")
+        onSuccess: () => Router.push("/services/factories/list")
     });
 
     const onDeleteSubmit = async event => {
@@ -119,9 +119,8 @@ const factoryShow = ({factory}) => {
 
 factoryShow.getInitialProps = async (context, client) => {
     const {factoryId} = context.query;
-    const factoryData = await client.get(`/api/factories/${factoryId}`);
-    const materialsData = await client.get(`/api/materials/`);
-    return {factory: factoryData.data, materials: materialsData.data};
+    const {data} = await client.get(`/api/factories/${factoryId}`);
+    return {factory: data};
 };
 
 export default factoryShow;

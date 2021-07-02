@@ -12,7 +12,7 @@ export default () => {
             name,
             cost
         },
-        onSuccess: (material) => Router.push("/services/materials/list")
+        onSuccess: (material) => Router.push("/services/materials/[materialId]", `/services/materials/${material.id}`)
     });
 
     const onSubmit = async event => {

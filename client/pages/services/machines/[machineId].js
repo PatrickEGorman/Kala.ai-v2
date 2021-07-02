@@ -60,7 +60,7 @@ const machineShow = ({machine}) => {
     const deleteRequest = useRequest({
         url: `/api/machines/${machine.id}`,
         method: "delete",
-        onSuccess: (machine) => Router.push("/services/machines/list")
+        onSuccess: () => Router.push("/services/machines/list")
     });
 
     const onDeleteSubmit = async event => {
