@@ -42,7 +42,7 @@ it("checks if an update event is emitted", async () => {
 
     const machineResponse = await request(app)
         .post(`/api/machines/${response.body.id}`)
-        .send({upTime: 10})
+        .send({initialCost: 10})
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
