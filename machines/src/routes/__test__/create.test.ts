@@ -58,7 +58,7 @@ it('creates a machine with valid inputs', async () => {
 
 
 it('makes sure create event is published', async () => {
-    const params = global.machineParams();
+    const params = await global.machineParams();
 
     await request(app)
         .post('/api/machines')

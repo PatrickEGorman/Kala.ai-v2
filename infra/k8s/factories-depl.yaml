@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: factories-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: factories
+  template:
+    metadata:
+      labels:
+        app: factories
+    spec:
+      containers:
+        - name: factories
+          image: patrickgorman/factories
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MONGO_URI
+              value: 'mongodb://factories-mongo-srv:27017/factories'
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: 'kala.ai'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: factories-srv
+spec:
+  selector:
+    app: factories
+  ports:
+    - name: factories
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: factories-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: factories-mongo
+  template:
+    metadata:
+      labels:
+        app: factories-mongo
+    spec:
+      containers:
+        - name: factories-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: factories-mongo-srv
+spec:
+  selector:
+    app: factories-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
