@@ -5,9 +5,7 @@ import Link from "next/link";
 
 const machineShow = ({machine}) => {
 
-    const [name, setName] = useState("");
     const [maintenanceTime, setMaintenanceTime] = useState("");
-    const [material, setMaterial] = useState("");
     const [errorRate, setErrorRate] = useState("");
     const [initialCost, setInitialCost] = useState("");
     const [maintenanceCost, setMaintenanceCost] = useState("");
