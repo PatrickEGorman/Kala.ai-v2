@@ -19,7 +19,9 @@ router.post('/api/machines', [
         .withMessage("Maintenance Time must be greater than 0"),
     body("errorRate")
         .isFloat({gt: 0})
-        .withMessage("Error Rate must be greater than 0"),
+        .withMessage("Error Rate must be greater than 0")
+        .isFloat({lt: 1})
+        .withMessage("Error rate must be less than 1"),
     body("initialCost")
         .isFloat({gt: 0})
         .withMessage("initialCost must be greater than 0"),
@@ -44,18 +46,19 @@ router.post('/api/machines', [
     if (!materialObj) {
         throw new NotFoundError();
     }
-    const uptime = 0;
     const machine = Machine.build({
-        name, uptime, maintenanceTime, material: materialObj, errorRate, initialCost, maintenanceCost,
+        name, maintenanceTime, material: materialObj, errorRate, initialCost, maintenanceCost,
         operationCost, laborCost
     });
 
     await machine.save();
 
+
+    // todo: remove uptime from machine created publisher
     await new MachineCreatedPublisher(natsWrapper.client).publish({
         id: machine.id,
         name: machine.name,
-        uptime: machine.uptime,
+        uptime: 0,
         maintenanceTime: machine.maintenanceTime,
         material: machine.material._id,
         errorRate: machine.errorRate,

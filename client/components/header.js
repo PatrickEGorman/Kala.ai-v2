@@ -3,7 +3,7 @@ import {Dropdown} from "react-bootstrap";
 
 const header = () => {
 
-    return <nav className={"navbar navbar-ligth bg-light"}>
+    return <nav className={"navbar navbar-dark bg-dark"}>
         <Link href={"/"}>
             <a className={"navbar-brand"}>Kala.ai V2</a>
         </Link>
@@ -18,6 +18,16 @@ const header = () => {
                     <Dropdown.Menu>
                         <Dropdown.Item href="/services/materials/create">Create</Dropdown.Item>
                         <Dropdown.Item href="/services/materials/list">List</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Machines
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item href="/services/machines/create">Create</Dropdown.Item>
+                        <Dropdown.Item href="/services/machines/list">List</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </ul>
