@@ -67,7 +67,7 @@ const CreateMachine = ({materials}) => {
 
     return (
         <form onSubmit={onSubmit}>
-            <h1>Create Machine</h1>
+            <h1>Create Catalog Machine</h1>
             <div className="form-group">
                 <label>Machine Name</label>
                 <input

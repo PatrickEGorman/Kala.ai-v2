@@ -73,7 +73,7 @@ const machineShow = ({machine}) => {
 
     return <Row>
         <Col>
-            <h1>View Machine</h1>
+            <h1>View Catalog Machine</h1>
             <h1>Name: {machine.name}</h1>
             <h2>Material:
                 <Link href={`/services/materials/[materialId]`} as={`/services/materials/${machine.material.id}`}>
