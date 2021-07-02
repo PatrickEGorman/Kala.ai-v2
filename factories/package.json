@@ -8,6 +8,13 @@
     "test": "jest --watchAll --cache",
     "test:ci": "jest"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,6 +23,7 @@
     "@types/express": "^4.17.12",
     "@types/mongoose": "^5.11.97",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "mongoose": "^5.12.13",
     "ts-node-dev": "^1.1.6"
   },

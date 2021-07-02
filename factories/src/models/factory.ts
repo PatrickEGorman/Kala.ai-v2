@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 
-interface FactoryAttrs {
+export interface FactoryAttrs {
     name: string;
     location: { lat: number, long: number };
     cost: number;
