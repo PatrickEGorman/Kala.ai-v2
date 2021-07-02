@@ -2,6 +2,7 @@ import Router from "next/router";
 import useRequest from "../../../hooks/use-request";
 import {useState} from "react";
 import Link from "next/link";
+import {Col, Row} from "react-bootstrap";
 
 const machineShow = ({machine}) => {
 
@@ -70,85 +71,89 @@ const machineShow = ({machine}) => {
     };
 
 
-    return <div>
-        <h1>View Machine</h1>
-        <h1>Name: {machine.name}</h1>
-        <h2>Material:
-            <Link href={`/services/materials/[materialId]`} as={`/services/materials/${machine.material.id}`}>
-                <a>{machine.material.name}</a>
-            </Link>
-        </h2>
-        <h2>Inital Cost: {machine.initialCost}</h2>
-        <h2>Error Rate: {machine.errorRate}</h2>
-        <h2>Maintenance Time: {machine.maintenanceTime}</h2>
-        <h2>Maintenance Cost: {machine.maintenanceCost}</h2>
-        <h2>Operation Cost: {machine.operationCost}</h2>
-        <h2>Labor Cost: {machine.laborCost}</h2>
-        <br/>
-        <form onSubmit={onSubmit}>
-            <h1>Edit Machine</h1>
-            <div className="form-group">
-                <label>Maintenance Time</label>
-                <input
-                    value={maintenanceTime}
-                    onBlur={onBlur}
-                    onChange={e => setMaintenanceTime(e.target.value)}
-                    className="form-control"
-                />
-            </div>
-            <div className="form-group">
-                <label>Maintenance Cost</label>
-                <input
-                    value={maintenanceCost}
-                    onBlur={onBlur}
-                    onChange={e => setMaintenanceCost(e.target.value)}
-                    className="form-control"
-                />
-            </div>
-            <div className="form-group">
-                <label>Error Rate</label>
-                <input
-                    value={errorRate}
-                    onBlur={onBlur}
-                    onChange={e => setErrorRate(e.target.value)}
-                    className="form-control"
-                />
-            </div>
-            <div className="form-group">
-                <label>Initial Cost</label>
-                <input
-                    value={initialCost}
-                    onBlur={onBlur}
-                    onChange={e => setInitialCost(e.target.value)}
-                    className="form-control"
-                />
-            </div>
-            <div className="form-group">
-                <label>Operation Cost</label>
-                <input
-                    value={operationCost}
-                    onBlur={onBlur}
-                    onChange={e => setOperationCost(e.target.value)}
-                    className="form-control"
-                />
-            </div>
-            <div className="form-group">
-                <label>Labor Cost</label>
-                <input
-                    value={laborCost}
-                    onBlur={onBlur}
-                    onChange={e => setLaborCost(e.target.value)}
-                    className="form-control"
-                />
-            </div>
-            {errors}
-            <button className="btn btn-primary">Edit</button>
-        </form>
-        <br/>
-        <form onSubmit={onDeleteSubmit}>
-            <button className="btn btn-danger">Delete</button>
-        </form>
-    </div>;
+    return <Row>
+        <Col>
+            <h1>View Machine</h1>
+            <h1>Name: {machine.name}</h1>
+            <h2>Material:
+                <Link href={`/services/materials/[materialId]`} as={`/services/materials/${machine.material.id}`}>
+                    <a>{machine.material.name}</a>
+                </Link>
+            </h2>
+            <h2>Inital Cost: {machine.initialCost}</h2>
+            <h2>Error Rate: {machine.errorRate}</h2>
+            <h2>Maintenance Time: {machine.maintenanceTime}</h2>
+            <h2>Maintenance Cost: {machine.maintenanceCost}</h2>
+            <h2>Operation Cost: {machine.operationCost}</h2>
+            <h2>Labor Cost: {machine.laborCost}</h2>
+        </Col>
+        <Col>
+            <form onSubmit={onSubmit}>
+                <h1>Edit Machine</h1>
+                <div className="form-group">
+                    <label>Maintenance Time</label>
+                    <input
+                        value={maintenanceTime}
+                        onBlur={onBlur}
+                        onChange={e => setMaintenanceTime(e.target.value)}
+                        className="form-control"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Maintenance Cost</label>
+                    <input
+                        value={maintenanceCost}
+                        onBlur={onBlur}
+                        onChange={e => setMaintenanceCost(e.target.value)}
+                        className="form-control"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Error Rate</label>
+                    <input
+                        value={errorRate}
+                        onBlur={onBlur}
+                        onChange={e => setErrorRate(e.target.value)}
+                        className="form-control"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Initial Cost</label>
+                    <input
+                        value={initialCost}
+                        onBlur={onBlur}
+                        onChange={e => setInitialCost(e.target.value)}
+                        className="form-control"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Operation Cost</label>
+                    <input
+                        value={operationCost}
+                        onBlur={onBlur}
+                        onChange={e => setOperationCost(e.target.value)}
+                        className="form-control"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Labor Cost</label>
+                    <input
+                        value={laborCost}
+                        onBlur={onBlur}
+                        onChange={e => setLaborCost(e.target.value)}
+                        className="form-control"
+                    />
+                </div>
+                {errors}
+                <br/>
+                <button className="btn btn-primary">Edit</button>
+            </form>
+            <br/>
+            <form onSubmit={onDeleteSubmit}>
+                <button className="btn btn-danger">Delete</button>
+            </form>
+        </Col>
+    </Row>;
 };
 
 machineShow.getInitialProps = async (context, client) => {
