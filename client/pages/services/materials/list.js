@@ -1,11 +1,10 @@
 import Link from "next/link";
 import useRequest from "../../../hooks/use-request";
-import Router from "next/router";
 
 const MaterialsList = ({materials}) => {
     const materialList = materials.map(material => {
         const deleteRequest = useRequest({
-            url: `/api/materials/${material.id}`,
+            url: `/api/materials/catalog/${material.id}`,
             method: "delete",
             onSuccess: (material) => location.reload()
         });
@@ -51,7 +50,7 @@ const MaterialsList = ({materials}) => {
 };
 
 MaterialsList.getInitialProps = async (context, client) => {
-    const {data} = await client.get("/api/materials/");
+    const {data} = await client.get("/api/materials/catalog/");
     return {materials: data};
 };
 

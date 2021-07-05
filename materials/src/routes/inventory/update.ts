@@ -23,7 +23,7 @@ router.post('/api/materials/inventory/:id',
         if (!invMaterial) {
             throw new NotFoundError;
         }
-        const quantity = req.body.quantity + invMaterial.quantity;
+        const quantity = parseFloat(req.body.quantity) + invMaterial.quantity;
 
         // todo Redirect to delete if quantity is 0
         if (quantity >= 0) {

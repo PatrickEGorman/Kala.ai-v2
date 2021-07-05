@@ -40,27 +40,27 @@ const CreateMachine = ({materials}) => {
     });
 
     const onBlur = () => {
-        if (isNaN(maintenanceTime)) {
+        if (isNaN(parseFloat(maintenanceTime))) {
             setMaintenanceTime("");
             return;
         }
-        if (isNaN(errorRate)) {
+        if (isNaN(parseFloat(errorRate))) {
             setErrorRate("");
             return;
         }
-        if (isNaN(initialCost)) {
+        if (isNaN(parseFloat(initialCost))) {
             setInitialCost("");
             return;
         }
-        if (isNaN(maintenanceCost)) {
+        if (isNaN(parseFloat(maintenanceCost))) {
             setMaintenanceCost("");
             return;
         }
-        if (isNaN(operationCost)) {
+        if (isNaN(parseFloat(operationCost))) {
             setOperationCost("");
             return;
         }
-        if (isNaN(laborCost)) {
+        if (isNaN(parseFloat(laborCost))) {
             setLaborCost("");
         }
     };

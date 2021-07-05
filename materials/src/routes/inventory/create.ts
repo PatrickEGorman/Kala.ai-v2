@@ -30,12 +30,12 @@ router.post('/api/materials/inventory', [
 
     const factoryObj = await Factory.findById(factory);
     if (!factoryObj) {
-        throw new NotFoundError();
+        throw new NotFoundError("Factory");
     }
 
     const materialObj = await Material.findById(material);
     if (!materialObj) {
-        throw new NotFoundError();
+        throw new NotFoundError("Material");
     }
 
     const invMaterial = InvMaterial.build({
