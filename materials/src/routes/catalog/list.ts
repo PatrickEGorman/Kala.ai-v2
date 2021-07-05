@@ -1,11 +1,10 @@
 import express, {Request, Response} from "express";
-import {Material} from "../models/Material";
-import {NotFoundError} from "@kala.ai/common";
+import {Material} from "../../models/Material";
 
 
 const router = express.Router();
 
-router.get('/api/materials/', async (req: Request, res: Response) => {
+router.get('/api/materials/catalog/', async (req: Request, res: Response) => {
     // todo: add tests
     const materials = await Material.find();
 

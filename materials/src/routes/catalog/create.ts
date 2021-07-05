@@ -1,14 +1,14 @@
 import express, {Request, Response} from "express";
 import {validateRequest} from '@kala.ai/common';
 import {body} from "express-validator";
-import {Material} from "../models/Material";
-import {MaterialCreatedPublisher} from "../events/publishers/material-created-publisher";
-import {natsWrapper} from "../nats-wrapper";
+import {Material} from "../../models/Material";
+import {MaterialCreatedPublisher} from "../../events/publishers/material-created-publisher";
+import {natsWrapper} from "../../nats-wrapper";
 
 
 const router = express.Router();
 
-router.post('/api/materials', [
+router.post('/api/materials/catalog', [
     body('name')
         .not()
         .isEmpty()
@@ -18,10 +18,6 @@ router.post('/api/materials', [
         .withMessage("cost must be greater than 0"),
 ], validateRequest, async (req: Request, res: Response) => {
     const {name, cost} = req.body;
-    // todo: verify factoryId belongs to factory
-    // todo: increment quantity if it already exists
-    // todo: add authorization for operator to create material_fields
-    // todo: subtract cost from budget
     const material = Material.build({
         name,
         cost

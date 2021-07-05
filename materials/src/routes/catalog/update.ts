@@ -1,16 +1,14 @@
 import express, {Request, Response} from "express";
 import {NotFoundError, validateRequest} from "@kala.ai/common";
-import {Material} from "../models/Material";
+import {Material} from "../../models/Material";
 import {body} from "express-validator";
-import {NegativeQuantityError} from "../errors/negative-quantity-error";
-import {MaterialCreatedPublisher} from "../events/publishers/material-created-publisher";
-import {natsWrapper} from "../nats-wrapper";
-import {MaterialUpdatedPublisher} from "../events/publishers/material-updated-publisher";
+import {natsWrapper} from "../../nats-wrapper";
+import {MaterialUpdatedPublisher} from "../../events/publishers/material-updated-publisher";
 
 
 const router = express.Router();
 
-router.post('/api/materials/:id',
+router.post('/api/materials/catalog/:id',
     body("cost")
         .default(0)
         .isFloat({min: 0}),

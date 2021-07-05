@@ -11,7 +11,7 @@ interface FactoryModel extends mongoose.Model<FactoryDoc> {
     build(attrs: FactoryAttrs): FactoryDoc;
 }
 
-interface FactoryDoc extends mongoose.Document {
+export interface FactoryDoc extends mongoose.Document {
     name: string;
     location: { lat: number, long: number };
 }
