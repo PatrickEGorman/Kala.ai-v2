@@ -29,5 +29,7 @@ export class MachineCreatedListener extends Listener<MachineCreatedEvent> {
         await machine.save();
 
         msg.ack();
+        console.log(`Machine ${machine.name} added!`)
+
     }
 }

@@ -38,5 +38,6 @@ export class InvMachineCreatedListener extends Listener<InvMachineCreatedEvent> 
         await factory.save();
 
         msg.ack();
+        console.log(`InvMachine ${invMachine.id} added!`)
     }
 }

@@ -36,6 +36,7 @@ it('creates and saves a material', async () => {
 
     expect(material).toBeDefined();
     expect(material!.name).toEqual(data.name);
+    expect(material!.id.toString()).toEqual(data.id);
 });
 
 it('acks the message', async () => {

@@ -3,6 +3,9 @@ import {MongoMemoryServer} from 'mongodb-memory-server';
 import {Factory} from "../models/Factory";
 import {Material} from "../models/Material";
 import {Machine} from "../models/Machine";
+import "../models/Material";
+import "../models/InvMaterial";
+import "../models/InvMachine";
 
 let mongo: any;
 jest.mock('../nats-wrapper');

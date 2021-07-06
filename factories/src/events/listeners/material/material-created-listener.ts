@@ -21,5 +21,6 @@ export class MaterialCreatedListener extends Listener<MaterialCreatedEvent> {
         await material.save();
 
         msg.ack();
+        console.log(`Material ${material.name} added!`)
     }
 }

@@ -60,10 +60,14 @@ const materialShow = ({invMaterial}) => {
                 <h2>Quantity:
                     {invMaterial.quantity}
                 </h2>
+                <h2>
+                    Price:
+                    {invMaterial.material.cost}
+                </h2>
             </Col>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
-                    <label>Edit Quantity</label>
+                    <label>Add/Subtract Quantity</label>
                     <input
                         value={quantity}
                         onBlur={onBlur}

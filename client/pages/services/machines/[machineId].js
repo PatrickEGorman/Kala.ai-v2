@@ -159,8 +159,9 @@ const machineShow = ({machine}) => {
 machineShow.getInitialProps = async (context, client) => {
     const {machineId} = context.query;
     const machineData = await client.get(`/api/machines/catalog/${machineId}`);
-    const materialsData = await client.get(`/api/materials/`);
-    return {machine: machineData.data, materials: materialsData.data};
+    return {
+        machine: machineData.data
+    };
 };
 
 export default machineShow;

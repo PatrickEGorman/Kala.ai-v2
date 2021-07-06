@@ -39,5 +39,7 @@ export class InvMaterialCreatedListener extends Listener<InvMaterialCreatedEvent
         await factory.save();
 
         msg.ack();
+        console.log(`InvMaterial ${invMaterial.id} added!`)
+
     }
 }

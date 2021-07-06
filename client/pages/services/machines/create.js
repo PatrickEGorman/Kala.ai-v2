@@ -12,7 +12,7 @@ const CreateMachine = ({materials}) => {
     const [operationCost, setOperationCost] = useState("");
     const [laborCost, setLaborCost] = useState("");
     const {doRequest, errors} = useRequest({
-        url: "/api/machines/catalog",
+        url: "/api/machines/catalog/",
         method: "post",
         body: {
             name,
@@ -146,7 +146,7 @@ const CreateMachine = ({materials}) => {
 };
 
 CreateMachine.getInitialProps = async (context, client) => {
-    const {data} = await client.get("/api/materials/");
+    const {data} = await client.get("/api/materials/catalog/");
     return {materials: data};
 };
 

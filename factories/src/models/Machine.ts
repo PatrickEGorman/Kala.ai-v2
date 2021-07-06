@@ -23,6 +23,7 @@ const MachineSchema = new mongoose.Schema({
     },
     material: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Material',
         required: true
     }
 }, {

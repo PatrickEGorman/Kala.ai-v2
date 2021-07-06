@@ -41,6 +41,7 @@ it('creates and saves a invMaterial', async () => {
     const invMaterial = await InvMaterial.findById(data.id);
 
     expect(invMaterial).toBeDefined();
+    expect(invMaterial!.id.toString()).toEqual(data.id);
     expect(invMaterial!.material.toString()).toEqual(material.id);
     expect(invMaterial!.factory.toString()).toEqual(factory.id);
     expect(invMaterial!.quantity).toEqual(data.quantity);

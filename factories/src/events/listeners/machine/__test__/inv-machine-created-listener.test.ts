@@ -40,6 +40,7 @@ it('creates and saves a invMachine', async () => {
     const invMachine = await InvMachine.findById(data.id);
 
     expect(invMachine).toBeDefined();
+    expect(invMachine!.id.toString()).toEqual(data.id);
     expect(invMachine!.machine.toString()).toEqual(machine.id);
     expect(invMachine!.factory.toString()).toEqual(factory.id);
 
