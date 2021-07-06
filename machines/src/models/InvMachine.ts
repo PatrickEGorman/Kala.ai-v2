@@ -21,12 +21,8 @@ interface InvMachineDoc extends mongoose.Document {
 }
 
 const InvMachineSchema = new mongoose.Schema({
-    totalAge: {
-        Number
-    },
-    uptime: {
-        Number
-    },
+    totalAge: Number,
+    uptime: Number,
     material: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Material',
