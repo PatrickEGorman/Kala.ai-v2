@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import {MongoMemoryServer} from 'mongodb-memory-server';
 import {Factory} from "../models/Factory";
 import {Material} from "../models/Material";
+import {Machine} from "../models/Machine";
 
 let mongo: any;
 jest.mock('../nats-wrapper');
@@ -53,4 +54,15 @@ const testMaterial = async () => {
     return material;
 }
 
-export {testMaterial, testFactory};
+const testMachine = async () => {
+    const material = await testMaterial();
+    const machine = Machine.build({
+        id: mongoose.Types.ObjectId().toHexString(),
+        name: "3d Printer",
+        material
+    })
+    await machine.save();
+    return machine;
+}
+
+export {testMaterial, testFactory, testMachine};

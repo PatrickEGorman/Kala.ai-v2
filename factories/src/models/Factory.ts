@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import {InvMaterialDoc} from "./InvMaterial";
+import {InvMachineDoc} from "./InvMachine";
 
 
 export interface FactoryAttrs {
@@ -14,7 +16,7 @@ interface FactoryModel extends mongoose.Model<FactoryDoc> {
     build(attrs: FactoryAttrs): FactoryDoc;
 }
 
-interface FactoryDoc extends mongoose.Document {
+export interface FactoryDoc extends mongoose.Document {
     name: string;
     location: { lat: number, long: number };
     cost: number;
@@ -22,6 +24,8 @@ interface FactoryDoc extends mongoose.Document {
     maintenanceTime: number;
     maintenanceCost: number;
     uptime: number;
+    machines: [InvMachineDoc];
+    materials: [InvMaterialDoc];
 }
 
 const FactorySchema = new mongoose.Schema({
@@ -57,7 +61,13 @@ const FactorySchema = new mongoose.Schema({
         type: Number,
         default: 0,
         min: 0
-    }
+    },
+    machines: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "InvMachine",
+    }],
+    materials: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "InvMaterial",
+    }],
 }, {
     toJSON: {
         transform(doc, ret) {
