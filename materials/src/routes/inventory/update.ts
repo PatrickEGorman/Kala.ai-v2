@@ -35,7 +35,7 @@ router.post('/api/materials/inventory/:id',
         invMaterial.save();
         await new InvMaterialUpdatedPublisher(natsWrapper.client).publish({
             id: invMaterial.id,
-            quantity: quantity,
+            quantity: parseFloat(req.body.quantity),
             factoryId: invMaterial.factory.id
         })
         res.status(200).send(invMaterial);

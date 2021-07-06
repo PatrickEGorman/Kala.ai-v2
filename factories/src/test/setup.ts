@@ -1,14 +1,7 @@
 import mongoose from "mongoose";
 import {MongoMemoryServer} from 'mongodb-memory-server';
-import {FactoryAttrs} from "../models/factory";
-
-declare global {
-    namespace NodeJS {
-        interface Global {
-            factoryParams: any;
-        }
-    }
-}
+import {Factory} from "../models/Factory";
+import {Material} from "../models/Material";
 
 let mongo: any;
 jest.mock('../nats-wrapper');
@@ -35,12 +28,29 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
-global.factoryParams = {
-    name: 'test',
-    maintenanceTime: 10,
-    maintenanceCost: 20,
-    storage: 30,
-    cost: 40,
-    lat: 37.5,
-    long: 77.4
+const testFactory = async () => {
+    const factoryObj = Factory.build({
+        name: 'test',
+        maintenanceTime: 10,
+        maintenanceCost: 20,
+        storage: 30,
+        cost: 40,
+        location: {
+            lat: 37.5,
+            long: 77.4
+        }
+    })
+    await factoryObj.save()
+    return factoryObj;
 }
+
+const testMaterial = async () => {
+    const material = Material.build({
+        id: mongoose.Types.ObjectId().toHexString(),
+        name: "Plastic",
+    })
+    await material.save();
+    return material;
+}
+
+export {testMaterial, testFactory};

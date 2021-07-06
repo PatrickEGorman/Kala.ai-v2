@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import {NotFoundError, validateRequest} from "@kala.ai/common";
-import {Factory} from "../models/factory";
+import {Factory} from "../models/Factory";
 import {natsWrapper} from "../nats-wrapper";
 import {FactoryUpdatedPublisher} from "../events/publishers/factory-updated-publisher";
 import {body} from "express-validator";
@@ -25,7 +25,7 @@ router.post('/api/factories/:id',
         body("storage")
             .default(0)
             .isFloat({min: 0})
-            .withMessage("Storage must be positive number"),
+            .withMessage("Storage must be positive number")
     ],
     validateRequest,
     async (req: Request, res: Response) => {
@@ -39,12 +39,10 @@ router.post('/api/factories/:id',
         } = req.body;
 
 
-        maintenanceTime > 0 ? factory.set({maintenanceTime: maintenanceTime}) : console.log("MaintenanceTime not" +
-            " changed")
-        maintenanceCost > 0 ? factory.set({maintenanceCost: maintenanceCost}) : console.log("MaintenanceCost not" +
-            " changed")
-        cost > 0 ? factory.set({cost}) : console.log("Cost not changed")
-        storage > 0 ? factory.set({storage}) : console.log("Storage not changed")
+        maintenanceTime > 0 ? factory.set({maintenanceTime}) : {}
+        maintenanceCost > 0 ? factory.set({maintenanceCost}) : {}
+        cost > 0 ? factory.set({cost}) : {}
+        storage > 0 ? factory.set({storage}) : {}
 
         factory.save();
 

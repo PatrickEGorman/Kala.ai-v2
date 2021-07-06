@@ -1,5 +1,5 @@
 import express, {Request, Response} from "express";
-import {Factory} from "../models/factory";
+import {Factory} from "../models/Factory";
 import {NotFoundError} from "@kala.ai/common";
 
 
