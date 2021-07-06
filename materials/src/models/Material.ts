@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import {MaterialFieldAttrs} from "@kala.ai/common";
 
 export interface MaterialAttrs {
     name: string,
@@ -10,7 +9,7 @@ interface MaterialModel extends mongoose.Model<MaterialDoc> {
     build(attrs: MaterialAttrs): MaterialDoc;
 }
 
-interface MaterialDoc extends mongoose.Document {
+export interface MaterialDoc extends mongoose.Document {
     name: string,
     cost: number
 }

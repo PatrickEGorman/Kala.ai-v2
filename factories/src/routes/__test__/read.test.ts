@@ -1,6 +1,7 @@
 import request from "supertest";
 import {app} from "../../app";
 import mongoose from "mongoose";
+import {testFactory} from "../../test/setup";
 
 it('returns 404 if the Factory_fields is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -12,16 +13,12 @@ it('returns 404 if the Factory_fields is not found', async () => {
 });
 
 it("returns the Factory_fields if the factory_fields is found", async () => {
-    const response = await request(app)
-        .post('/api/factories')
-        .send(
-            global.factoryParams
-        ).expect(201);
+    const factory = await testFactory();
 
     const factoryResponse = await request(app)
-        .get(`/api/factories/${response.body.id}`)
+        .get(`/api/factories/${factory.id}`)
         .send()
         .expect(200)
 
-    expect(factoryResponse.body.name).toEqual(global.factoryParams.name)
+    expect(factoryResponse.body.name).toEqual(factory.name)
 });

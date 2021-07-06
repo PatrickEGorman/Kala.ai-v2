@@ -12,7 +12,7 @@ const CreateMachine = ({materials}) => {
     const [operationCost, setOperationCost] = useState("");
     const [laborCost, setLaborCost] = useState("");
     const {doRequest, errors} = useRequest({
-        url: "/api/machines/catalog",
+        url: "/api/machines/catalog/",
         method: "post",
         body: {
             name,
@@ -40,34 +40,34 @@ const CreateMachine = ({materials}) => {
     });
 
     const onBlur = () => {
-        if (isNaN(maintenanceTime)) {
+        if (isNaN(parseFloat(maintenanceTime))) {
             setMaintenanceTime("");
             return;
         }
-        if (isNaN(errorRate)) {
+        if (isNaN(parseFloat(errorRate))) {
             setErrorRate("");
             return;
         }
-        if (isNaN(initialCost)) {
+        if (isNaN(parseFloat(initialCost))) {
             setInitialCost("");
             return;
         }
-        if (isNaN(maintenanceCost)) {
+        if (isNaN(parseFloat(maintenanceCost))) {
             setMaintenanceCost("");
             return;
         }
-        if (isNaN(operationCost)) {
+        if (isNaN(parseFloat(operationCost))) {
             setOperationCost("");
             return;
         }
-        if (isNaN(laborCost)) {
+        if (isNaN(parseFloat(laborCost))) {
             setLaborCost("");
         }
     };
 
     return (
         <form onSubmit={onSubmit}>
-            <h1>Create Machine</h1>
+            <h1>Create Catalog Machine</h1>
             <div className="form-group">
                 <label>Machine Name</label>
                 <input
@@ -146,7 +146,7 @@ const CreateMachine = ({materials}) => {
 };
 
 CreateMachine.getInitialProps = async (context, client) => {
-    const {data} = await client.get("/api/materials/");
+    const {data} = await client.get("/api/materials/catalog/");
     return {materials: data};
 };
 

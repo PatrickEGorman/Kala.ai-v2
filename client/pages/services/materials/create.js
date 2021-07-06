@@ -1,12 +1,12 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import Router from "next/router";
 import useRequest from "../../../hooks/use-request";
 
-export default () => {
+const CreateMaterial = () => {
     const [name, setName] = useState("");
     const [cost, setCost] = useState("");
     const {doRequest, errors} = useRequest({
-        url: "/api/materials/",
+        url: "/api/materials/catalog/",
         method: "post",
         body: {
             name,
@@ -57,3 +57,5 @@ export default () => {
         </form>
     );
 };
+
+export default CreateMaterial;

@@ -1,6 +1,6 @@
 import request from 'supertest'
 import {app} from "../../app";
-import {Factory} from "../../models/factory";
+import {Factory} from "../../models/Factory";
 import {natsWrapper} from "../../nats-wrapper";
 
 it('has a route handler listening to /api/factories for post requests', async () => {
@@ -54,8 +54,15 @@ it('makes sure create event is published', async () => {
 
     await request(app)
         .post('/api/factories')
-        .send(
-            global.factoryParams
+        .send({
+                name: 'test',
+                maintenanceTime: 10,
+                maintenanceCost: 20,
+                storage: 30,
+                cost: 40,
+                lat: 37.5,
+                long: 77.4
+            }
         )
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();

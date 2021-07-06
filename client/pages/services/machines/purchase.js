@@ -12,7 +12,8 @@ const CreateMachine = ({machines, factories}) => {
             machine,
             factory
         },
-        onSuccess: (machine) => Router.push("/services/machines/inventory")
+        onSuccess: (machine) => Router.push("/services/machines/inventory/[machineId]",
+            `/services/machines/inventory/${machine.id}`)
     });
 
     const onSubmit = async event => {
@@ -23,7 +24,7 @@ const CreateMachine = ({machines, factories}) => {
 
     const machinesList = machines.map((m) => {
         return <option key={m.id} value={m.id}>
-            Machine: {m.name} Material: {m.material.name}
+            Machine: {m.name} Material: {m.material.name} Cost: {m.initialCost}
         </option>;
     });
     const factoriesList = factories.map((f) => {
@@ -36,7 +37,7 @@ const CreateMachine = ({machines, factories}) => {
         <form onSubmit={onSubmit}>
             <h1>Purchase Machine</h1>
             <div className="form-group">
-                <label>Machine/Material</label>
+                <label>Machine/Material/Machine Cost</label>
                 <select className={"form-select form-select-lg mb-3"} aria-label={".form-select-lg"}
                         onChange={e => {
                             setMachine(e.target.value);
@@ -56,7 +57,7 @@ const CreateMachine = ({machines, factories}) => {
                 </select>
             </div>
             {errors}
-            <button className="btn btn-primary">Create</button>
+            <button className="btn btn-primary">Buy</button>
         </form>
     );
 };

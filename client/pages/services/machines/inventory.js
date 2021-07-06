@@ -4,9 +4,9 @@ import useRequest from "../../../hooks/use-request";
 const MachinesList = ({invMachines}) => {
     const invMachineList = invMachines.map(invMachine => {
         const deleteRequest = useRequest({
-            url: `/api/machines/catalog/${invMachine.id}`,
+            url: `/api/machines/inventory/${invMachine.id}`,
             method: "delete",
-            onSuccess: (machine) => location.reload()
+            onSuccess: () => location.reload()
         });
         const onDeleteSubmit = async event => {
             event.preventDefault();
@@ -23,7 +23,8 @@ const MachinesList = ({invMachines}) => {
                 <td><Link href={`/services/factories/[factoryId]`} as={`/services/factories/${invMachine.factory.id}`}>
                     {invMachine.factory.name}</Link></td>
                 <td>
-                    <Link href={`/services/machines/[machineId]`} as={`/services/machines/${invMachine.id}`}>
+                    <Link href={`/services/machines/inventory/[inventoryId]`}
+                          as={`/services/machines/inventory/${invMachine.id}`}>
                         <a className={"btn btn-primary btn-sm"}>View</a>
                     </Link>
                 </td>

@@ -1,7 +1,7 @@
 import express, {Request, Response} from "express";
-import {NotFoundError, validateRequest} from '@kala.ai/common';
+import {validateRequest} from '@kala.ai/common';
 import {body} from "express-validator";
-import {Factory} from "../models/factory";
+import {Factory} from "../models/Factory";
 import {FactoryCreatedPublisher} from "../events/publishers/factory-created-publisher";
 import {natsWrapper} from "../nats-wrapper";
 

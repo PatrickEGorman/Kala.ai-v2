@@ -1,23 +1,23 @@
 import request from "supertest";
-import {app} from "../../app";
+import {app} from "../../../app";
 import mongoose from "mongoose";
-import {natsWrapper} from "../../nats-wrapper";
+import {natsWrapper} from "../../../nats-wrapper";
 
-it('returns 404 if the material_fields to update is not found', async () => {
+it('returns 404 if the material to update is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
 
     await request(app)
-        .post(`/api/materials/${id}`)
-        .send({cost: 10, quantity: 10})
+        .post(`/api/materials/catalog/${id}`)
+        .send({cost: 10})
         .expect(404)
 });
 
-it("updates the material_fields quantity/cost", async () => {
+it("updates the material cost", async () => {
     const name = 'concert';
     let cost = 20;
 
     const response = await request(app)
-        .post('/api/materials')
+        .post('/api/materials/catalog')
         .send({
             name, cost
         })
@@ -26,7 +26,7 @@ it("updates the material_fields quantity/cost", async () => {
     cost = 10;
 
     const materialResponse = await request(app)
-        .post(`/api/materials/${response.body.id}`)
+        .post(`/api/materials/catalog/${response.body.id}`)
         .send({cost})
         .expect(200)
 
@@ -40,13 +40,13 @@ it("checks if an update event is emitted", async () => {
     let cost = 20;
 
     const response = await request(app)
-        .post('/api/materials')
+        .post('/api/materials/catalog')
         .send({
             name, cost
         })
 
     const materialResponse = await request(app)
-        .post(`/api/materials/${response.body.id}`)
+        .post(`/api/materials/catalog/${response.body.id}`)
         .send({cost: 10})
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();

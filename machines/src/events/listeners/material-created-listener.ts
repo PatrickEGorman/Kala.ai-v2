@@ -12,7 +12,7 @@ export class MaterialCreatedListener extends Listener<MaterialCreatedEvent> {
     };
 
     async onMessage(data: MaterialCreatedEvent['data'], msg: Message) {
-        const {id, name, cost} = data;
+        const {id, name} = data;
 
         const material = Material.build({
             id,

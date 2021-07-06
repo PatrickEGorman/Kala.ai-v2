@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 import {app} from "./app";
 import {natsWrapper} from "./nats-wrapper";
+import {MaterialCreatedListener} from "./events/listeners/material/material-created-listener";
+import {MachineCreatedListener} from "./events/listeners/machine/machine-created-listener";
+import {InvMaterialCreatedListener} from "./events/listeners/material/inv-material-created-listener";
+import {InvMachineCreatedListener} from "./events/listeners/machine/inv-machine-created-listener";
 
 const start = async () => {
     if (!process.env.MONGO_URI) {
@@ -27,6 +31,11 @@ const start = async () => {
         });
         process.on('SIGINT', () => natsWrapper.client.close());
         process.on('SIGTERM', () => natsWrapper.client.close());
+
+        new MaterialCreatedListener(natsWrapper.client).listen();
+        new MachineCreatedListener(natsWrapper.client).listen();
+        new InvMaterialCreatedListener(natsWrapper.client).listen();
+        new InvMachineCreatedListener(natsWrapper.client).listen();
 
         await mongoose.connect(process.env.MONGO_URI, {
             useNewUrlParser: true,

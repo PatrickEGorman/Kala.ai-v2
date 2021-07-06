@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
-import {Factory} from "../models/factory";
-import {NotFoundError, validateRequest} from "@kala.ai/common";
+import {Factory} from "../models/Factory";
+import {NotFoundError} from "@kala.ai/common";
 import {FactoryDeletedPublisher} from "../events/publishers/factory-deleted-publisher";
 import {natsWrapper} from "../nats-wrapper";
 

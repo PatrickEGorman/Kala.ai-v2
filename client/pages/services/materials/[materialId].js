@@ -5,7 +5,7 @@ import {useState} from "react";
 const materialShow = ({material}) => {
     const [cost, setCost] = useState("");
     const {doRequest, errors} = useRequest({
-        url: `/api/materials/${material.id}`,
+        url: `/api/materials/catalog/${material.id}`,
         method: "post",
         body: {
             cost
@@ -31,7 +31,7 @@ const materialShow = ({material}) => {
     };
 
     const deleteRequest = useRequest({
-        url: `/api/materials/${material.id}`,
+        url: `/api/materials/catalog/${material.id}`,
         method: "delete",
         onSuccess: () => Router.push("/services/materials/list")
     });
@@ -70,7 +70,7 @@ const materialShow = ({material}) => {
 
 materialShow.getInitialProps = async (context, client) => {
     const {materialId} = context.query;
-    const {data} = await client.get(`/api/materials/${materialId}`);
+    const {data} = await client.get(`/api/materials/catalog/${materialId}`);
 
     return {material: data};
 };
