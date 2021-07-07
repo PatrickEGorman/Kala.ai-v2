@@ -1,19 +1,20 @@
 import mongoose from 'mongoose';
-import {ProcessDoc} from "./Process";
+import {StepDoc} from "./Step";
 
 interface ProductAttrs {
     SKU: string;
     Name: string;
-    Process: ProcessDoc;
-    Variants: [{ name: string, materials: { type: string, amount: number, time: number }, image: String, price: number }];
-    Complexity: number;
+    Steps: StepDoc[];
 }
 
 interface ProductModel extends mongoose.Model<ProductDoc> {
     build(attrs: ProductAttrs): ProductDoc;
 }
 
-interface ProductDoc extends mongoose.Document, ProductAttrs {
+interface ProductDoc extends mongoose.Document {
+    SKU: string;
+    Name: string;
+    Steps: StepDoc[];
 }
 
 const ProductSchema = new mongoose.Schema({
@@ -26,19 +27,18 @@ const ProductSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    process: {
-        type: mongoose.Schema.Types.ObjectId,
+    steps: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Step"
+        }],
         required: true
     },
-    complexity: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    variants: {
-        type: [{name: String, materials: {type: String, amount: Number, time: Number}, image: String, price: Number}],
-        required: true
-    }
+    // complexity: {
+    //     type: Number,
+    //     required: true,
+    //     min: 0
+    // }
 }, {
     toJSON: {
         transform(doc, ret) {
