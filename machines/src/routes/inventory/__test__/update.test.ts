@@ -3,6 +3,7 @@ import {app} from "../../../app";
 import mongoose from "mongoose";
 import {natsWrapper} from "../../../nats-wrapper";
 import {InvMachine} from "../../../models/InvMachine";
+import {invTestObj} from "../../../test/setup";
 
 it('returns 404 if the invMachine_fields to update is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -14,7 +15,7 @@ it('returns 404 if the invMachine_fields to update is not found', async () => {
 });
 
 it("updates the invMachine uptime", async () => {
-    const {machine, factory} = await global.invTestObj();
+    const {machine, factory} = await invTestObj();
 
     const response = await request(app)
         .post('/api/machines/inventory')
@@ -37,7 +38,7 @@ it("updates the invMachine uptime", async () => {
 });
 
 it("checks if an update event is emitted", async () => {
-    const {machine, factory} = await global.invTestObj();
+    const {machine, factory} = await invTestObj();
 
     const response = await request(app)
         .post('/api/machines/inventory')
@@ -45,7 +46,7 @@ it("checks if an update event is emitted", async () => {
             machine: machine._id, factory: factory._id
         })
 
-    const invMachineResponse = await request(app)
+    await request(app)
         .post(`/api/machines/inventory/${response.body.id}`)
         .send({uptime: 10})
 

@@ -1,6 +1,7 @@
 import request from "supertest";
 import {app} from "../../../app";
 import mongoose from "mongoose";
+import {invTestObj} from "../../../test/setup";
 
 it('returns 404 if the invMachine_fields is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -12,7 +13,7 @@ it('returns 404 if the invMachine_fields is not found', async () => {
 });
 
 it("returns the invMachine_fields if the invMachine_fields is found", async () => {
-    const {material, machine, factory} = await global.invTestObj();
+    const {material, machine, factory} = await invTestObj();
 
     const response = await request(app)
         .post('/api/machines/inventory')

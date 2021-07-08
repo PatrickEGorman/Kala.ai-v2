@@ -2,6 +2,7 @@ import request from 'supertest'
 import {app} from "../../../app";
 import {InvMachine} from "../../../models/InvMachine";
 import {natsWrapper} from "../../../nats-wrapper";
+import {invTestObj} from "../../../test/setup";
 
 it('has a route handler listening to /api/machines/inventory for post requests', async () => {
     const response = await request(app)
@@ -22,7 +23,7 @@ it('creates a invMachine with valid inputs', async () => {
     let invMachines = await InvMachine.find({});
     expect(invMachines.length).toEqual(0)
 
-    const {material, machine, factory} = await global.invTestObj();
+    const {material, machine, factory} = await invTestObj();
     const response = await request(app)
         .post('/api/machines/inventory')
         .send({
@@ -40,9 +41,9 @@ it('creates a invMachine with valid inputs', async () => {
 
 
 it('makes sure create event is published', async () => {
-    const {machine, factory} = await global.invTestObj();
+    const {machine, factory} = await invTestObj();
 
-    const response = await request(app)
+    await request(app)
         .post('/api/machines/inventory')
         .send({
             machine: machine._id, factory: factory._id
