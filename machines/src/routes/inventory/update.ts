@@ -26,10 +26,7 @@ router.post('/api/machines/inventory/:id',
             uptime
         } = req.body;
 
-        console.log(invMachine.uptime);
-
         invMachine.set({uptime});
-        console.log(invMachine.uptime)
 
         await invMachine.save();
 
