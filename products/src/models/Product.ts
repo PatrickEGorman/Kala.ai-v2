@@ -5,6 +5,7 @@ interface ProductAttrs {
     SKU: string;
     Name: string;
     Steps: StepDoc[];
+    value: number
 }
 
 interface ProductModel extends mongoose.Model<ProductDoc> {
@@ -15,12 +16,14 @@ interface ProductDoc extends mongoose.Document {
     SKU: string;
     Name: string;
     Steps: StepDoc[];
+    value: number;
 }
 
 const ProductSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true
     },
     SKU: {
         type: String,
@@ -34,6 +37,10 @@ const ProductSchema = new mongoose.Schema({
         }],
         required: true
     },
+    value: {
+        type: Number,
+        required: true
+    }
     // complexity: {
     //     type: Number,
     //     required: true,

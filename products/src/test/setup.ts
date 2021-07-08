@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
 import {MongoMemoryServer} from 'mongodb-memory-server';
-import {Material} from "../../../factories/src/models/Material";
-import {Machine} from "../../../factories/src/models/Machine";
+import {Material} from "../models/Material";
+import {Machine} from "../models/Machine";
+import {Step} from "../models/Step";
 
 let mongo: any;
 jest.mock('../nats-wrapper');
 
 beforeAll(async () => {
+    jest.clearAllMocks();
+
     mongo = new MongoMemoryServer();
     const mongoUri = await mongo.getUri();
 
@@ -47,3 +50,26 @@ const testMachine = async () => {
     await machine.save();
     return machine;
 }
+
+const testStep = async () => {
+    const machine = await testMachine();
+    const material = machine.populate("material").material;
+
+    const name = "testStep"
+    const quantity = Math.random() * 100;
+    const stepTime = Math.random() * 100;
+
+    const step = await Step.build({
+        name,
+        machine,
+        material,
+        quantity,
+        stepTime
+    })
+
+    await step.save();
+
+    return {step, machine, material}
+}
+
+export {testMaterial, testMachine, testStep}

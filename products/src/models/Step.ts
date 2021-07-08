@@ -26,7 +26,8 @@ export interface StepDoc extends mongoose.Document {
 const StepSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     machine: {
         type: mongoose.Schema.Types.ObjectId,
@@ -38,13 +39,16 @@ const StepSchema = new mongoose.Schema({
     },
     quantity: {
         type: Number,
+        min: 0
     },
     stepTime: {
         type: Number,
-        required: true
+        required: true,
+        min: 0
     },
     downTime: {
         type: Number,
+        min: 0
     }
 }, {
     toJSON: {
@@ -55,15 +59,20 @@ const StepSchema = new mongoose.Schema({
 })
 
 StepSchema.statics.build = async (attrs: StepAttrs) => {
-    if (typeof attrs.machine != undefined && typeof attrs.material != undefined) {
-        if (attrs.machine!.material._id != attrs.material!.id) {
-            throw new BadRequestError("Step Material must be the same as the machine material")
+    if (attrs.machine !== undefined && attrs.material !== undefined) {
+        if (attrs.machine.material._id != attrs.material.id) {
+            throw new BadRequestError("Step Material must be the same as the machine material");
         }
-    } else if (typeof attrs.machine != undefined && !attrs.material) {
-        // @ts-ignore
-        attrs.material = await Material.findById(attrs.machine!.material.id);
-    } else if (!attrs.machine && !attrs.material) {
+    } else if (attrs.machine !== undefined && !attrs.material) {
+        attrs.material = attrs.machine.populate("material").material;
+    }
+    if (!attrs.material) {
+        if (attrs.quantity !== 0 && attrs.quantity !== undefined) {
+            throw new BadRequestError("Material quantity must be 0 for steps not involving a material");
+        }
         attrs.quantity = 0;
+    } else if (attrs.quantity === undefined || attrs.quantity <= 0) {
+        throw new BadRequestError("Material quantity must be specified and positive for steps involving a material");
     }
 
     return new Step(attrs);
