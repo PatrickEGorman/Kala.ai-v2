@@ -5,10 +5,12 @@ import Header from "../components/header";
 import {Container} from "react-bootstrap";
 
 const AppComponent = ({Component, pageProps}) => {
+    const title = pageProps.title || undefined;
     return (
         <>
             <Head>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title>{title || "Kala.ai V2"}</title>
             </Head>
             <div>
                 <Header/>
