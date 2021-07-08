@@ -3,6 +3,7 @@ import {MongoMemoryServer} from 'mongodb-memory-server';
 import {Material} from "../models/Material";
 import {Machine} from "../models/Machine";
 import {Step} from "../models/Step";
+import {Product} from "../models/Product";
 
 let mongo: any;
 jest.mock('../nats-wrapper');
@@ -51,11 +52,13 @@ const testMachine = async () => {
     return machine;
 }
 
-const testStep = async () => {
+const testStep = async (name?: string) => {
     const machine = await testMachine();
     const material = machine.populate("material").material;
 
-    const name = "testStep"
+    if (!name) {
+        name = "testStep"
+    }
     const quantity = Math.random() * 100;
     const stepTime = Math.random() * 100;
 
@@ -72,4 +75,18 @@ const testStep = async () => {
     return {step, machine, material}
 }
 
-export {testMaterial, testMachine, testStep}
+const testProduct = async () => {
+    const {step} = await testStep();
+    const name = "testProduct";
+    const SKU = "Tester";
+    const value = Math.random() * 100 + 1;
+
+    const product = await Product.build({
+        name, SKU, value, steps: [step]
+    })
+    await product.save();
+
+    return product;
+}
+
+export {testMaterial, testMachine, testStep, testProduct}

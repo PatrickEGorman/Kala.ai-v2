@@ -49,7 +49,7 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
-global.material = async () => {
+const testMaterial = async () => {
     const material = Material.build({
         id: mongoose.Types.ObjectId().toHexString(),
         name: "Wood",
@@ -58,8 +58,8 @@ global.material = async () => {
     return material
 }
 
-global.machineParams = async () => {
-    const material = await global.material();
+const machineParams = async () => {
+    const material = await testMaterial();
 
     return {
         name: "test",
@@ -73,8 +73,8 @@ global.machineParams = async () => {
     }
 }
 
-global.invTestObj = async () => {
-    const material = await global.material();
+const invTestObj = async () => {
+    const material = await testMaterial();
     const machine = Machine.build({
         name: "test",
         maintenanceTime: 55,
@@ -94,3 +94,5 @@ global.invTestObj = async () => {
     await factory.save();
     return {material, machine, factory}
 }
+
+export {testMaterial, machineParams, invTestObj}

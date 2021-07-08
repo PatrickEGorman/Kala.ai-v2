@@ -2,7 +2,7 @@ import {useState} from "react";
 import Router from "next/router";
 import useRequest from "../../../hooks/use-request";
 
-const CreateMachine = ({machines, factories}) => {
+const PurchaseMachine = ({machines, factories}) => {
     const [machine, setMachine] = useState("");
     const [factory, setFactory] = useState("");
     const {doRequest, errors} = useRequest({
@@ -62,10 +62,10 @@ const CreateMachine = ({machines, factories}) => {
     );
 };
 
-CreateMachine.getInitialProps = async (context, client) => {
+PurchaseMachine.getInitialProps = async (context, client) => {
     const machinesData = await client.get("/api/machines/catalog/");
-    const factoriesData = await client.get("/api/factories/");
-    return {machines: machinesData.data, factories: factoriesData.data};
+    const factoriesData = await client.get("/api/factories/catalog/");
+    return {machines: machinesData.data, factories: factoriesData.data, title: "Purchase a Machine"};
 };
 
-export default CreateMachine;
+export default PurchaseMachine;

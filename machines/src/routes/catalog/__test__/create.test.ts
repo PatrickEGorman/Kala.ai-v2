@@ -2,6 +2,7 @@ import request from 'supertest'
 import {app} from "../../../app";
 import {Machine} from "../../../models/Machine";
 import {natsWrapper} from "../../../nats-wrapper";
+import {machineParams, testMaterial} from "../../../test/setup";
 
 it('has a route handler listening to /api/machines/catalog for post requests', async () => {
     const response = await request(app)
@@ -24,7 +25,7 @@ it('creates a machine with valid inputs', async () => {
 
     const name = "test";
     const maintenanceTime = 55;
-    const materialDoc = await global.material();
+    const materialDoc = await testMaterial();
     const errorRate = .05;
     const initialCost = 500;
     const maintenanceCost = 100;
@@ -54,7 +55,7 @@ it('creates a machine with valid inputs', async () => {
 
 
 it('makes sure create event is published', async () => {
-    const params = await global.machineParams();
+    const params = await machineParams();
 
     await request(app)
         .post('/api/machines/catalog')

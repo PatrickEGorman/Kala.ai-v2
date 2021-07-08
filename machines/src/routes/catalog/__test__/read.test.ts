@@ -1,6 +1,7 @@
 import request from "supertest";
 import {app} from "../../../app";
 import mongoose from "mongoose";
+import {machineParams} from "../../../test/setup";
 
 it('returns 404 if the machine_fields is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -12,7 +13,7 @@ it('returns 404 if the machine_fields is not found', async () => {
 });
 
 it("returns the machine_fields if the machine_fields is found", async () => {
-    const params = await global.machineParams();
+    const params = await machineParams();
 
     const response = await request(app)
         .post('/api/machines/catalog')

@@ -44,7 +44,7 @@ router.post('/api/machines/catalog', [
 
     const materialObj = await Material.findById(material);
     if (!materialObj) {
-        throw new NotFoundError();
+        throw new NotFoundError("Material");
     }
     const machine = Machine.build({
         name, maintenanceTime, material: materialObj, errorRate, initialCost, maintenanceCost,

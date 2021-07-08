@@ -3,6 +3,7 @@ import {app} from "../../../app";
 import mongoose from "mongoose";
 import {InvMachine} from "../../../models/InvMachine";
 import {natsWrapper} from "../../../nats-wrapper";
+import {invTestObj} from "../../../test/setup";
 
 it('returns 404 if the invMachine to delete is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -14,7 +15,7 @@ it('returns 404 if the invMachine to delete is not found', async () => {
 
 
 it("deletes an existing invMachine", async () => {
-    const {machine, factory} = await global.invTestObj();
+    const {machine, factory} = await invTestObj();
 
     const response = await request(app)
         .post('/api/machines/inventory')
@@ -33,7 +34,7 @@ it("deletes an existing invMachine", async () => {
 
 
 it("checks if a delete event is emitted", async () => {
-    const {machine, factory} = await global.invTestObj();
+    const {machine, factory} = await invTestObj();
 
     const response = await request(app)
         .post('/api/machines/inventory')

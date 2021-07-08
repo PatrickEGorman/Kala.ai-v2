@@ -28,8 +28,14 @@ router.post('/api/machines/inventory', [
     const factoryObj = await Factory.findById(factory);
     const machineObj = await Machine.findById(machine);
 
-    if (!factoryObj || !machineObj) {
-        throw new NotFoundError();
+    if (!factoryObj && !machineObj) {
+        throw new NotFoundError("Factory and Machine");
+    }
+    if (!factoryObj) {
+        throw new NotFoundError("Factory");
+    }
+    if (!machineObj) {
+        throw new NotFoundError("Machine");
     }
 
     const invMachine = await InvMachine.build({
