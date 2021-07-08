@@ -11,10 +11,15 @@ import {Machine} from "../../models/Machine";
 const router = express.Router();
 
 router.post('/api/products/steps', [
-    body('stepTime')
+    body("name")
         .not()
         .isEmpty()
-        .withMessage("Step time must be provided")
+        .withMessage("Name must be provided"),
+    body("quantity")
+        .default(0)
+        .isFloat({min: 0})
+        .withMessage("Quantity must be positive number"),
+    body('stepTime')
         .isFloat({gt: 0})
         .withMessage("Step time must be a positive number"),
 ], validateRequest, async (req: Request, res: Response) => {
@@ -28,12 +33,16 @@ router.post('/api/products/steps', [
         if (!material) {
             throw new NotFoundError("Material");
         }
+    } else {
+        material = undefined;
     }
     if (machine !== "" && machine !== undefined) {
         machine = await Machine.findById(machine);
         if (!machine) {
             throw new NotFoundError("Machine");
         }
+    } else {
+        machine = undefined;
     }
 
     const step = await Step.build({

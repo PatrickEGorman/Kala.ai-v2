@@ -13,7 +13,6 @@ const app = express();
 app.set('trust proxy', true);
 app.use(json());
 
-app.use(errorHandler);
 app.use(createStepRouter);
 app.use(readStepRouter);
 app.use(listStepRouter);
@@ -23,5 +22,7 @@ app.use(deleteStepRouter);
 app.all('*', async (req, res, next) => {
     throw new NotFoundError();
 })
+
+app.use(errorHandler);
 
 export {app};

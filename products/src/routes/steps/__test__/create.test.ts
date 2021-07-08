@@ -4,13 +4,6 @@ import {Step} from "../../../models/Step";
 import {natsWrapper} from "../../../nats-wrapper";
 import {testMachine, testMaterial} from "../../../test/setup";
 
-it('has a route handler listening to /api/products/steps for post requests', async () => {
-    const response = await request(app)
-        .post('/api/products/steps')
-        .send({});
-
-    expect(response.status).not.toEqual(404);
-});
 
 it('returns an error if an invalid data is provided', async () => {
     await request(app)
@@ -94,6 +87,33 @@ it('creates a step with valid machine + other inputs', async () => {
     expect(steps[0].id.toString()).toEqual(response.body.id);
     expect(steps[0].material!._id).toEqual(machine.material._id);
     expect(steps[0].machine!._id).toEqual(machine._id);
+    expect(steps[0].quantity).toEqual(quantity);
+    expect(steps[0].stepTime).toEqual(stepTime);
+});
+
+it('creates a step with valid material + other inputs', async () => {
+    let steps = await Step.find({});
+    expect(steps.length).toEqual(0)
+
+    const material = await testMaterial();
+    const quantity = Math.random() * 100 + 1;
+    const stepTime = Math.random() * 100 + 1;
+    const name = "Test";
+
+    const response = await request(app)
+        .post('/api/products/steps')
+        .send({
+            name,
+            material: material._id,
+            quantity,
+            stepTime
+        }).expect(201)
+
+    steps = await Step.find({});
+    expect(steps.length).toEqual(1)
+
+    expect(steps[0].id.toString()).toEqual(response.body.id);
+    expect(steps[0].material!._id).toEqual(material._id);
     expect(steps[0].quantity).toEqual(quantity);
     expect(steps[0].stepTime).toEqual(stepTime);
 });

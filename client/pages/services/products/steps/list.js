@@ -15,16 +15,18 @@ const StepsList = ({steps}) => {
         };
         let material = "No material";
         let machine = "No machine";
+        let quantity = "N/A";
 
-        if (step.machine !== null) {
+        if (step.machine !== undefined) {
             machine = <Link href={`/services/machines/[machineId]`}
                             as={`/services/machines/${step.machine.id}`}>
                 {step.machine.name}</Link>;
         }
-        if (step.material !== null) {
+        if (step.material !== undefined) {
             material = <Link href={`/services/materials/[materialId]`}
                              as={`/services/materials/${step.material.id}`}>
                 {step.material.name}</Link>;
+            quantity = step.quantity;
         }
         return (
             <tr key={step.id}>
@@ -32,7 +34,10 @@ const StepsList = ({steps}) => {
                 <td>{machine}</td>
                 <td>{material}</td>
                 <td>
-                    Quantity: {step.quantity}
+                    {quantity}
+                </td>
+                <td>
+                    {step.stepTime}
                 </td>
                 <td>
                     <Link href={`/services/products/steps/[stepId]`}
@@ -57,6 +62,7 @@ const StepsList = ({steps}) => {
                     <th>Machine</th>
                     <th>Material</th>
                     <th>Quantity</th>
+                    <th>Time</th>
                     <th>View</th>
                     <th>Delete</th>
                 </tr>
