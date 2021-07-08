@@ -3,8 +3,8 @@ import {StepDoc} from "./Step";
 
 interface ProductAttrs {
     SKU: string;
-    Name: string;
-    Steps: StepDoc[];
+    name: string;
+    steps: StepDoc[];
     value: number
 }
 
@@ -14,8 +14,8 @@ interface ProductModel extends mongoose.Model<ProductDoc> {
 
 interface ProductDoc extends mongoose.Document {
     SKU: string;
-    Name: string;
-    Steps: StepDoc[];
+    name: string;
+    steps: StepDoc[];
     value: number;
 }
 

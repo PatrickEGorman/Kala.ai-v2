@@ -59,11 +59,11 @@ const StepSchema = new mongoose.Schema({
 })
 
 StepSchema.statics.build = async (attrs: StepAttrs) => {
-    if (attrs.machine !== undefined && attrs.material !== undefined) {
+    if (attrs.machine != undefined && attrs.material != undefined) {
         if (attrs.machine.material._id != attrs.material.id) {
             throw new BadRequestError("Step Material must be the same as the machine material");
         }
-    } else if (attrs.machine !== undefined && !attrs.material) {
+    } else if (attrs.machine != undefined && !attrs.material) {
         attrs.material = attrs.machine.populate("material").material;
     }
     if (!attrs.material) {
