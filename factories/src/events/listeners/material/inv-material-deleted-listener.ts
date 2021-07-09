@@ -3,7 +3,6 @@ import {InvMaterialDeletedEvent, Listener, NotFoundError, Subjects} from "@kala.
 import {queueGroupName} from "../queue-group-name";
 import {InvMaterial} from "../../../models/InvMaterial";
 import {Factory} from "../../../models/Factory";
-import {Material} from "../../../models/Material";
 
 export class InvMaterialDeletedListener extends Listener<InvMaterialDeletedEvent> {
     readonly subject = Subjects.InvMaterialDeleted;
@@ -20,6 +19,15 @@ export class InvMaterialDeletedListener extends Listener<InvMaterialDeletedEvent
         if (!invMaterial) {
             throw new NotFoundError("Inventory Material")
         }
+
+        let factory = await Factory.findById(invMaterial.factory);
+        if (!factory) {
+            throw new NotFoundError("Factory")
+        }
+        const index = factory.materials.indexOf(invMaterial);
+        factory.materials.splice(index);
+        await factory.save();
+
         await invMaterial.delete();
 
 

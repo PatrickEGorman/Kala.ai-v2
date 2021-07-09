@@ -39,11 +39,11 @@ const setup = async () => {
         ack: jest.fn(),
     };
 
-    return {listener, data, msg, factoryTwo, invMaterial};
+    return {listener, data, msg, factoryTwo, factory, invMaterial};
 };
 
 it('updates and saves a invMaterial', async () => {
-    const {listener, data, msg, factoryTwo, invMaterial} = await setup();
+    const {listener, data, msg, factoryTwo, factory, invMaterial} = await setup();
 
     // call the onMessage function with the data object + message object
     await listener.onMessage(data, msg);
@@ -57,8 +57,10 @@ it('updates and saves a invMaterial', async () => {
     expect(invMaterialUp!.quantity).toEqual(data.quantity + invMaterial.quantity);
 
     const factoryWithInv = await Factory.findById(factoryTwo.id);
-
     expect(factoryWithInv!.materials[0].toString()).toEqual(invMaterial.id);
+
+    const factoryWithoutInv = await Factory.findById(factory.id);
+    expect(factoryWithoutInv!.materials.length).toEqual(0);
 });
 
 it('acks the message', async () => {
