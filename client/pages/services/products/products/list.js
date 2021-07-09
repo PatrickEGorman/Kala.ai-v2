@@ -1,12 +1,12 @@
 import Link from "next/link";
-import useRequest from "../../../hooks/use-request";
+import useRequest from "../../../../hooks/use-request";
 
-const MaterialsList = ({materials}) => {
-    const materialList = materials.map(material => {
+const ProductsList = ({products}) => {
+    const productList = products.map(product => {
         const deleteRequest = useRequest({
-            url: `/api/materials/catalog/${material.id}`,
+            url: `/api/products/products/${product.id}`,
             method: "delete",
-            onSuccess: (material) => location.reload()
+            onSuccess: (product) => location.reload()
         });
         const onDeleteSubmit = async event => {
             event.preventDefault();
@@ -14,11 +14,14 @@ const MaterialsList = ({materials}) => {
             await deleteRequest.doRequest();
         };
         return (
-            <tr key={material.id}>
-                <td>{material.name}</td>
-                <td>{material.cost}</td>
+            <tr key={product.id}>
+                <td>{product.name}</td>
+                <td>{product.steps.length}</td>
+                <td>{product.value}</td>
+                <td>{product.SKU}</td>
                 <td>
-                    <Link href={`/services/materials/[materialId]`} as={`/services/materials/${material.id}`}>
+                    <Link href={`/services/products/products/[productId]`}
+                          as={`/services/products/products/${product.id}`}>
                         <a className={"btn btn-primary btn-sm"}>View</a>
                     </Link>
                 </td>
@@ -31,27 +34,29 @@ const MaterialsList = ({materials}) => {
 
     return (
         <div>
-            <h1>Materials</h1>
+            <h1>Products</h1>
             <table className={"table"}>
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Cost</th>
+                    <th># of Steps</th>
+                    <th>Value</th>
+                    <th>SKU</th>
                     <th>View</th>
                     <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
-                {materialList}
+                {productList}
                 </tbody>
             </table>
         </div>
     );
 };
 
-MaterialsList.getInitialProps = async (context, client) => {
-    const {data} = await client.get("/api/materials/catalog/");
-    return {materials: data, title: "Materials Catalog"};
+ProductsList.getInitialProps = async (context, client) => {
+    const {data} = await client.get("/api/products/products/");
+    return {products: data};
 };
 
-export default MaterialsList;
+export default ProductsList;

@@ -52,6 +52,8 @@ const header = () => {
                     <Dropdown.Menu>
                         <Dropdown.Item href="/services/products/steps/create">Create Step</Dropdown.Item>
                         <Dropdown.Item href="/services/products/steps/list">List Steps</Dropdown.Item>
+                        <Dropdown.Item href="/services/products/products/create">Create Product</Dropdown.Item>
+                        <Dropdown.Item href="/services/products/products/list">List Product</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </ul>
