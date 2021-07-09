@@ -34,11 +34,11 @@ const setup = async () => {
         ack: jest.fn(),
     };
 
-    return {listener, data, msg};
+    return {listener, data, msg, factory};
 };
 
 it('deletes a invMaterial', async () => {
-    const {listener, data, msg} = await setup();
+    const {listener, data, msg, factory} = await setup();
 
     // call the onMessage function with the data object + message object
     await listener.onMessage(data, msg);
@@ -46,6 +46,9 @@ it('deletes a invMaterial', async () => {
     // write assertions to make sure a invMaterial was deleted!
     const invMaterials = await InvMaterial.find();
     expect(invMaterials.length).toEqual(0);
+
+    const factoryWithoutInv = await Factory.findById(factory.id);
+    expect(factoryWithoutInv!.materials.length).toEqual(0);
 });
 
 it('acks the message', async () => {

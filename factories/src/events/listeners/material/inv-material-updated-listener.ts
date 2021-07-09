@@ -3,7 +3,6 @@ import {InvMaterialUpdatedEvent, Listener, NotFoundError, Subjects} from "@kala.
 import {queueGroupName} from "../queue-group-name";
 import {InvMaterial} from "../../../models/InvMaterial";
 import {Factory} from "../../../models/Factory";
-import {Material} from "../../../models/Material";
 
 export class InvMaterialUpdatedListener extends Listener<InvMaterialUpdatedEvent> {
     readonly subject = Subjects.InvMaterialUpdated;
@@ -31,7 +30,7 @@ export class InvMaterialUpdatedListener extends Listener<InvMaterialUpdatedEvent
             if (!factory) {
                 throw new NotFoundError("Factory")
             }
-            const index = factory.materials.indexOf(invMaterial.factory.id);
+            const index = factory.materials.indexOf(invMaterial);
             factory.materials.splice(index);
             await factory.save();
 
