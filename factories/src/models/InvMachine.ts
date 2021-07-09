@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import {FactoryDoc} from "./Factory";
 import {MachineDoc} from "./Machine";
-import {Material, MaterialDoc} from "./Material";
 
 export interface InvMachineAttrs {
     factory: FactoryDoc;
@@ -37,8 +36,7 @@ const InvMachineSchema = new mongoose.Schema({
     }
 });
 
-InvMachineSchema.statics.build = async (attrs: InvMachineAttrs) => {
-    const material = await Material.findById(attrs.machine.material._id);
+InvMachineSchema.statics.build = (attrs: InvMachineAttrs) => {
     return new InvMachine({
         _id: attrs._id,
         machine: attrs.machine,
