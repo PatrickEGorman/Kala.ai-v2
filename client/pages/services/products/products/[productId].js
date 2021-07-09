@@ -52,9 +52,9 @@ const productShow = ({product}) => {
             step.material !== undefined ? material = step.material.name : material = "None";
             let quantity;
             step.material !== undefined ? quantity = step.quantity : quantity = "N/A";
-            return <Row><Col>
-                <h2 key={step.id}>Step {i}: <Link href={`/services/products/steps/[stepId]`}
-                                                  as={`/services/products/steps/${step.id}`}>
+            return <Row key={i}><Col>
+                <h2>Step {i}: <Link href={`/services/products/steps/[stepId]`}
+                                    as={`/services/products/steps/${step.id}`}>
                     {step.name}
                 </Link></h2>
                 <div className={"alert alert-secondary"}>
@@ -66,7 +66,7 @@ const productShow = ({product}) => {
                         <li>Time: {step.stepTime}</li>
                     </ul>
                 </div>
-            </Col>;
+            </Col>
             </Row>;
         }
     );
@@ -108,7 +108,7 @@ productShow.getInitialProps = async (context, client) => {
     const {productId} = context.query;
     const {data} = await client.get(`/api/products/products/${productId}`);
 
-    return {product: data, title: `View Product ${data.name}`};
+    return {product: data, title: `View Product: ${data.name}`};
 }
 ;
 
