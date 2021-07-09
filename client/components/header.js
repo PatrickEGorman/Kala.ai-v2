@@ -1,17 +1,19 @@
 import Link from "next/link";
-import {Dropdown} from "react-bootstrap";
+import {Dropdown, Navbar} from "react-bootstrap";
 
 const header = () => {
 
-    return <nav className={"navbar navbar-dark bg-dark"}>
-        <Link href={"/"}>
-            <a className={"navbar-brand"}>Kala.ai V2</a>
-        </Link>
-
-        <div className={"d-flex justify-content-end"}>
-            <ul className="nav d-flex align-items-center">
+    return <Navbar className={"d-flex flex-column align-content-center text-center navbar-light bg-secondary"}
+                   style={{height: "100vh"}}>
+        <ul className={"nav navbar-nav nav-pills flex-column my-auto fw-bold"}>
+            <li className={"nav-item"}>
+                <Link href={"/"}>
+                    <a className={"navbar-brand"}>Kala.ai V2</a>
+                </Link>
+            </li>
+            <li className={"nav-item"}>
                 <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    <Dropdown.Toggle className={"nav-link"} variant="success" id="dropdown-basic">
                         Materials
                     </Dropdown.Toggle>
 
@@ -22,8 +24,10 @@ const header = () => {
                         <Dropdown.Item href="/services/materials/inventory">Inventory</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
+            </li>
+            <li className={"nav-item"}>
                 <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    <Dropdown.Toggle className={"nav-link"} variant="success" id="dropdown-basic">
                         Machines
                     </Dropdown.Toggle>
 
@@ -34,8 +38,10 @@ const header = () => {
                         <Dropdown.Item href="/services/machines/inventory">Inventory</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
+            </li>
+            <li className={"nav-item"}>
                 <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    <Dropdown.Toggle className={"nav-link"} variant="success" id="dropdown-basic">
                         Factories
                     </Dropdown.Toggle>
 
@@ -44,19 +50,26 @@ const header = () => {
                         <Dropdown.Item href="/services/factories/list">List</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
+            </li>
+            <li className={"nav-item"}>
                 <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    <Dropdown.Toggle className={"nav-link"} variant="success" id="dropdown-basic">
                         Products
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
                         <Dropdown.Item href="/services/products/steps/create">Create Step</Dropdown.Item>
                         <Dropdown.Item href="/services/products/steps/list">List Steps</Dropdown.Item>
+                        <Dropdown.Item href="/services/products/products/create">Create Product</Dropdown.Item>
+                        <Dropdown.Item href="/services/products/products/list">List Product</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-            </ul>
+            </li>
+        </ul>
+        <div style={{height: "30vh"}}>
+
         </div>
-    </nav>
+    </Navbar>
         ;
 };
 

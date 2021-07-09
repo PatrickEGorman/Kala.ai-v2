@@ -2,6 +2,7 @@ import request from "supertest";
 import {app} from "../../../app";
 import mongoose from "mongoose";
 import {natsWrapper} from "../../../nats-wrapper";
+import {Material} from "../../../models/Material";
 
 it('returns 404 if the material to update is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -13,41 +14,34 @@ it('returns 404 if the material to update is not found', async () => {
 });
 
 it("updates the material cost", async () => {
-    const name = 'concert';
-    let cost = 20;
+    const material = await global.material();
 
-    const response = await request(app)
-        .post('/api/materials/catalog')
-        .send({
-            name, cost
-        })
-        .expect(201);
-
-    cost = 10;
+    const cost = Math.random() * 100 + 1;
 
     const materialResponse = await request(app)
-        .post(`/api/materials/catalog/${response.body.id}`)
+        .post(`/api/materials/catalog/${material.id}`)
         .send({cost})
         .expect(200)
 
+    expect(materialResponse.body.id).toEqual(material.id.toString());
+    expect(materialResponse.body.cost).toEqual(cost);
 
-    expect(materialResponse.body.name).toEqual(name)
-    expect(materialResponse.body.cost).toEqual(cost)
+    const materials = await Material.find({});
+    expect(materials.length).toEqual(1)
+
+    expect(materials[0]._id.toString()).toEqual(materialResponse.body._id);
+    expect(materials[0].name).toEqual(materialResponse.body.name);
+    expect(materials[0].cost).toEqual(cost);
 });
 
 it("checks if an update event is emitted", async () => {
-    const name = 'concert';
-    let cost = 20;
+    const material = await global.material();
 
-    const response = await request(app)
-        .post('/api/materials/catalog')
-        .send({
-            name, cost
-        })
+    const cost = Math.random() * 100 + 1;
 
-    const materialResponse = await request(app)
-        .post(`/api/materials/catalog/${response.body.id}`)
-        .send({cost: 10})
+    await request(app)
+        .post(`/api/materials/catalog/${material.id}`)
+        .send({cost})
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

@@ -25,35 +25,37 @@ router.post('/api/materials/inventory', [
 ], validateRequest, async (req: Request, res: Response) => {
     const {factory, material, quantity} = req.body;
     // todo: increment quantity if it already exists
-    // todo: add authorization for operator to create invMaterial_fields
-    // todo: subtract cost from budget
+    const testMaterial = await InvMaterial.findOne({material, factory});
+    if (!testMaterial) {
+        const factoryObj = await Factory.findById(factory);
+        if (!factoryObj) {
+            throw new NotFoundError("Factory");
+        }
 
-    const factoryObj = await Factory.findById(factory);
-    if (!factoryObj) {
-        throw new NotFoundError("Factory");
+        const materialObj = await Material.findById(material);
+        if (!materialObj) {
+            throw new NotFoundError("Material");
+        }
+
+        const invMaterial = InvMaterial.build({
+            factory: factoryObj,
+            material: materialObj,
+            quantity: quantity
+        });
+
+        await invMaterial.save();
+
+        await new InvMaterialCreatedPublisher(natsWrapper.client).publish({
+            id: invMaterial.id,
+            materialId: invMaterial.material.id,
+            factoryId: invMaterial.factory.id,
+            quantity: invMaterial.quantity
+        })
+
+        res.status(201).send(invMaterial);
+    } else {
+        res.redirect(307, `/api/materials/inventory/${testMaterial._id}`)
     }
-
-    const materialObj = await Material.findById(material);
-    if (!materialObj) {
-        throw new NotFoundError("Material");
-    }
-
-    const invMaterial = InvMaterial.build({
-        factory: factoryObj,
-        material: materialObj,
-        quantity: quantity
-    });
-
-    await invMaterial.save();
-
-    await new InvMaterialCreatedPublisher(natsWrapper.client).publish({
-        id: invMaterial.id,
-        materialId: invMaterial.material.id,
-        factoryId: invMaterial.factory.id,
-        quantity: invMaterial.quantity
-    })
-
-    res.status(201).send(invMaterial);
 });
 
 export {router as createInvMaterialRouter}

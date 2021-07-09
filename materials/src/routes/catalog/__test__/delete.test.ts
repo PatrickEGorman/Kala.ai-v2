@@ -15,37 +15,25 @@ it('returns 404 if the material to delete is not found', async () => {
 
 
 it("deletes a material if it is found", async () => {
-    const name = 'concert';
-    let cost = 20;
+    const material = await global.material();
 
-    const response = await request(app)
-        .post('/api/materials/catalog')
-        .send({
-            name, cost
-        })
+    let materials = await Material.find();
+    expect(materials.length).toEqual(1);
 
     await request(app)
-        .delete(`/api/materials/catalog/${response.body.id}`)
+        .delete(`/api/materials/catalog/${material.id}`)
         .send()
         .expect(200)
 
-    const materials = await Material.find()
+    materials = await Material.find()
     expect(materials.length).toEqual(0)
 });
 
 
 it("checks if a delete event is emitted", async () => {
-    const name = 'concert';
-    let cost = 20;
-
-    const response = await request(app)
-        .post('/api/materials/catalog')
-        .send({
-            name, cost
-        })
-
+    const material = await global.material();
     await request(app)
-        .delete(`/api/materials/catalog/${response.body.id}`)
+        .delete(`/api/materials/catalog/${material.id}`)
         .send()
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();

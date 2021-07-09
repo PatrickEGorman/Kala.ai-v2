@@ -57,7 +57,7 @@ const MaterialsList = ({invMaterials}) => {
 
 MaterialsList.getInitialProps = async (context, client) => {
     const {data} = await client.get("/api/materials/inventory/");
-    return {invMaterials: data};
+    return {invMaterials: data, title: "Inventory List"};
 };
 
 export default MaterialsList;

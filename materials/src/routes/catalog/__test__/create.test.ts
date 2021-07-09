@@ -4,11 +4,9 @@ import {Material} from "../../../models/Material";
 import {natsWrapper} from "../../../nats-wrapper";
 
 it('has a route handler listening to /api/materials/catalog for post requests', async () => {
-    const response = await request(app)
+    await request(app)
         .post('/api/materials/catalog')
-        .send({});
-
-    expect(response.status).not.toEqual(404);
+        .send({}).expect(400);
 });
 
 it('returns an error if an invalid name is provided', async () => {
@@ -46,25 +44,26 @@ it('returns an error if an invalid cost is provided', async () => {
 });
 
 it('creates a ticket with valid inputs', async () => {
-    let materials = await Material.find({});
-    expect(materials.length).toEqual(0)
-
+    const name = "test";
+    const cost = Math.random() * 100 + 1;
     const response = await request(app)
         .post('/api/materials/catalog')
         .send({
-            name: "dsjfljkl",
-            cost: 20.12
+            name,
+            cost
         }).expect(201)
 
-    materials = await Material.find({});
+    const materials = await Material.find({});
     expect(materials.length).toEqual(1)
 
     expect(materials[0]._id.toString()).toEqual(response.body._id);
+    expect(materials[0].name).toEqual(name);
+    expect(materials[0].cost).toEqual(cost);
 });
 
 
 it('makes sure create event is published', async () => {
-    const response = await request(app)
+    await request(app)
         .post('/api/materials/catalog')
         .send({
             name: "dsjfljkl",

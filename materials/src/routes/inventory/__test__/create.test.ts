@@ -107,6 +107,7 @@ it('returns an error if an invalid quantity is provided', async () => {
 it('creates a ticket with valid inputs', async () => {
     const factory = await global.factory();
     const material = await global.material();
+    const quantity = Math.random() * 10;
 
     let invMaterials = await InvMaterial.find({});
     expect(invMaterials.length).toEqual(0)
@@ -116,7 +117,7 @@ it('creates a ticket with valid inputs', async () => {
         .send({
             factory: factory.id,
             material: material.id,
-            quantity: Math.random() * 10
+            quantity
         }).expect(201)
 
     invMaterials = await InvMaterial.find({});
@@ -125,6 +126,21 @@ it('creates a ticket with valid inputs', async () => {
     expect(invMaterials[0]._id.toString()).toEqual(response.body._id);
     expect(invMaterials[0].factory._id).toEqual(factory._id);
     expect(invMaterials[0].material._id).toEqual(material._id);
+    expect(invMaterials[0].quantity).toEqual(quantity);
+});
+
+it('redirects to update when material already located at a factory', async () => {
+    const {invMaterial} = await global.invMaterial();
+    const initialQuantity = invMaterial.quantity;
+    const quantity = Math.random() * 10;
+
+    const response = await request(app)
+        .post('/api/materials/inventory')
+        .send({
+            factory: invMaterial.factory.id,
+            material: invMaterial.material.id,
+            quantity
+        }).expect(307)
 });
 
 

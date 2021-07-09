@@ -32,9 +32,12 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
-const testFactory = async () => {
+const testFactory = async (name?: string) => {
+    if (!name) {
+        name = 'test';
+    }
     const factoryObj = Factory.build({
-        name: 'test',
+        name: name,
         maintenanceTime: 10,
         maintenanceCost: 20,
         storage: 30,

@@ -10,7 +10,7 @@ import {Step, StepDoc} from "../../models/Step";
 
 const router = express.Router();
 
-router.post('/api/products/products', [
+router.post('/api/products/products/', [
     body('name')
         .not()
         .isEmpty()
@@ -32,20 +32,18 @@ router.post('/api/products/products', [
         name, SKU, steps, value
     } = req.body;
 
-    steps = await Step.find({
-        _id: {
-            $in: steps
-        }
-    })
+    let stepList: StepDoc[] = [];
 
-    steps.map((step: StepDoc | undefined) => {
+    for (let i in steps) {
+        const step = await Step.findById(steps[i])
         if (!step) {
             throw new NotFoundError("Step");
         }
-    })
+        stepList.push(step)
+    }
 
     const product = Product.build({
-        name, SKU, steps, value
+        name, SKU, steps: stepList, value
     });
 
     await product.save();

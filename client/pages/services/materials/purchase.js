@@ -84,7 +84,7 @@ const CreateMaterial = ({materials, factories}) => {
 CreateMaterial.getInitialProps = async (context, client) => {
     const materialsData = await client.get("/api/materials/catalog/");
     const factoriesData = await client.get("/api/factories/");
-    return {materials: materialsData.data, factories: factoriesData.data};
+    return {materials: materialsData.data, factories: factoriesData.data, title: "Purchase Materials"};
 };
 
 export default CreateMaterial;

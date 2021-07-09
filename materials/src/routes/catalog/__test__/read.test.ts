@@ -12,21 +12,14 @@ it('returns 404 if the material_fields is not found', async () => {
 });
 
 it("returns the material fields if the material is found", async () => {
-    const name = 'concert';
-    const cost = 20;
-
-    const response = await request(app)
-        .post('/api/materials/catalog')
-        .send({
-            name, cost
-        })
-        .expect(201);
+    const material = await global.material();
 
     const materialResponse = await request(app)
-        .get(`/api/materials/catalog/${response.body.id}`)
+        .get(`/api/materials/catalog/${material.id}`)
         .send()
         .expect(200)
 
-    expect(materialResponse.body.name).toEqual(name)
-    expect(materialResponse.body.cost).toEqual(cost)
+    expect(materialResponse.body.id).toEqual(material.id)
+    expect(materialResponse.body.name).toEqual(material.name)
+    expect(materialResponse.body.cost).toEqual(material.cost)
 });
