@@ -45,12 +45,32 @@ const productShow = ({product}) => {
     };
     let i = 0;
     const steps = product.steps.map(step => {
-        i++;
-        return <h2 key={step.id}>Step {i}: <Link href={`/services/products/steps/[stepId]`}
-                                                 as={`/services/products/steps/${step.id}`}>
-            {step.name}
-        </Link></h2>;
-    });
+            i++;
+            let machine;
+            step.machine !== undefined ? machine = step.machine.name : machine = "None";
+            let material;
+            step.material !== undefined ? material = step.material.name : material = "None";
+            let quantity;
+            step.material !== undefined ? quantity = step.quantity : quantity = "N/A";
+            return <Row><Col>
+                <h2 key={step.id}>Step {i}: <Link href={`/services/products/steps/[stepId]`}
+                                                  as={`/services/products/steps/${step.id}`}>
+                    {step.name}
+                </Link></h2>
+                <div className={"alert alert-secondary"}>
+                    <h3>Step Details</h3>
+                    <ul>
+                        <li>Machine: {machine}</li>
+                        <li>Material: {material}</li>
+                        <li>Quantity: {quantity}</li>
+                        <li>Time: {step.stepTime}</li>
+                    </ul>
+                </div>
+            </Col>;
+            </Row>;
+        }
+    );
+    ;
 
     return <Row>
         <Col>
@@ -58,9 +78,6 @@ const productShow = ({product}) => {
             <h2>Name: {product.name}</h2>
             <h2>Value: {product.value}</h2>
             <h2>SKU: {product.SKU}</h2>
-            {steps}
-        </Col>
-        <Col>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label>Edit Value</label>
@@ -80,16 +97,18 @@ const productShow = ({product}) => {
                 <button className="btn btn-danger">Delete</button>
             </form>
         </Col>
+        <Col>
+            {steps}
+        </Col>
     </Row>;
-}
+};
 ;
 
-productShow.getInitialProps = async (context, client) =>
-{
+productShow.getInitialProps = async (context, client) => {
     const {productId} = context.query;
     const {data} = await client.get(`/api/products/products/${productId}`);
 
-    return {product: data};
+    return {product: data, title: `View Product ${data.name}`};
 }
 ;
 
