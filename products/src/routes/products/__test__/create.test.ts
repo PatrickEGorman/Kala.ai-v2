@@ -44,7 +44,7 @@ it('creates a product with valid inputs', async () => {
 });
 
 
-it('makes sure create event is published', async () => {
+it('makes sure create product event is published', async () => {
 
     const name = "test";
     const SKU = "testing";

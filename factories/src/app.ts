@@ -1,7 +1,7 @@
 import express from 'express';
 import 'express-async-errors';
 import {json} from 'body-parser'
-import {NotFoundError, errorHandler} from "@kala.ai/common";
+import {errorHandler, NotFoundError} from "@kala.ai/common";
 import {createFactoryRouter} from "./routes/create";
 import {listFactoryRouter} from "./routes/list";
 import {readFactoryRouter} from "./routes/read";

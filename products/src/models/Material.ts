@@ -16,8 +16,7 @@ export interface MaterialDoc extends mongoose.Document {
 const MaterialSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     }
 }, {
     toJSON: {

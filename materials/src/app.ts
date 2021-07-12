@@ -24,6 +24,7 @@ app.use(readMaterialRouter);
 app.use(listMaterialRouter);
 app.use(updateMaterialRouter);
 app.use(deleteMaterialRouter);
+
 app.use(createInvMaterialRouter);
 app.use(readInvMaterialRouter);
 app.use(deleteInvMaterialRouter);

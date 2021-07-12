@@ -19,8 +19,7 @@ export interface MachineDoc extends mongoose.Document {
 const MachineSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     material: {
         type: mongoose.Schema.Types.ObjectId,

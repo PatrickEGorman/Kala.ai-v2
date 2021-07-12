@@ -18,16 +18,17 @@ const app = express();
 app.set('trust proxy', true);
 app.use(json());
 
-app.use(createInvMachineRouter);
-app.use(deleteInvMachineRouter);
-app.use(listInvMachineRouter);
-app.use(readInvMachineRouter);
-app.use(updateInvMachineRouter);
 app.use(createMachineRouter);
 app.use(readMachineRouter);
 app.use(updateMachineRouter);
 app.use(deleteMachineRouter);
 app.use(listMachineRouter);
+
+app.use(createInvMachineRouter);
+app.use(deleteInvMachineRouter);
+app.use(listInvMachineRouter);
+app.use(readInvMachineRouter);
+app.use(updateInvMachineRouter);
 
 
 app.all('*', async (req, res, next) => {
