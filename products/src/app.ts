@@ -31,6 +31,7 @@ app.use(listProductRouter);
 app.use(updateProductRouter);
 app.use(deleteProductRouter);
 
+
 app.all('*', async (req, res, next) => {
     throw new NotFoundError();
 })
