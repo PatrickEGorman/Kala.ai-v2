@@ -3,8 +3,12 @@ name: Test-Factories
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'factories/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'factories/**'
 
 jobs:
   build:

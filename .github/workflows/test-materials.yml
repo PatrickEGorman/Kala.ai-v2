@@ -3,8 +3,12 @@ name: Test-Materials
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'materials/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'materials/**'
 
 jobs:
   build:
