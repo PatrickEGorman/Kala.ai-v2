@@ -3,8 +3,8 @@ name: deploy-machines
 on:
   push:
     branches: [ main ]
-#     paths:
-#       - 'machines/**'
+    paths:
+      - 'machines/**'
 
 
 jobs:
@@ -16,5 +16,5 @@ jobs:
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_TOKEN }}        
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_TOKEN }}
       - run: docker push patrickgorman/machines

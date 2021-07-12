@@ -1,20 +1,20 @@
-name: deploy-materials
+name: deploy-products
 
 on:
   push:
     branches: [ main ]
 #     paths:
-#       - 'materials/**'
+#       - 'products/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd machines && docker build -t ${{ secrets.DOCKER_USERNAME }}/materials .
+      - run: cd machines && docker build -t ${{ secrets.DOCKER_USERNAME }}/products .
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_TOKEN }}
-      - run: docker push patrickgorman/materials
+      - run: docker push patrickgorman/products
 
