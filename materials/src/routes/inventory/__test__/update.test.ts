@@ -2,6 +2,7 @@ import request from "supertest";
 import {app} from "../../../app";
 import mongoose from "mongoose";
 import {natsWrapper} from "../../../nats-wrapper";
+import {testInvMaterial} from "../../../test/setup";
 
 it('returns 404 if the invMaterial to update is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -13,7 +14,7 @@ it('returns 404 if the invMaterial to update is not found', async () => {
 });
 
 it("updates the invMaterial quantity", async () => {
-    const {invMaterial, factory, material} = await global.invMaterial();
+    const {invMaterial, factory, material} = await testInvMaterial();
 
     const quantity = Math.random() * 10;
 
@@ -31,7 +32,7 @@ it("updates the invMaterial quantity", async () => {
 // todo Add factory transfer test
 
 it("checks if an update event is emitted", async () => {
-    const {invMaterial, factory, material} = await global.invMaterial();
+    const {invMaterial, factory, material} = await testInvMaterial();
 
     const quantity = Math.random() * 10;
 

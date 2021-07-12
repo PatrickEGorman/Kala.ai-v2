@@ -3,6 +3,7 @@ import {app} from "../../../app";
 import {InvMaterial} from "../../../models/InvMaterial";
 import {natsWrapper} from "../../../nats-wrapper";
 import mongoose from "mongoose";
+import {testFactory, testInvMaterial, testMaterial} from "../../../test/setup";
 
 it('has a route handler listening to /api/materials/inventory for post requests', async () => {
     const response = await request(app)
@@ -13,7 +14,7 @@ it('has a route handler listening to /api/materials/inventory for post requests'
 });
 
 it('returns an error if an invalid factory is provided', async () => {
-    const material = await global.material();
+    const material = await testMaterial();
 
     await request(app)
         .post('/api/materials/inventory')
@@ -43,7 +44,7 @@ it('returns an error if an invalid factory is provided', async () => {
 });
 
 it('returns an error if an invalid material is provided', async () => {
-    const factory = await global.factory();
+    const factory = await testFactory();
 
     await request(app)
         .post('/api/materials/inventory')
@@ -74,8 +75,8 @@ it('returns an error if an invalid material is provided', async () => {
 });
 
 it('returns an error if an invalid quantity is provided', async () => {
-    const factory = await global.factory();
-    const material = await global.material();
+    const factory = await testFactory();
+    const material = await testMaterial();
 
     await request(app)
         .post('/api/materials/inventory')
@@ -105,8 +106,8 @@ it('returns an error if an invalid quantity is provided', async () => {
 });
 
 it('creates a ticket with valid inputs', async () => {
-    const factory = await global.factory();
-    const material = await global.material();
+    const factory = await testFactory();
+    const material = await testMaterial();
     const quantity = Math.random() * 10;
 
     let invMaterials = await InvMaterial.find({});
@@ -130,7 +131,7 @@ it('creates a ticket with valid inputs', async () => {
 });
 
 it('redirects to update when material already located at a factory', async () => {
-    const {invMaterial} = await global.invMaterial();
+    const {invMaterial} = await testInvMaterial();
     const initialQuantity = invMaterial.quantity;
     const quantity = Math.random() * 10;
 
@@ -145,8 +146,8 @@ it('redirects to update when material already located at a factory', async () =>
 
 
 it('makes sure create event is published', async () => {
-    const factory = await global.factory();
-    const material = await global.material();
+    const factory = await testFactory();
+    const material = await testMaterial();
 
     const resp = await request(app)
         .post('/api/materials/inventory')

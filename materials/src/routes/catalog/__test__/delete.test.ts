@@ -3,6 +3,7 @@ import {app} from "../../../app";
 import mongoose from "mongoose";
 import {Material} from "../../../models/Material";
 import {natsWrapper} from "../../../nats-wrapper";
+import {testMaterial} from "../../../test/setup";
 
 it('returns 404 if the material to delete is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -15,7 +16,7 @@ it('returns 404 if the material to delete is not found', async () => {
 
 
 it("deletes a material if it is found", async () => {
-    const material = await global.material();
+    const material = await testMaterial();
 
     let materials = await Material.find();
     expect(materials.length).toEqual(1);
@@ -31,7 +32,7 @@ it("deletes a material if it is found", async () => {
 
 
 it("checks if a delete event is emitted", async () => {
-    const material = await global.material();
+    const material = await testMaterial();
     await request(app)
         .delete(`/api/materials/catalog/${material.id}`)
         .send()

@@ -1,20 +1,8 @@
 import mongoose from "mongoose";
 import {MongoMemoryServer} from 'mongodb-memory-server';
-import {Factory, FactoryDoc} from "../models/Factory";
-import {Material, MaterialDoc} from "../models/Material";
-import {InvMaterial, InvMaterialDoc} from "../models/InvMaterial";
-
-declare global {
-    namespace NodeJS {
-        interface Global {
-            factory(): Promise<FactoryDoc>,
-
-            material(): Promise<MaterialDoc>,
-
-            invMaterial(): Promise<{ invMaterial: InvMaterialDoc, factory: FactoryDoc, material: MaterialDoc }>
-        }
-    }
-}
+import {Factory} from "../models/Factory";
+import {Material} from "../models/Material";
+import {InvMaterial} from "../models/InvMaterial";
 
 let mongo: any;
 jest.mock('../nats-wrapper');
@@ -43,7 +31,7 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
-global.factory = async () => {
+const testFactory = async () => {
     const factory = Factory.build({
         id: mongoose.Types.ObjectId().toHexString(),
         name: "Riverside",
@@ -53,7 +41,7 @@ global.factory = async () => {
     return factory;
 }
 
-global.material = async () => {
+const testMaterial = async () => {
     const material = Material.build({
         name: "Plastic",
         cost: 20
@@ -62,9 +50,9 @@ global.material = async () => {
     return material;
 }
 
-global.invMaterial = async () => {
-    const material = await global.material();
-    const factory = await global.factory();
+const testInvMaterial = async () => {
+    const material = await testMaterial();
+    const factory = await testFactory();
     let quantity = Math.random() * 10;
 
     const invMaterial = InvMaterial.build({
@@ -76,3 +64,5 @@ global.invMaterial = async () => {
     await invMaterial.save();
     return {material, factory, invMaterial}
 }
+
+export {testMaterial, testFactory, testInvMaterial};
