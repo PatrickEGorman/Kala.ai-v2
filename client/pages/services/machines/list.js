@@ -53,7 +53,7 @@ const MachinesList = ({machines}) => {
 
 MachinesList.getInitialProps = async (context, client) => {
     const {data} = await client.get("/api/machines/catalog/");
-    return {machines: data};
+    return {machines: data, title: "Machines Catalog"};
 };
 
 export default MachinesList;
