@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd materials && docker build -t ${{ secrets.DOCKER_USERNAME }}/materials .
+      - run: cd materials && docker build -t patrickgorman/materials .
       - name: Login Docker Hub
         uses: docker/login-action@v1
         with:
@@ -28,6 +28,6 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/materials
+          tags: ${{ secrets.DOCKER_USERNAME }}/materials
       - name: Verify
         run: echo ${{ steps.docker_build.outputs.digest }}
