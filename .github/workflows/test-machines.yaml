@@ -3,12 +3,8 @@ name: Test-Machines
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'machines/**'
   pull_request:
     branches: [ main ]
-    paths:
-      - 'machines/**'
 
 jobs:
   build:

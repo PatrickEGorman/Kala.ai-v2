@@ -3,8 +3,8 @@ name: deploy-client
 on:
   push:
     branches: [ main ]
-#     paths:
-#       - 'client/**'
+    paths:
+      - 'client/**'
 
 jobs:
   build:

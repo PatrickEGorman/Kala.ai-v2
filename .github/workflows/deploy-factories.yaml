@@ -3,8 +3,8 @@ name: deploy-factories
 on:
   push:
     branches: [ main ]
-#     paths:
-#       - 'factories/**'
+    paths:
+      - 'factories/**'
 
 jobs:
   build:

@@ -3,8 +3,8 @@ name: deploy-materials
 on:
   push:
     branches: [ main ]
-#     paths:
-#       - 'materials/**'
+    paths:
+      - 'materials/**'
 
 jobs:
   build:
