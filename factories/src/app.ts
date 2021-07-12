@@ -8,7 +8,6 @@ import {readFactoryRouter} from "./routes/read";
 import {updateFactoryRouter} from "./routes/update";
 import {deleteFactoryRouter} from "./routes/delete";
 
-
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
