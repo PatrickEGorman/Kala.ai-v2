@@ -38,12 +38,9 @@ router.post('/api/machines/inventory', [
         throw new NotFoundError("Machine");
     }
 
-    const invMachine = await InvMachine.build({
+    const invMachine = await InvMachine.buildAndSave({
         factory: factoryObj, machine: machineObj
     });
-
-    await invMachine.save();
-
 
     await new InvMachineCreatedPublisher(natsWrapper.client).publish({
         id: invMachine.id,
@@ -51,7 +48,16 @@ router.post('/api/machines/inventory', [
         machineId: invMachine.machine.id
     })
 
-    res.status(201).send(invMachine);
+    res.status(201).send({
+        id: invMachine._id,
+        _id: invMachine._id,
+        machine: invMachine.machine,
+        factory: {
+            name: factoryObj.name,
+            id: factoryObj.id,
+            _id: factoryObj.id,
+        },
+    });
 });
 
 export {router as createInvMachineRouter}

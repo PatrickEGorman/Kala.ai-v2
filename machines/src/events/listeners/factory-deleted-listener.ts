@@ -2,8 +2,8 @@ import {Message, Stan} from 'node-nats-streaming';
 import {FactoryDeletedEvent, Listener, NotFoundError, Subjects} from "@kala.ai/common";
 import {queueGroupName} from "./queue-group-name";
 import {Factory} from "../../models/Factory";
-import {InvMaterialDeletedPublisher} from "../publishers/inv-material-deleted-publisher";
 import {natsWrapper} from "../../nats-wrapper";
+import {InvMachineDeletedPublisher} from "../publishers/inv-machine-deleted-publisher";
 
 export class FactoryDeletedListener extends Listener<FactoryDeletedEvent> {
     readonly subject = Subjects.FactoryDeleted;
@@ -16,16 +16,16 @@ export class FactoryDeletedListener extends Listener<FactoryDeletedEvent> {
     async onMessage(data: FactoryDeletedEvent['data'], msg: Message) {
         const {id} = data;
 
-        const factory = await Factory.findById(id).populate("materials");
+        const factory = await Factory.findById(id).populate("machines");
 
         if (!factory) {
             throw new NotFoundError("Factory")
         }
 
-        for (let m in factory.materials) {
-            await new InvMaterialDeletedPublisher(natsWrapper.client).publish({id: factory.materials[m].id})
+        for (let m of factory.machines) {
+            await new InvMachineDeletedPublisher(natsWrapper.client).publish({id: m.id})
 
-            await factory.materials[m].delete();
+            await m.delete();
         }
 
         await factory.delete();

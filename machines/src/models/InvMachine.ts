@@ -10,9 +10,11 @@ export interface InvMachineAttrs {
 
 interface InvMachineModel extends mongoose.Model<InvMachineDoc> {
     build(attrs: InvMachineAttrs): InvMachineDoc;
+
+    buildAndSave(attrs: InvMachineAttrs): InvMachineDoc;
 }
 
-interface InvMachineDoc extends mongoose.Document {
+export interface InvMachineDoc extends mongoose.Document {
     material: MaterialDoc;
     uptime: number;
     totalAge: number;
@@ -55,6 +57,22 @@ InvMachineSchema.statics.build = async (attrs: InvMachineAttrs) => {
         uptime: 0,
         totalAge: 0
     });
+};
+
+InvMachineSchema.statics.buildAndSave = async (attrs: InvMachineAttrs) => {
+    const material = await Material.findById(attrs.machine.material._id);
+    const invMachine = new InvMachine({
+        material,
+        machine: attrs.machine,
+        factory: attrs.factory,
+        uptime: 0,
+        totalAge: 0
+    });
+    await invMachine.save();
+    attrs.factory.machines.push(invMachine);
+    await attrs.factory.save();
+
+    return invMachine;
 };
 
 const InvMachine = mongoose.model<InvMachineDoc, InvMachineModel>('InvMachine', InvMachineSchema);

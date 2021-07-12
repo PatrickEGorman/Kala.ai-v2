@@ -3,6 +3,7 @@ import {MongoMemoryServer} from 'mongodb-memory-server';
 import {Material, MaterialDoc} from "../models/Material";
 import {Machine, MachineAttrs, MachineDoc} from "../models/Machine";
 import {Factory, FactoryDoc} from "../models/Factory";
+import {InvMachine} from "../models/InvMachine";
 
 interface invTest {
     machine: MachineDoc;
@@ -95,4 +96,34 @@ const invTestObj = async () => {
     return {material, machine, factory}
 }
 
-export {testMaterial, machineParams, invTestObj}
+const testMachine = async () => {
+    const material = await testMaterial();
+    const machine = Machine.build({
+        name: "test",
+        maintenanceTime: 55,
+        material: material,
+        errorRate: .05,
+        initialCost: 500,
+        maintenanceCost: 100,
+        operationCost: 10,
+        laborCost: 20
+    });
+    await machine.save();
+    return {machine, material}
+}
+
+const testInvMachine = async () => {
+    const {machine, material} = await testMachine();
+    const factory = Factory.build({
+        id: mongoose.Types.ObjectId().toHexString(),
+        name: "testFactory",
+        location: {lat: 25, long: 47}
+    });
+    await factory.save();
+    const invMachine = await InvMachine.buildAndSave({machine, factory});
+
+    return {invMachine, factory, machine, material}
+}
+
+
+export {testMachine, testInvMachine, testMaterial, machineParams, invTestObj}

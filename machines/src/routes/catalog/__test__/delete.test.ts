@@ -3,7 +3,7 @@ import {app} from "../../../app";
 import mongoose from "mongoose";
 import {Machine} from "../../../models/Machine";
 import {natsWrapper} from "../../../nats-wrapper";
-import {machineParams} from "../../../test/setup";
+import {testMachine} from "../../../test/setup";
 
 it('returns 404 if the machine to delete is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -15,16 +15,10 @@ it('returns 404 if the machine to delete is not found', async () => {
 
 
 it("deletes an existing machine", async () => {
-    const params = await machineParams();
-
-    const response = await request(app)
-        .post('/api/machines/catalog')
-        .send(
-            params
-        )
+    const {machine} = await testMachine();
 
     await request(app)
-        .delete(`/api/machines/catalog/${response.body.id}`)
+        .delete(`/api/machines/catalog/${machine.id}`)
         .send()
         .expect(200)
 
@@ -34,17 +28,13 @@ it("deletes an existing machine", async () => {
 
 
 it("checks if a delete event is emitted", async () => {
-    const params = await machineParams();
-
-    const response = await request(app)
-        .post('/api/machines/catalog')
-        .send(
-            params
-        )
+    const {machine} = await testMachine();
 
     await request(app)
-        .delete(`/api/machines/catalog/${response.body.id}`)
+        .delete(`/api/machines/catalog/${machine.id}`)
         .send()
+        .expect(200)
+
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
