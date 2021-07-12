@@ -11,7 +11,7 @@ const factoryShow = ({factory}) => {
             <h3>
                 Name:
                 <Link href={`/services/materials/inventory/[materialId]`}
-                      as={`/services/materials/inventory/${invMaterial.material.id}`}>
+                      as={`/services/materials/inventory/${invMaterial.id}`}>
                     {invMaterial.material.name}
                 </Link>
             </h3>

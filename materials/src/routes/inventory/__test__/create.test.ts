@@ -105,7 +105,7 @@ it('returns an error if an invalid quantity is provided', async () => {
         .expect(400)
 });
 
-it('creates a ticket with valid inputs', async () => {
+it('creates an inv material with valid inputs', async () => {
     const factory = await testFactory();
     const material = await testMaterial();
     const quantity = Math.random() * 10;

@@ -10,6 +10,8 @@ export interface InvMaterialAttrs {
 
 interface InvMaterialModel extends mongoose.Model<InvMaterialDoc> {
     build(attrs: InvMaterialAttrs): InvMaterialDoc;
+
+    buildAndSave(attrs: InvMaterialAttrs): InvMaterialDoc;
 }
 
 export interface InvMaterialDoc extends mongoose.Document {
@@ -44,6 +46,14 @@ const InvMaterialSchema = new mongoose.Schema({
 
 InvMaterialSchema.statics.build = (attrs: InvMaterialAttrs) => {
     return new InvMaterial(attrs);
+}
+
+InvMaterialSchema.statics.buildAndSave = async (attrs: InvMaterialAttrs) => {
+    const invMaterial = new InvMaterial(attrs);
+    await invMaterial.save();
+    attrs.factory.materials.push(invMaterial);
+    await attrs.factory.save();
+    return invMaterial;
 }
 
 const InvMaterial = mongoose.model<InvMaterialDoc, InvMaterialModel>('InvMaterial', InvMaterialSchema);

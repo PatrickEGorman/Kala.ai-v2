@@ -56,8 +56,8 @@ const materialShow = ({material, factories}) => {
             factory,
             quantity
         },
-        onSuccess: (material) => Router.push("/services/materials/inventory/[materialId]",
-            `/services/materials/inventory/${material.id}`)
+        onSuccess: (invMaterial) => Router.push("/services/materials/inventory/[materialId]",
+            `/services/materials/inventory/${invMaterial.id}`)
     });
 
     const onPurchaseSubmit = async event => {
