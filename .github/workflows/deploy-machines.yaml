@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd machines && docker build -t patrickgorman/machines .
+      - run: cd machines && docker build -t ${{ DOCKER_USERNAME }}/machines .
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}        
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_TOKEN }}        
       - run: docker push patrickgorman/machines
