@@ -1,6 +1,7 @@
 import {useState} from "react";
 import Router from "next/router";
 import useRequest from "../../../hooks/use-request";
+import FactoriesList from "./list";
 
 const CreateFactory = ({}) => {
     const [name, setName] = useState("");
@@ -127,6 +128,10 @@ const CreateFactory = ({}) => {
             <button className="btn btn-primary">Create</button>
         </form>
     );
+};
+
+FactoriesList.getInitialProps = async (context, client) => {
+    return {title: `Create Factory`};
 };
 
 export default CreateFactory;
