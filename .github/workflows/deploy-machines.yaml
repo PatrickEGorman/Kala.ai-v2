@@ -3,8 +3,8 @@ name: deploy-machines
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'machines/**'
+#     paths:
+#       - 'machines/**'
 
 
 jobs:
