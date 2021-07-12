@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd materials && docker build -t patrickgorman/materials .
+      - run: cd materials && docker build -t ${{ secrets.DOCKER_USERNAME }}/materials .
       - name: Login Docker Hub
         uses: docker/login-action@v1
         with:
