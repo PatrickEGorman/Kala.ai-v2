@@ -1,6 +1,7 @@
 import request from "supertest";
 import {app} from "../../../app";
 import mongoose from "mongoose";
+import {testMaterial} from "../../../test/setup";
 
 it('returns 404 if the material_fields is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -12,7 +13,7 @@ it('returns 404 if the material_fields is not found', async () => {
 });
 
 it("returns the material fields if the material is found", async () => {
-    const material = await global.material();
+    const material = await testMaterial();
 
     const materialResponse = await request(app)
         .get(`/api/materials/catalog/${material.id}`)

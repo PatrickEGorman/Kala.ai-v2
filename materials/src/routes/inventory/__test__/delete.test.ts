@@ -3,6 +3,7 @@ import {app} from "../../../app";
 import mongoose from "mongoose";
 import {InvMaterial} from "../../../models/InvMaterial";
 import {natsWrapper} from "../../../nats-wrapper";
+import {testInvMaterial} from "../../../test/setup";
 
 it('returns 404 if the invMaterial to delete if it does not exist', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -15,7 +16,7 @@ it('returns 404 if the invMaterial to delete if it does not exist', async () => 
 
 
 it("deletes an invMaterial", async () => {
-    const {invMaterial} = await global.invMaterial();
+    const {invMaterial} = await testInvMaterial();
 
     await request(app)
         .delete(`/api/materials/inventory/${invMaterial.id}`)
@@ -28,7 +29,7 @@ it("deletes an invMaterial", async () => {
 
 
 it("checks if a delete event is emitted", async () => {
-    const {invMaterial} = await global.invMaterial();
+    const {invMaterial} = await testInvMaterial();
 
     await request(app)
         .delete(`/api/materials/inventory/${invMaterial.id}`)
