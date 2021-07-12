@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd materials && docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/materials .
+      - run: cd materials && docker build -t ${{ secrets.DOCKER_USERNAME }}/materials .
       - name: Login Docker Hub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}       
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}       
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
         id: buildx 
