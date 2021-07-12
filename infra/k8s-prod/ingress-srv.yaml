@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
-    - host: ticketing.dev
+    - host: www.kalaaiv2.xyz
       http:
         paths:
           - path: /api/materials/?(.*)
@@ -44,8 +44,8 @@ spec:
               service:
                 name: client-srv
                 port:
-
                   number: 3000
+
 
 ---
 apiVersion: v1

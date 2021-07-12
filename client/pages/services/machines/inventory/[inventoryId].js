@@ -56,7 +56,7 @@ const machineShow = ({invMachine}) => {
 machineShow.getInitialProps = async (context, client) => {
     const {inventoryId} = context.query;
     const {data} = await client.get(`/api/machines/inventory/${inventoryId}`);
-    return {invMachine: data};
+    return {invMachine: data, title: `Inventory Machine ${data.name}`};
 };
 
 export default machineShow;

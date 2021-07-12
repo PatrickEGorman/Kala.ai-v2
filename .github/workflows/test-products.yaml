@@ -3,8 +3,12 @@ name: Test-Products
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'products/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'products/**'
 
 jobs:
   build:
