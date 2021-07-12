@@ -3,9 +3,8 @@ import {Dropdown, Navbar} from "react-bootstrap";
 
 const header = () => {
 
-    return <Navbar className={"d-flex flex-column align-content-center text-center navbar-light bg-secondary"}
-                   style={{height: "100vh"}}>
-        <ul className={"nav navbar-nav nav-pills flex-column my-auto fw-bold"}>
+    return <Navbar className={"navbar navbar-light bg-secondary"}>
+        <ul className={"nav navbar-nav"}>
             <li className={"nav-item"}>
                 <Link href={"/"}>
                     <a className={"navbar-brand"}>Kala.ai V2</a>
