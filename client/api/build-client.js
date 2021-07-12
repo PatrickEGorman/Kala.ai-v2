@@ -4,7 +4,7 @@ const buildClient = ({req}) => {
     if (typeof window === "undefined") {
 
         return axios.create({
-            baseURL: "http://www.kalaaiv2.xyz/",
+            baseURL: process.env.REQUEST_URL,
             headers: req.headers
         });
     } else {
