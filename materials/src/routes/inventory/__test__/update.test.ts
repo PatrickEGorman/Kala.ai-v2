@@ -32,7 +32,7 @@ it("updates the invMaterial quantity", async () => {
 // todo Add factory transfer test
 
 it("checks if an update event is emitted", async () => {
-    const {invMaterial, factory, material} = await testInvMaterial();
+    const {invMaterial} = await testInvMaterial();
 
     const quantity = Math.random() * 10;
 
