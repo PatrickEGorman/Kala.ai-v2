@@ -39,6 +39,8 @@ router.post('/api/materials/inventory/:id',
             factoryId: invMaterial.factory.id
         })
         res.status(200).send(invMaterial);
-    });
+    }
+)
+;
 
 export {router as updateInvMaterialRouter}
