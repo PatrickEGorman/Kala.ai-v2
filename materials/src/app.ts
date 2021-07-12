@@ -8,6 +8,7 @@ import {readMaterialRouter} from "./routes/catalog/read";
 import {updateMaterialRouter} from "./routes/catalog/update";
 import {deleteMaterialRouter} from "./routes/catalog/delete";
 import {listMaterialRouter} from "./routes/catalog/list";
+
 import {createInvMaterialRouter} from "./routes/inventory/create";
 import {readInvMaterialRouter} from "./routes/inventory/read";
 import {updateInvMaterialRouter} from "./routes/inventory/update";

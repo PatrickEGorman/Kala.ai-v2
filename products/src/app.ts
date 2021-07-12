@@ -1,7 +1,8 @@
 import express from 'express';
 import 'express-async-errors';
 import {json} from 'body-parser'
-import {NotFoundError, errorHandler} from "@kala.ai/common";
+import {errorHandler, NotFoundError} from "@kala.ai/common";
+
 import {createStepRouter} from "./routes/steps/create";
 import {readStepRouter} from "./routes/steps/read";
 import {listStepRouter} from "./routes/steps/list";
