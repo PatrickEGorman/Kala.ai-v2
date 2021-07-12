@@ -20,6 +20,7 @@ const MachineSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true
     },
     material: {
         type: mongoose.Schema.Types.ObjectId,

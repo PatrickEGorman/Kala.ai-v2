@@ -2,6 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import {json} from 'body-parser'
 import {errorHandler, NotFoundError} from "@kala.ai/common";
+
 import {createMaterialRouter} from "./routes/catalog/create";
 import {readMaterialRouter} from "./routes/catalog/read";
 import {updateMaterialRouter} from "./routes/catalog/update";
@@ -12,7 +13,6 @@ import {readInvMaterialRouter} from "./routes/inventory/read";
 import {updateInvMaterialRouter} from "./routes/inventory/update";
 import {deleteInvMaterialRouter} from "./routes/inventory/delete";
 import {listInvMaterialRouter} from "./routes/inventory/list";
-
 
 const app = express();
 app.set('trust proxy', true);

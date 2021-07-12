@@ -147,7 +147,7 @@ const CreateMachine = ({materials}) => {
 
 CreateMachine.getInitialProps = async (context, client) => {
     const {data} = await client.get("/api/materials/catalog/");
-    return {materials: data};
+    return {materials: data, title: "Create Catalog Machine"};
 };
 
 export default CreateMachine;
