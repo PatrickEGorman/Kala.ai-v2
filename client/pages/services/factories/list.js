@@ -53,7 +53,7 @@ const FactoriesList = ({factories}) => {
 
 FactoriesList.getInitialProps = async (context, client) => {
     const {data} = await client.get("/api/factories/");
-    return {factories: data};
+    return {factories: data, title: `List Factories`};
 };
 
 export default FactoriesList;
