@@ -6,16 +6,16 @@ import {MachineCreatedListener} from "./events/listeners/machine/machine-created
 
 const start = async () => {
     if (!process.env.MONGO_URI) {
-        throw new Error("MONGO_URI not defined")
+        throw new Error("Products MONGO_URI not defined")
     }
     if (!process.env.NATS_CLIENT_ID) {
-        throw new Error("NATS_CLIENT_ID not defined")
+        throw new Error("Products NATS_CLIENT_ID not defined")
     }
     if (!process.env.NATS_URL) {
-        throw new Error("NATS_URL not defined")
+        throw new Error("Products NATS_URL not defined")
     }
     if (!process.env.NATS_CLUSTER_ID) {
-        throw new Error("NATS_CLUSTER_ID not defined")
+        throw new Error("Products NATS_CLUSTER_ID not defined")
     }
     try {
         await natsWrapper.connect(

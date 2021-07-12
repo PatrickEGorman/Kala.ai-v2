@@ -8,16 +8,16 @@ import {InvMachineCreatedListener} from "./events/listeners/machine/inv-machine-
 
 const start = async () => {
     if (!process.env.MONGO_URI) {
-        throw new Error("MONGO_URI not defined")
+        throw new Error("Factories MONGO_URI not defined")
     }
     if (!process.env.NATS_CLIENT_ID) {
-        throw new Error("NATS_CLIENT_ID not defined")
+        throw new Error("Factories NATS_CLIENT_ID not defined")
     }
     if (!process.env.NATS_URL) {
-        throw new Error("NATS_URL not defined")
+        throw new Error("Factories NATS_URL not defined")
     }
     if (!process.env.NATS_CLUSTER_ID) {
-        throw new Error("NATS_CLUSTER_ID not defined")
+        throw new Error("Factories NATS_CLUSTER_ID not defined")
     }
     try {
         await natsWrapper.connect(
