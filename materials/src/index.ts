@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import {app} from "./app";
 import {natsWrapper} from "./nats-wrapper";
 import {FactoryCreatedListener} from "./events/listeners/factory-created-listener";
+import {FactoryDeletedListener} from "./events/listeners/factory-deleted-listener";
 
 const start = async () => {
     if (!process.env.MONGO_URI) {
@@ -30,6 +31,7 @@ const start = async () => {
         process.on('SIGTERM', () => natsWrapper.client.close());
 
         new FactoryCreatedListener(natsWrapper.client).listen();
+        new FactoryDeletedListener(natsWrapper.client).listen();
 
         await mongoose.connect(process.env.MONGO_URI, {
             useNewUrlParser: true,

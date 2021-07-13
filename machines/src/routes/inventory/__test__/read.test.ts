@@ -1,7 +1,7 @@
 import request from "supertest";
 import {app} from "../../../app";
 import mongoose from "mongoose";
-import {invTestObj} from "../../../test/setup";
+import {testInvMachine} from "../../../test/setup";
 
 it('returns 404 if the invMachine_fields is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -12,17 +12,11 @@ it('returns 404 if the invMachine_fields is not found', async () => {
         .expect(404)
 });
 
-it("returns the invMachine_fields if the invMachine_fields is found", async () => {
-    const {material, machine, factory} = await invTestObj();
-
-    const response = await request(app)
-        .post('/api/machines/inventory')
-        .send({
-            machine: machine._id, factory: factory._id
-        })
+it("returns the invMachine if the invMachine_fields is found", async () => {
+    const {invMachine, machine, material, factory} = await testInvMachine();
 
     const invMachineResponse = await request(app)
-        .get(`/api/machines/inventory/${response.body.id}`)
+        .get(`/api/machines/inventory/${invMachine.id}`)
         .send()
         .expect(200)
 

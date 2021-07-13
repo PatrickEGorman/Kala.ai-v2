@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import {InvMachineDoc} from "./InvMachine";
 
 
 export interface FactoryAttrs {
@@ -14,6 +15,7 @@ interface FactoryModel extends mongoose.Model<FactoryDoc> {
 export interface FactoryDoc extends mongoose.Document {
     name: string;
     location: { lat: number, long: number };
+    machines: InvMachineDoc[];
 }
 
 const FactorySchema = new mongoose.Schema({
@@ -25,7 +27,11 @@ const FactorySchema = new mongoose.Schema({
     location: {
         type: {lat: Number, long: Number},
         required: true
-    }
+    },
+    machines: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "InvMachine"
+    }],
 }, {
     toJSON: {
         transform(doc, ret) {

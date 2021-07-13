@@ -64,7 +64,7 @@ const PurchaseMachine = ({machines, factories}) => {
 
 PurchaseMachine.getInitialProps = async (context, client) => {
     const machinesData = await client.get("/api/machines/catalog/");
-    const factoriesData = await client.get("/api/factories/catalog/");
+    const factoriesData = await client.get("/api/factories/");
     return {machines: machinesData.data, factories: factoriesData.data, title: "Purchase a Machine"};
 };
 

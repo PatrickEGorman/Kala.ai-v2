@@ -24,7 +24,6 @@ router.post('/api/materials/inventory', [
         .withMessage("Quantity must be positive number")
 ], validateRequest, async (req: Request, res: Response) => {
     const {factory, material, quantity} = req.body;
-    // todo: increment quantity if it already exists
     const testMaterial = await InvMaterial.findOne({material, factory});
     if (!testMaterial) {
         const factoryObj = await Factory.findById(factory);
@@ -43,7 +42,11 @@ router.post('/api/materials/inventory', [
             quantity: quantity
         });
 
+        factoryObj.materials.push(invMaterial);
+
         await invMaterial.save();
+
+        await factoryObj.save();
 
         await new InvMaterialCreatedPublisher(natsWrapper.client).publish({
             id: invMaterial.id,
@@ -52,7 +55,17 @@ router.post('/api/materials/inventory', [
             quantity: invMaterial.quantity
         })
 
-        res.status(201).send(invMaterial);
+        res.status(201).send({
+            id: invMaterial._id,
+            _id: invMaterial._id,
+            material: invMaterial.material,
+            factory: {
+                name: factoryObj.name,
+                id: factoryObj.id,
+                _id: factoryObj.id,
+            },
+            quantity: invMaterial.quantity
+        });
     } else {
         res.redirect(307, `/api/materials/inventory/${testMaterial._id}`)
     }

@@ -3,7 +3,7 @@ import {app} from "../../../app";
 import mongoose from "mongoose";
 import {InvMachine} from "../../../models/InvMachine";
 import {natsWrapper} from "../../../nats-wrapper";
-import {invTestObj} from "../../../test/setup";
+import {testInvMachine} from "../../../test/setup";
 
 it('returns 404 if the invMachine to delete is not found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -15,16 +15,10 @@ it('returns 404 if the invMachine to delete is not found', async () => {
 
 
 it("deletes an existing invMachine", async () => {
-    const {machine, factory} = await invTestObj();
-
-    const response = await request(app)
-        .post('/api/machines/inventory')
-        .send({
-            machine: machine._id, factory: factory._id
-        })
+    const {invMachine} = await testInvMachine();
 
     await request(app)
-        .delete(`/api/machines/inventory/${response.body.id}`)
+        .delete(`/api/machines/inventory/${invMachine.id}`)
         .send()
         .expect(200)
 
@@ -34,17 +28,12 @@ it("deletes an existing invMachine", async () => {
 
 
 it("checks if a delete event is emitted", async () => {
-    const {machine, factory} = await invTestObj();
-
-    const response = await request(app)
-        .post('/api/machines/inventory')
-        .send({
-            machine: machine._id, factory: factory._id
-        })
+    const {invMachine} = await testInvMachine();
 
     await request(app)
-        .delete(`/api/machines/inventory/${response.body.id}`)
+        .delete(`/api/machines/inventory/${invMachine.id}`)
         .send()
+        .expect(200)
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

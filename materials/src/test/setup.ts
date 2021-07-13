@@ -55,13 +55,12 @@ const testInvMaterial = async () => {
     const factory = await testFactory();
     let quantity = Math.random() * 10;
 
-    const invMaterial = InvMaterial.build({
+    const invMaterial = await InvMaterial.buildAndSave({
         material,
         factory,
         quantity
     })
 
-    await invMaterial.save();
     return {material, factory, invMaterial}
 }
 
