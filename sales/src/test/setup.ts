@@ -39,7 +39,7 @@ const testFactory = async (args: { location?: { lat: number, long: number }, nam
         location = {lat: 25, long: 45}
     }
     if (!name) {
-        name = "test factory";
+        name = `test factory ${Math.random()}`;
     }
     const factory = Factory.build({
         id: mongoose.Types.ObjectId().toHexString(),
@@ -127,4 +127,19 @@ const testProduct = async (args: { name?: string, steps?: StepDoc[] }) => {
     return product;
 }
 
-export {testFactory, testInvMaterial, testInvMachine, testStep, testProduct}
+const testBuildable = async () => {
+    const machine = mongoose.Types.ObjectId().toHexString();
+    const material = mongoose.Types.ObjectId().toHexString();
+    const quantity = Math.random();
+
+    const factory = await testFactory({});
+    await testInvMaterial({material, factory, quantity});
+    await testInvMachine({machine, factory});
+
+    const step = await testStep({machine, material, quantity});
+    const product = await testProduct({steps: [step]});
+
+    return {machine, material, quantity, factory, product};
+}
+
+export {testFactory, testInvMaterial, testInvMachine, testStep, testProduct, testBuildable}

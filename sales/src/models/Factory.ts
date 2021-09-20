@@ -18,6 +18,8 @@ export interface FactoryDoc extends mongoose.Document {
     location: { lat: number, long: number };
     materials: InvMaterialDoc[];
     machines: InvMachineDoc[];
+
+    inventory: { machines: string[], materials: Map<string, number> }
 }
 
 const FactorySchema = new mongoose.Schema({
@@ -34,7 +36,7 @@ const FactorySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref: "InvMaterial",
     }],
     machines: [{
-        type: mongoose.Schema.Types.ObjectId, ref: "InvMaterial",
+        type: mongoose.Schema.Types.ObjectId, ref: "InvMachine",
     }],
 }, {
     toJSON: {
@@ -51,6 +53,24 @@ FactorySchema.statics.build = (attrs: FactoryAttrs) => {
         location: attrs.location
     });
 };
+
+FactorySchema.virtual('inventory').get(function () {
+    let machines: string[] = [];
+    let materials = new Map<string, number>();
+
+    // @ts-ignore
+    for (let invMachine of this.machines) {
+        if (!machines.includes(invMachine.machine)) {
+            machines.push(invMachine.machine)
+        }
+    }
+    // @ts-ignore
+    for (let invMaterial of this.materials) {
+        materials.set(invMaterial.material, invMaterial.quantity);
+    }
+
+    return {machines, materials}
+})
 
 const Factory = mongoose.model<FactoryDoc, FactoryModel>('Factory', FactorySchema);
 

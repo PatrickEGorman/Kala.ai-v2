@@ -12,7 +12,7 @@ const setup = async () => {
     // create a fake data event
     const data: FactoryCreatedEvent['data'] = {
         id: new mongoose.Types.ObjectId().toHexString(),
-        name: 'plastic',
+        name: 'factory 1',
         location: {lat: 25, long: 47},
         storage: 20,
         maintenanceCost: 30,

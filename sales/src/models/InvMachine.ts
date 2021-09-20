@@ -37,11 +37,7 @@ const InvMachineSchema = new mongoose.Schema({
 });
 
 InvMachineSchema.statics.build = (attrs: InvMachineAttrs) => {
-    return new InvMachine({
-        _id: attrs._id,
-        machine: attrs.machine,
-        factory: attrs.factory
-    });
+    return new InvMachine(attrs);
 };
 
 InvMachineSchema.statics.buildAndSave = async (attrs: InvMachineAttrs) => {
