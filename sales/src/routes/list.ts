@@ -7,16 +7,16 @@ import {FactoryDoc} from "../models/Factory";
 const router = express.Router();
 
 router.get('/api/sales/list', validateRequest, async (req: Request, res: Response) => {
-    const products = await Product.find();
+    const products = await Product.find().populate('steps');
 
     const buildList: { product: ProductDoc, factories: FactoryDoc[] }[] = [];
 
     for (let product of products) {
-        let factories = product.factories;
+        let factories = await product.factories;
         buildList.push({product, factories});
     }
 
-    res.send(buildList)
+    res.send({products: buildList})
 });
 
 export {router as canBuildListRouter}

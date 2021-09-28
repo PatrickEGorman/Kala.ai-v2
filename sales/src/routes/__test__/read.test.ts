@@ -4,7 +4,7 @@ import request from "supertest";
 import {testBuildable, testFactory, testProduct} from "../../test/setup";
 
 it("Returns a 404 if product to read not found", async () => {
-    const id = new mongoose.Types.ObjectId().toHexString();
+    const id = new mongoose.Types.ObjectId(Math.random()).toHexString();
 
     await request(app)
         .get(`/api/sales/read/${id}`)
@@ -23,7 +23,7 @@ it("returns an empty list if no factories can make product", async () => {
         .expect(200)
 
     expect(productResponse.body.product.id).toEqual(product.id);
-    expect(productResponse.body.factories.length).toEqual(0);
+    expect(productResponse.body.factories).toHaveLength(0);
 });
 
 it("responds with a factory if the product can be produced in one", async () => {
@@ -36,5 +36,4 @@ it("responds with a factory if the product can be produced in one", async () => 
 
     expect(productResponse.body.product.id).toEqual(product.id);
     expect(productResponse.body.factories[0].id).toEqual(factory.id);
-})
-;
+});

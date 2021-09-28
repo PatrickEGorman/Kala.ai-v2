@@ -14,9 +14,9 @@ export interface ProductDoc extends mongoose.Document {
     steps: StepDoc[];
     value: number;
 
-    requirements: { machines: string[], materials: Map<string, number>[] };
+    requirements: Promise<{ machines: string[], materials: Map<string, number> }>;
 
-    factories: FactoryDoc[];
+    factories: Promise<FactoryDoc[]>;
 }
 
 interface ProductModel extends mongoose.Model<ProductDoc> {
@@ -59,13 +59,12 @@ ProductSchema.virtual('requirements').get(async function () {
 
     // @ts-ignore
     for (let step of this.steps) {
-        step = await Step.findById(step);
         if (!machines.includes(step.machine) && step.machine != undefined) {
             machines.push(step.machine)
         }
         if (step.material != undefined) {
-            if (!Array.from(materials.keys()).includes(step.material)) {
-                materials.set(step.material, step.quantity)
+            if (!materials.has(step.material)) {
+                materials.set(step.material, step.quantity);
             } else {
                 materials.set(step.material, materials.get(step.material) + step.quantity);
             }
@@ -79,12 +78,9 @@ ProductSchema.virtual('factories').get(async function () {
     const buildableFactories: FactoryDoc[] = [];
     // @ts-ignore
     const req = await this.requirements;
-    console.log(req)
-
     for (let factory of factories) {
         let canBuild = true;
         const inv = factory.inventory
-        console.log(inv);
         for (let machine of req.machines) {
             if (!inv.machines.includes(machine)) {
                 canBuild = false;
@@ -94,12 +90,12 @@ ProductSchema.virtual('factories').get(async function () {
         if (!canBuild) {
             continue;
         }
-        for (let material of req.materials.keys()) {
+        for (let [material, quantity] of req.materials) {
             if (inv.materials.get(material) === undefined) {
                 canBuild = false;
                 break;
             }// @ts-ignore
-            if (inv.materials.get(material) < req.materials.get(material)) {
+            if (inv.materials.get(material) < quantity) {
                 canBuild = false;
                 break;
             }
