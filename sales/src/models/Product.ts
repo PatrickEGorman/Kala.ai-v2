@@ -14,9 +14,9 @@ export interface ProductDoc extends mongoose.Document {
     steps: StepDoc[];
     value: number;
 
-    requirements: Promise<{ machines: string[], materials: Map<string, number> }>;
+    requirements: { machines: string[], materials: Map<string, number> };
 
-    factories: Promise<FactoryDoc[]>;
+    factories(): Promise<FactoryDoc[]>
 }
 
 interface ProductModel extends mongoose.Model<ProductDoc> {
@@ -53,7 +53,7 @@ ProductSchema.statics.build = (attrs: ProductAttrs) => {
     return new Product(attrs);
 };
 
-ProductSchema.virtual('requirements').get(async function () {
+ProductSchema.virtual('requirements').get(function () {
     let machines: string[] = [];
     let materials = new Map<string, number>();
 
@@ -73,11 +73,11 @@ ProductSchema.virtual('requirements').get(async function () {
     return {machines, materials};
 })
 
-ProductSchema.virtual('factories').get(async function () {
+ProductSchema.methods.factories = async function () {
     const factories = await Factory.find().populate('materials').populate('machines');
     const buildableFactories: FactoryDoc[] = [];
     // @ts-ignore
-    const req = await this.requirements;
+    const req = this.requirements;
     for (let factory of factories) {
         let canBuild = true;
         const inv = factory.inventory
@@ -105,7 +105,7 @@ ProductSchema.virtual('factories').get(async function () {
         }
     }
     return buildableFactories;
-})
+}
 
 const Product = mongoose.model<ProductDoc, ProductModel>('Product', ProductSchema);
 

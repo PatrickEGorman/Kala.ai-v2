@@ -31,11 +31,14 @@ const setup = async () => {
 it('deletes a invMaterial', async () => {
     const {listener, data, msg, factory} = await setup();
 
+    let invMaterials = await InvMaterial.find();
+    expect(invMaterials.length).toEqual(1);
+
     // call the onMessage function with the data object + message object
     await listener.onMessage(data, msg);
 
     // write assertions to make sure a invMaterial was deleted!
-    const invMaterials = await InvMaterial.find();
+    invMaterials = await InvMaterial.find();
     expect(invMaterials.length).toEqual(0);
 
     const factoryWithoutInv = await Factory.findById(factory.id);

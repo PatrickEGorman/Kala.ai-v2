@@ -12,7 +12,7 @@ router.get('/api/sales/list', validateRequest, async (req: Request, res: Respons
     const buildList: { product: ProductDoc, factories: FactoryDoc[] }[] = [];
 
     for (let product of products) {
-        let factories = await product.factories;
+        let factories = await product.factories();
         buildList.push({product, factories});
     }
 

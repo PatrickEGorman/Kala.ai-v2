@@ -11,7 +11,7 @@ router.get('/api/sales/read/:id', validateRequest, async (req: Request, res: Res
         throw new NotFoundError("Product")
     }
 
-    const factories = await product.factories;
+    const factories = await product.factories();
 
     res.send({product, factories})
 });
