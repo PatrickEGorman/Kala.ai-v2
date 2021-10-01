@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {BadRequestError, StepType} from "@kala.ai/common";
+import {BadRequestError} from "@kala.ai/common";
 import {MachineDoc} from "./Machine";
 import {Material, MaterialDoc} from "./Material";
 
@@ -63,8 +63,9 @@ StepSchema.statics.build = async (attrs: StepAttrs) => {
         if (attrs.machine.material._id != attrs.material.id) {
             throw new BadRequestError("Step Material must be the same as the machine material");
         }
-    } else if (attrs.machine != undefined && !attrs.material) {
-        attrs.material = attrs.machine.populate("material").material;
+    } else if (attrs.machine != undefined && attrs.material == undefined) {
+        await attrs.machine.populate('material');
+        attrs.material = attrs.machine.material;
     }
     if (!attrs.material) {
         if (attrs.quantity !== 0 && attrs.quantity) {

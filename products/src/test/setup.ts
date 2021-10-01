@@ -11,8 +11,8 @@ jest.mock('../nats-wrapper');
 beforeAll(async () => {
     jest.clearAllMocks();
 
-    mongo = new MongoMemoryServer();
-    const mongoUri = await mongo.getUri();
+    mongo = await MongoMemoryServer.create();
+    const mongoUri = mongo.getUri();
 
     await mongoose.connect(mongoUri, {
         useNewUrlParser: true,
@@ -54,7 +54,9 @@ const testMachine = async () => {
 
 const testStep = async (name?: string) => {
     const machine = await testMachine();
-    const material = machine.populate("material").material;
+    await machine.populate('material');
+    const material = machine.material;
+    console.log(material);
 
     if (!name) {
         name = "testStep"
