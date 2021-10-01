@@ -11,8 +11,8 @@ let mongo: any;
 jest.mock('../nats-wrapper');
 
 beforeAll(async () => {
-    mongo = new MongoMemoryServer();
-    const mongoUri = await mongo.getUri();
+    mongo = await MongoMemoryServer.create();
+    const mongoUri = mongo.getUri();
 
     await mongoose.connect(mongoUri, {
         useNewUrlParser: true,

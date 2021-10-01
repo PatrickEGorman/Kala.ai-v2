@@ -12,7 +12,7 @@ it('returns 404 if the Product_fields is not found', async () => {
         .expect(404)
 });
 
-it("returns the Product_fields if the product_fields is found", async () => {
+it("returns the product if the product is found", async () => {
     const product = await testProduct();
 
     const productResponse = await request(app)
